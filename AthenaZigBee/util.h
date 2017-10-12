@@ -15,8 +15,4 @@ void _log(const char* message) {
     printf("%s", message);
 }
 
-void sendData(const char* data) {
-    printf("%s", data);
-}
-
 #endif /* util_h */

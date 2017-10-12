@@ -12,6 +12,7 @@
 
 int main(int argc, const char * argv[]) {
     _log("########!\n");
+
     if (checkAT("AT+VER")) {
         _log("IS AT\n");
     }else{

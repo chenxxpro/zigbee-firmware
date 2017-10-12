@@ -8,6 +8,14 @@
 
 #include "at_lib.h"
 
-void regAT(const char* act) {
+const int checkAT(T_DATA at) {
+    return strlen(at) > 3 &&
+            'A' == *(at + 0) &&
+            'T' == *(at + 1) &&
+            '+' == *(at + 2);
+}
+
+
+void regAT(T_DATA act) {
     
 }

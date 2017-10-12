@@ -24,6 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E53FC52A1F8FA52400FC8160 /* hal_pin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hal_pin.h; sourceTree = "<group>"; };
 		E56416761F8F77DC0086338A /* AthenaZigBee */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AthenaZigBee; sourceTree = BUILT_PRODUCTS_DIR; };
 		E56416791F8F77DC0086338A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		E56416801F8F7F540086338A /* util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 				E56416801F8F7F540086338A /* util.h */,
 				E56416831F8F81030086338A /* at_lib.h */,
 				E56416841F8F81030086338A /* at_lib.c */,
+				E53FC52A1F8FA52400FC8160 /* hal_pin.h */,
 			);
 			path = AthenaZigBee;
 			sourceTree = "<group>";
@@ -226,6 +228,7 @@
 		E564167E1F8F77DC0086338A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -233,6 +236,7 @@
 		E564167F1F8F77DC0086338A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -256,6 +260,7 @@
 				E564167F1F8F77DC0086338A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

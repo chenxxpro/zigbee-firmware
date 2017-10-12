@@ -9,14 +9,12 @@
 #ifndef at_lib_h
 #define at_lib_h
 
-// 检查命令是否为AT指令
-unsigned checkAT(const char* at) {
-    return 'A' == *(at + 0) &&
-        'T' == *(at + 1) &&
-        '+' == *(at + 2);
-}
+typedef const char* T_DATA;
+
+// 检查AT命令
+const int checkAT(T_DATA at);
 
 // 注册AT命令和回调函数
-void regAT(const char* act);
+void regAT(T_DATA act);
 
 #endif /* at_lib_h */
