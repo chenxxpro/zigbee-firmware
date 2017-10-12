@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E564167A1F8F77DC0086338A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = E56416791F8F77DC0086338A /* main.c */; };
+		E56416851F8F81030086338A /* at_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = E56416841F8F81030086338A /* at_lib.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,9 @@
 /* Begin PBXFileReference section */
 		E56416761F8F77DC0086338A /* AthenaZigBee */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AthenaZigBee; sourceTree = BUILT_PRODUCTS_DIR; };
 		E56416791F8F77DC0086338A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		E56416801F8F7F540086338A /* util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		E56416831F8F81030086338A /* at_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = at_lib.h; sourceTree = "<group>"; };
+		E56416841F8F81030086338A /* at_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = at_lib.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				E56416791F8F77DC0086338A /* main.c */,
+				E56416801F8F7F540086338A /* util.h */,
+				E56416831F8F81030086338A /* at_lib.h */,
+				E56416841F8F81030086338A /* at_lib.c */,
 			);
 			path = AthenaZigBee;
 			sourceTree = "<group>";
@@ -119,6 +126,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E56416851F8F81030086338A /* at_lib.c in Sources */,
 				E564167A1F8F77DC0086338A /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
