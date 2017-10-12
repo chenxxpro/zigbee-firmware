@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E53FC52D1F8FAF5500FC8160 /* at_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = E53FC52C1F8FAF5500FC8160 /* at_impl.c */; };
 		E564167A1F8F77DC0086338A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = E56416791F8F77DC0086338A /* main.c */; };
 		E56416851F8F81030086338A /* at_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = E56416841F8F81030086338A /* at_lib.c */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		E53FC52A1F8FA52400FC8160 /* hal_pin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hal_pin.h; sourceTree = "<group>"; };
+		E53FC52B1F8FAF5500FC8160 /* at_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = at_impl.h; sourceTree = "<group>"; };
+		E53FC52C1F8FAF5500FC8160 /* at_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = at_impl.c; sourceTree = "<group>"; };
 		E56416761F8F77DC0086338A /* AthenaZigBee */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AthenaZigBee; sourceTree = BUILT_PRODUCTS_DIR; };
 		E56416791F8F77DC0086338A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		E56416801F8F7F540086338A /* util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
@@ -67,6 +70,8 @@
 				E56416831F8F81030086338A /* at_lib.h */,
 				E56416841F8F81030086338A /* at_lib.c */,
 				E53FC52A1F8FA52400FC8160 /* hal_pin.h */,
+				E53FC52B1F8FAF5500FC8160 /* at_impl.h */,
+				E53FC52C1F8FAF5500FC8160 /* at_impl.c */,
 			);
 			path = AthenaZigBee;
 			sourceTree = "<group>";
@@ -129,6 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E56416851F8F81030086338A /* at_lib.c in Sources */,
+				E53FC52D1F8FAF5500FC8160 /* at_impl.c in Sources */,
 				E564167A1F8F77DC0086338A /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

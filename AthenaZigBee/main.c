@@ -8,15 +8,21 @@
 
 #include "util.h"
 #include "at_lib.h"
-
+#include "at_impl.h"
 
 int main(int argc, const char * argv[]) {
-    _log("########!\n");
-
-    if (checkAT("AT+VER")) {
-        _log("IS AT\n");
+    _log("########\n");
+    T_DATA at = "AT+VER";
+    
+    // 注册AT处理函数
+    registerAT(AT_VER, onVersionHandler);
+    registerAT(AT_MAC, onMACHandler);
+    
+    // 处理AT命令
+    if (checkAT(at)) {
+        _log(handleAT(at));
     }else{
-        _log("NOT AT\n");
+        _log(RET_ERR_UNK);
     }
     return 0;
 }
