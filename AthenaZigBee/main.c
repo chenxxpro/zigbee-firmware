@@ -5,40 +5,35 @@
 //  Created by YoojiaChen on 2017/10/12.
 //  Copyright © 2017年 yoojia. All rights reserved.
 //
-
-#include <ctype.h>
-#include <stdio.h>
-#include <string.h>
 #include "util.h"
 #include "at_lib.h"
 #include "at_impl.h"
-#include "bits.h"
 
 // 注册AT处理函数
 void initATSystem() {
-    registerAT(INDEX_AT_R, onRebootHandler);
-    registerAT(INDEX_AT_Z, onResetHandler);
-    registerAT(INDEX_AT_VER, onVersionHandler);
-    registerAT(INDEX_AT_RSSI, onRSSIHandler);
-    registerAT(INDEX_AT_MAC, onMACHandler);
-    registerAT(INDEX_AT_UART, onUARTHandler);
-    registerAT(INDEX_AT_NWK, onNetworkAddHandler);
-    registerAT(INDEX_AT_CLEAR, onClearHandler);
-    registerAT(INDEX_AT_TYPE, onTypeHandler);
-    registerAT(INDEX_AT_STAT, onStatusHandler);
-    registerAT(INDEX_AT_PAN, onPanIdHandler);
-    registerAT(INDEX_AT_CH, onChannelHandler);
-    registerAT(INDEX_AT_GPIO, onGPIOHandler);
-    registerAT(INDEX_AT_RGPIO, onRGPIOHandler);
-    registerAT(INDEX_AT_IODIR, onIODIRHandler);
-    registerAT(INDEX_AT_RIODIR, onRIODIRHandler);
-    registerAT(INDEX_AT_INT, onINTHandler);
-    registerAT(INDEX_AT_RINT, onRINTHandler);
-    registerAT(INDEX_AT_PWM, onPWMHandler);
-    registerAT(INDEX_AT_RPWM, onRPWMHandler);
-    registerAT(INDEX_AT_ADC, onADCHandler);
-    registerAT(INDEX_AT_RADC, onRADCMHandler);
-    registerAT(INDEX_AT_CNF_PWM, onConfPWMHandler);
+    registerAT(KEY_AT_R, onRebootHandler);
+    registerAT(KEY_AT_Z, onResetHandler);
+    registerAT(KEY_AT_VER, onVersionHandler);
+    registerAT(KEY_AT_RSSI, onRSSIHandler);
+    registerAT(KEY_AT_MAC, onMACHandler);
+    registerAT(KEY_AT_UART, onUARTHandler);
+    registerAT(KEY_AT_NWK, onNetworkAddHandler);
+    registerAT(KEY_AT_CLEAR, onClearHandler);
+    registerAT(KEY_AT_TYPE, onTypeHandler);
+    registerAT(KEY_AT_STAT, onStatusHandler);
+    registerAT(KEY_AT_PAN, onPanIdHandler);
+    registerAT(KEY_AT_CH, onChannelHandler);
+    registerAT(KEY_AT_GPIO, onGPIOHandler);
+    registerAT(KEY_AT_RGPIO, onRGPIOHandler);
+    registerAT(KEY_AT_IODIR, onIODIRHandler);
+    registerAT(KEY_AT_RIODIR, onRIODIRHandler);
+    registerAT(KEY_AT_INT, onINTHandler);
+    registerAT(KEY_AT_RINT, onRINTHandler);
+    registerAT(KEY_AT_PWM, onPWMHandler);
+    registerAT(KEY_AT_RPWM, onRPWMHandler);
+    registerAT(KEY_AT_ADC, onADCHandler);
+    registerAT(KEYAT_RADC, onRADCMHandler);
+    registerAT(KEY_AT_CNF_PWM, onConfPWMHandler);
 }
 
 // 处理AT命令
@@ -64,5 +59,6 @@ int main(int argc, const char * argv[]) {
     processATRequest("AT+GPIO=45");
     processATRequest("AT+INT=45,EN,DU");
     processATRequest("AT+CNF_PWM=45");
+	getchar();
     return 0;
 }

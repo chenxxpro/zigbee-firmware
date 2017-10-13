@@ -40,29 +40,29 @@
 #define NAME_AT_RADC    "RADC"
 #define NAME_AT_CNF_PWM "CNF_PWM"
 
-#define INDEX_AT_R       0
-#define INDEX_AT_Z       1
-#define INDEX_AT_VER     2
-#define INDEX_AT_RSSI    3
-#define INDEX_AT_MAC     4
-#define INDEX_AT_UART    5
-#define INDEX_AT_TYPE    6
-#define INDEX_AT_NWK     7
-#define INDEX_AT_CLEAR   8
-#define INDEX_AT_STAT    9
-#define INDEX_AT_PAN     10
-#define INDEX_AT_CH      11
-#define INDEX_AT_GPIO    12
-#define INDEX_AT_RGPIO   13
-#define INDEX_AT_IODIR   14
-#define INDEX_AT_RIODIR  15
-#define INDEX_AT_INT     16
-#define INDEX_AT_RINT    17
-#define INDEX_AT_PWM     18
-#define INDEX_AT_RPWM    19
-#define INDEX_AT_ADC     20
-#define INDEX_AT_RADC    21
-#define INDEX_AT_CNF_PWM 22
+#define KEY_AT_R       0
+#define KEY_AT_Z       1
+#define KEY_AT_VER     2
+#define KEY_AT_RSSI    3
+#define KEY_AT_MAC     4
+#define KEY_AT_UART    5
+#define KEY_AT_TYPE    6
+#define KEY_AT_NWK     7
+#define KEY_AT_CLEAR   8
+#define KEY_AT_STAT    9
+#define KEY_AT_PAN     10
+#define KEY_AT_CH      11
+#define KEY_AT_GPIO    12
+#define KEY_AT_RGPIO   13
+#define KEY_AT_IODIR   14
+#define KEY_AT_RIODIR  15
+#define KEY_AT_INT     16
+#define KEY_AT_RINT    17
+#define KEY_AT_PWM     18
+#define KEY_AT_RPWM    19
+#define KEY_AT_ADC     20
+#define KEYAT_RADC    21
+#define KEY_AT_CNF_PWM 22
 
 #define AT_CMD_SIZE     23
 
@@ -70,10 +70,6 @@
 #define AT_CMD_MIN_LEN  4
 #define AT_CMD_MAX_LEN  9
 
-
-#define FLAGS_AT    0
-#define FLAGS_PIN   1
-#define FLAGS_EN    2
 
 // 数据类型
 typedef const char* T_DATA;

@@ -21,29 +21,29 @@ AT_HANDLER _HANDLERS[AT_CMD_SIZE] = {NULL};
 
 // 将指令转换为处理函数的Index
 const int parseIndex(const char name[]) {
-    if(0 == strcmp(name, NAME_AT_R)){ return INDEX_AT_R; }
-    else if(0 == strcmp(name, NAME_AT_Z)){ return INDEX_AT_Z; }
-    else if(0 == strcmp(name, NAME_AT_VER)){ return INDEX_AT_VER; }
-    else if(0 == strcmp(name, NAME_AT_RSSI)){ return INDEX_AT_RSSI; }
-    else if(0 == strcmp(name, NAME_AT_MAC)){ return INDEX_AT_MAC; }
-    else if(0 == strcmp(name, NAME_AT_UART)){ return INDEX_AT_UART; }
-    else if(0 == strcmp(name, NAME_AT_TYPE)){ return INDEX_AT_TYPE; }
-    else if(0 == strcmp(name, NAME_AT_NWK)){ return INDEX_AT_NWK; }
-    else if(0 == strcmp(name, NAME_AT_CLEAR)){ return INDEX_AT_CLEAR; }
-    else if(0 == strcmp(name, NAME_AT_STAT)){ return INDEX_AT_STAT; }
-    else if(0 == strcmp(name, NAME_AT_PAN)){ return INDEX_AT_PAN; }
-    else if(0 == strcmp(name, NAME_AT_CH)){ return INDEX_AT_CH; }
-    else if(0 == strcmp(name, NAME_AT_GPIO)){ return INDEX_AT_GPIO; }
-    else if(0 == strcmp(name, NAME_AT_RGPIO)){ return INDEX_AT_RGPIO; }
-    else if(0 == strcmp(name, NAME_AT_IODIR)){ return INDEX_AT_IODIR; }
-    else if(0 == strcmp(name, NAME_AT_RIODIR)){ return INDEX_AT_RIODIR; }
-    else if(0 == strcmp(name, NAME_AT_INT)){ return INDEX_AT_INT; }
-    else if(0 == strcmp(name, NAME_AT_RINT)){ return INDEX_AT_RINT; }
-    else if(0 == strcmp(name, NAME_AT_PWM)){ return INDEX_AT_PWM; }
-    else if(0 == strcmp(name, NAME_AT_RPWM)){ return INDEX_AT_RPWM; }
-    else if(0 == strcmp(name, NAME_AT_ADC)){ return INDEX_AT_ADC; }
-    else if(0 == strcmp(name, NAME_AT_RADC)){ return INDEX_AT_RADC; }
-    else if(0 == strcmp(name, NAME_AT_CNF_PWM)){ return INDEX_AT_CNF_PWM; }
+    if(0 == strcmp(name, NAME_AT_R)){ return KEY_AT_R; }
+    else if(0 == strcmp(name, NAME_AT_Z)){ return KEY_AT_Z; }
+    else if(0 == strcmp(name, NAME_AT_VER)){ return KEY_AT_VER; }
+    else if(0 == strcmp(name, NAME_AT_RSSI)){ return KEY_AT_RSSI; }
+    else if(0 == strcmp(name, NAME_AT_MAC)){ return KEY_AT_MAC; }
+    else if(0 == strcmp(name, NAME_AT_UART)){ return KEY_AT_UART; }
+    else if(0 == strcmp(name, NAME_AT_TYPE)){ return KEY_AT_TYPE; }
+    else if(0 == strcmp(name, NAME_AT_NWK)){ return KEY_AT_NWK; }
+    else if(0 == strcmp(name, NAME_AT_CLEAR)){ return KEY_AT_CLEAR; }
+    else if(0 == strcmp(name, NAME_AT_STAT)){ return KEY_AT_STAT; }
+    else if(0 == strcmp(name, NAME_AT_PAN)){ return KEY_AT_PAN; }
+    else if(0 == strcmp(name, NAME_AT_CH)){ return KEY_AT_CH; }
+    else if(0 == strcmp(name, NAME_AT_GPIO)){ return KEY_AT_GPIO; }
+    else if(0 == strcmp(name, NAME_AT_RGPIO)){ return KEY_AT_RGPIO; }
+    else if(0 == strcmp(name, NAME_AT_IODIR)){ return KEY_AT_IODIR; }
+    else if(0 == strcmp(name, NAME_AT_RIODIR)){ return KEY_AT_RIODIR; }
+    else if(0 == strcmp(name, NAME_AT_INT)){ return KEY_AT_INT; }
+    else if(0 == strcmp(name, NAME_AT_RINT)){ return KEY_AT_RINT; }
+    else if(0 == strcmp(name, NAME_AT_PWM)){ return KEY_AT_PWM; }
+    else if(0 == strcmp(name, NAME_AT_RPWM)){ return KEY_AT_RPWM; }
+    else if(0 == strcmp(name, NAME_AT_ADC)){ return KEY_AT_ADC; }
+    else if(0 == strcmp(name, NAME_AT_RADC)){ return KEYAT_RADC; }
+    else if(0 == strcmp(name, NAME_AT_CNF_PWM)){ return KEY_AT_CNF_PWM; }
     else {
         return -1;
     }
@@ -51,25 +51,25 @@ const int parseIndex(const char name[]) {
 
 // AT指令是否存在参数
 const int hasnoargs(const int ati) {
-    return (ati == INDEX_AT_R   ||
-            ati == INDEX_AT_Z   ||
-            ati == INDEX_AT_VER ||
-            ati == INDEX_AT_MAC ||
-            ati == INDEX_AT_RSSI);
+    return (ati == KEY_AT_R   ||
+            ati == KEY_AT_Z   ||
+            ati == KEY_AT_VER ||
+            ati == KEY_AT_MAC ||
+            ati == KEY_AT_RSSI);
 }
 
 // AT指令是否有Pin参数
 const int hasargs_pin(const int ati) {
-    return (ati == INDEX_AT_GPIO    ||
-            ati == INDEX_AT_RGPIO   ||
-            ati == INDEX_AT_ADC     ||
-            ati == INDEX_AT_RADC    ||
-            ati == INDEX_AT_PWM     ||
-            ati == INDEX_AT_RPWM    ||
-            ati == INDEX_AT_IODIR   ||
-            ati == INDEX_AT_RIODIR  ||
-            ati == INDEX_AT_INT     ||
-            ati == INDEX_AT_RINT);
+    return (ati == KEY_AT_GPIO    ||
+            ati == KEY_AT_RGPIO   ||
+            ati == KEY_AT_ADC     ||
+            ati == KEYAT_RADC    ||
+            ati == KEY_AT_PWM     ||
+            ati == KEY_AT_RPWM    ||
+            ati == KEY_AT_IODIR   ||
+            ati == KEY_AT_RIODIR  ||
+            ati == KEY_AT_INT     ||
+            ati == KEY_AT_RINT);
 }
 
 // 检查AT指令
@@ -127,7 +127,7 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
                 if((idxHead == idxEnd || 1 == sOffset)) {
                     char pin[3] = {0};
                     tokenLen = _IDX2SIZE(idxHead) - rOffset;
-                    strncpy(pin, command + rOffset, tokenLen - sOffset);
+                    strncpy(pin, (command + rOffset), (tokenLen - sOffset));
                     SET_BIT1_TO_1(flags);
                     rOffset += tokenLen;
                     req.pin = _a2i(pin);
