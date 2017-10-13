@@ -11,8 +11,8 @@
 
 #include "at_lib.h"
 
-T_DATA onVersionHandler(T_DATA args[]);
+T_DATA onVersionHandler(struct T_AT_REQ req);
 
-T_DATA onMACHandler(T_DATA args[]);
+T_DATA onMACHandler(struct T_AT_REQ req);
 
 #endif /* at_impl_h */

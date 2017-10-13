@@ -5,58 +5,38 @@
 //  Created by YoojiaChen on 2017/10/12.
 //  Copyright © 2017年 yoojia. All rights reserved.
 //
-#include <stdio.h>
 #include <string.h>
 #include "at_lib.h"
 
-#define AT_IDX 3
-#define HANDLER_SIZE 2
+AT_HANDLER _HANDLERS[AT_CMD_SIZE];
 
-struct E_ACTION {
-    T_DATA act;
-    AT_HANDLER handler;
-} E_ACTION;
-
-struct E_ACTION _HANDLERS[HANDLER_SIZE];
-
-const int checkAT(T_DATA at) {
-    return strlen(at) > AT_IDX &&
-            'A' == *(at + 0) &&
-            'T' == *(at + 1) &&
-            '+' == *(at + 2);
-}
-
-void registerAT(T_DATA act, AT_HANDLER handler) {
-    int registered = 0;
-    for (int i = 0; i < HANDLER_SIZE; i++) {
-        struct E_ACTION item = _HANDLERS[i];
-        if (NULL == item.act) {
-            item.act = act;
-            item.handler = handler;
-            registered = 1;
-            break;
-        }
-    }
-    if (registered == 0) {
-        printf("!!! Handler not registered !!!\n");
-    }
-}
-
-
-T_DATA handleAT(T_DATA at) {
-    T_DATA act = (at + AT_IDX);
-    AT_HANDLER handler = NULL;
-    for (int i = 0; i < HANDLER_SIZE; i++) {
-        struct E_ACTION item = _HANDLERS[i];
-        if (strcmp(act, item.act) == 0) {
-            handler = item.handler;
-            break;
-        }
-    }
-    if (NULL != handler) {
-        return RET_OK("VER");
+// 检查AT指令
+const unsigned int checkAT(T_DATA at) {
+    const unsigned int len = (unsigned int) strlen(at);
+    if (len > AT_CMD_MIN_LEN &&
+        'A' == *(at + 0) &&
+        'T' == *(at + 1) &&
+        '+' == *(at + 2)) {
+        return len;
     }else{
-        return RET_ERR_UNK;
+        return 0;
     }
-    
+}
+
+// 解析AT命令
+const struct T_AT_REQ parseAT(const unsigned int len, T_DATA command) {
+    struct T_AT_REQ req;
+    req.index = -1;
+    req.args = 0;
+    return req;
+}
+
+// 注册处理函数
+void registerAT(int ATIndex, const AT_HANDLER handler) {
+    _HANDLERS[ATIndex] = handler;
+}
+
+// 处理AT请求
+T_DATA handleAT(const struct T_AT_REQ req) {
+    return (_HANDLERS[req.index])(req);
 }

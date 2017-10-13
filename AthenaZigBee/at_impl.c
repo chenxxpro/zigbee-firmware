@@ -9,10 +9,10 @@
 #include "at_impl.h"
 
 
-T_DATA onVersionHandler(T_DATA args[]) {
-    return RET_REPLY(AT_VER, "2017.10M");
+T_DATA onVersionHandler(struct T_AT_REQ req) {
+    return RET_REPLY(NAME_AT_VER, "2017.10M");
 };
 
-T_DATA onMACHandler(T_DATA args[]) {
-    return RET_REPLY(AT_MAC, "ABCDEF");
+T_DATA onMACHandler(struct T_AT_REQ req) {
+    return RET_REPLY(NAME_AT_MAC, "ABCDEF");
 };

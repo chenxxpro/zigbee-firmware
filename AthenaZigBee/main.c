@@ -10,19 +10,31 @@
 #include "at_lib.h"
 #include "at_impl.h"
 
-int main(int argc, const char * argv[]) {
-    _log("########\n");
-    T_DATA at = "AT+VER";
-    
-    // 注册AT处理函数
-    registerAT(AT_VER, onVersionHandler);
-    registerAT(AT_MAC, onMACHandler);
-    
-    // 处理AT命令
-    if (checkAT(at)) {
-        _log(handleAT(at));
+// 注册AT处理函数
+void initATSystem() {
+    registerAT(INDEX_AT_VER, onVersionHandler);
+    registerAT(INDEX_AT_MAC, onMACHandler);
+}
+
+// 处理AT命令
+void processATRequest(T_DATA at) {
+    unsigned int len = checkAT(at);
+    if (len > 0) {
+        struct T_AT_REQ req = parseAT(len, at);
+        if (req.index >= 0) {
+            _log(handleAT(req));
+        }else{
+            _log(RET_ERR_UNK);
+        }
     }else{
         _log(RET_ERR_UNK);
     }
+}
+
+int main(int argc, const char * argv[]) {
+    _log("########\n");
+    initATSystem();
+    T_DATA at = "AT+VER";
+    processATRequest(at);
     return 0;
 }
