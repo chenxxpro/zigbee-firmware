@@ -9,6 +9,8 @@
 #ifndef hal_pin_h
 #define hal_pin_h
 
+#define PIN_NOP -1
+
 #define PIN0    0
 #define PIN1    0
 #define PIN2    0

@@ -9,13 +9,12 @@
 #ifndef at_lib_h
 #define at_lib_h
 
-#define RET_ERR_UNK "+ERR=UNSUPPORTED_AT\n"
+#define RET_ERR_UNSUP       "+ERR=AT_UNSUPPORT\n"
+#define RET_OK(AT)          "+"AT"=OK\n"
+#define RET_ERR_ARG(AT)     "+"AT"=ERR,ARGUMENTS\n"
+#define RET_ERR_EXE(AT)     "+"AT"=ERR,RUNTIME\n"
 
-#define RET_OK(AT) "+"AT"=OK\n"
-#define RET_ERR_ARG(AT) "+"AT"=ERR,ARGUMENTS\n"
-#define RET_ERR_EXE(AT) "+"AT"=ERR,RUNTIME\n"
-
-#define RET_REPLY(AT,RET) "+"AT"="RET"\n"
+#define RET_REPLY(AT,RET)   "+"AT"="RET"\n"
 
 #define NAME_AT_R       "R"
 #define NAME_AT_Z       "Z"
@@ -25,7 +24,7 @@
 #define NAME_AT_UART    "UART"
 #define NAME_AT_TYPE    "TYPE"
 #define NAME_AT_NWK     "NWK"
-#define NAME_AT_CNWK    "CNWK"
+#define NAME_AT_CLEAR   "CLEAR"
 #define NAME_AT_STAT    "STAT"
 #define NAME_AT_PAN     "PAN"
 #define NAME_AT_CH      "CH"
@@ -48,7 +47,7 @@
 #define INDEX_AT_UART    5
 #define INDEX_AT_TYPE    6
 #define INDEX_AT_NWK     7
-#define INDEX_AT_CNWK    8
+#define INDEX_AT_CLEAR   8
 #define INDEX_AT_STAT    9
 #define INDEX_AT_PAN     10
 #define INDEX_AT_CH      11
@@ -64,33 +63,46 @@
 #define INDEX_AT_RADC    21
 
 #define AT_CMD_SIZE     22
-#define AT_CMD_MIN_LEN  3
+#define AT_CMD_IPREFIX  3
+#define AT_CMD_MIN_LEN  4
+#define AT_CMD_MAX_LEN  9
+
+
+#define FLAGS_AT    0
+#define FLAGS_PIN   1
+#define FLAGS_EN    2
 
 // 数据类型
 typedef const char* T_DATA;
+typedef const char* P_DATA;
 
 // AT命令请求参数结构体
 struct T_AT_REQ {
+    
     // AT指令Index
     int index;
+    
+    // 目标引脚
+    int pin;
+    
     // 参数列表
     int args;
 };
 
 // AT命令处理函数
-typedef T_DATA (*AT_HANDLER)(struct T_AT_REQ req);
+typedef P_DATA (*AT_HANDLER)(struct T_AT_REQ req);
 #define DEF_AT_HANDLER(name) T_DATA name(T_AT_REQ req)
 
-// 检查AT命令
-const unsigned int checkAT(T_DATA at);
+// 检查AT指令
+const unsigned int checkAT(P_DATA at);
 
-// 解释AT命令
-const struct T_AT_REQ parseAT(const unsigned int len, T_DATA command);
+// 解释AT指令
+const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command);
 
 // 注册AT命令和回调函数
 void registerAT(int ATIndex, const AT_HANDLER handler);
 
 // 处理AT命令
-T_DATA handleAT(const struct T_AT_REQ req);
+P_DATA handleAT(const struct T_AT_REQ req);
 
 #endif /* at_lib_h */

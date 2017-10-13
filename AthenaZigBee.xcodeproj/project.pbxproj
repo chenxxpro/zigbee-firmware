@@ -29,6 +29,7 @@
 		E53FC52B1F8FAF5500FC8160 /* at_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = at_impl.h; sourceTree = "<group>"; };
 		E53FC52C1F8FAF5500FC8160 /* at_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = at_impl.c; sourceTree = "<group>"; };
 		E53FC52E1F8FB92500FC8160 /* ioCC2530.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioCC2530.h; path = ../../../../RSync/ioCC2530.h; sourceTree = "<group>"; };
+		E53FC52F1F90672900FC8160 /* bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bits.h; sourceTree = "<group>"; };
 		E56416761F8F77DC0086338A /* AthenaZigBee */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AthenaZigBee; sourceTree = BUILT_PRODUCTS_DIR; };
 		E56416791F8F77DC0086338A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		E56416801F8F7F540086338A /* util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
@@ -74,6 +75,7 @@
 				E53FC52A1F8FA52400FC8160 /* hal_pin.h */,
 				E53FC52B1F8FAF5500FC8160 /* at_impl.h */,
 				E53FC52C1F8FAF5500FC8160 /* at_impl.c */,
+				E53FC52F1F90672900FC8160 /* bits.h */,
 			);
 			path = AthenaZigBee;
 			sourceTree = "<group>";
