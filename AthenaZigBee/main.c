@@ -58,6 +58,7 @@ int main(int argc, const char * argv[]) {
     processATRequest("AT+PWM=12");
     processATRequest("AT+GPIO=45");
     processATRequest("AT+INT=45,EN,DU");
+	processATRequest("AT+RINT=45,DIS,DU,A1");
     processATRequest("AT+CNF_PWM=45");
 	getchar();
     return 0;

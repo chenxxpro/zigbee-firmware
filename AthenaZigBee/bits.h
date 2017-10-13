@@ -9,38 +9,42 @@
 #ifndef bits_h
 #define bits_h
 
-#define SET_BIT0_TO_1(N)      N |= 0x01
-#define SET_BIT1_TO_1(N)      N |= 0x02
-#define SET_BIT2_TO_1(N)      N |= 0x04
-#define SET_BIT3_TO_1(N)      N |= 0x08
-#define SET_BIT4_TO_1(N)      N |= 0x10
-#define SET_BIT5_TO_1(N)      N |= 0x20
-#define SET_BIT6_TO_1(N)      N |= 0x40
-#define SET_BIT7_TO_1(N)      N |= 0x80
+#define BITM_0 0x01
+#define BITM_1 0x02
+#define BITM_2 0x04
+#define BITM_3 0x08
+#define BITM_4 0x10
+#define BITM_5 0x20
+#define BITM_6 0x40
+#define BITM_7 0x80
 
-#define SET_BIT0_TO_0(N)      N &= ~0x01
-#define SET_BIT1_TO_0(N)      N &= ~0x02
-#define SET_BIT2_TO_0(N)      N &= ~0x04
-#define SET_BIT3_TO_0(N)      N &= ~0x08
-#define SET_BIT4_TO_0(N)      N &= ~0x10
-#define SET_BIT5_TO_0(N)      N &= ~0x20
-#define SET_BIT6_TO_0(N)      N &= ~0x40
-#define SET_BIT7_TO_0(N)      N &= ~0x80
+#define MKBIT_1_OF(N, MASK)      N |= MASK
 
-#define IS_BIT0_IS_1(N)       (N & 1 << 0)
-#define IS_BIT1_IS_1(N)       (N & 1 << 1)
-#define IS_BIT2_IS_1(N)       (N & 1 << 2)
-#define IS_BIT3_IS_1(N)       (N & 1 << 3)
-#define IS_BIT4_IS_1(N)       (N & 1 << 4)
-#define IS_BIT5_IS_1(N)       (N & 1 << 5)
-#define IS_BIT6_IS_1(N)       (N & 1 << 6)
-#define IS_BIT7_IS_1(N)       (N & 1 << 7)
+#define BIT1_OF0(N)      N |= BITM_0
+#define BIT1_OF1(N)      N |= BITM_1
+#define BIT1_OF2(N)      N |= BITM_2
+#define BIT1_OF3(N)      N |= BITM_3
+#define BIT1_OF4(N)      N |= BITM_4
+#define BIT1_OF5(N)      N |= BITM_5
+#define BIT1_OF6(N)      N |= BITM_6
+#define BIT1_OF7(N)      N |= BITM_7
 
-#define IS_BIT_0(N, pos)      0 == N
-#define IS_BIT_1(N, pos)      1 == N
+#define BIT0_OF0(N)      N &= ~BITM_0
+#define BIT0_OF1(N)      N &= ~BITM_2
+#define BIT0_OF2(N)      N &= ~BITM_3
+#define BIT0_OF3(N)      N &= ~BITM_4
+#define BIT0_OF4(N)      N &= ~BITM_5
+#define BIT0_OF5(N)      N &= ~BITM_6
+#define BIT0_OF6(N)      N &= ~BITM_7
+#define BIT0_OF7(N)      N &= ~BITM_7
 
-#define SET_BIT_0(N, pos)     N = 0
-#define SET_BIT_1(N, pos)     N = 1
-
+#define IS_BIT1_OF0(N)       (N & 1 << 0)
+#define IS_BIT1_OF1(N)       (N & 1 << 1)
+#define IS_BIT1_OF2(N)       (N & 1 << 2)
+#define IS_BIT1_OF3(N)       (N & 1 << 3)
+#define IS_BIT1_OF4(N)       (N & 1 << 4)
+#define IS_BIT1_OF5(N)       (N & 1 << 5)
+#define IS_BIT1_OF6(N)       (N & 1 << 6)
+#define IS_BIT1_OF7(N)       (N & 1 << 7)
 
 #endif /* bits_h */

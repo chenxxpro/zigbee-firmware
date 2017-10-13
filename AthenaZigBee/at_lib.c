@@ -11,8 +11,6 @@
 #include "at_lib.h"
 #include "hal_pin.h"
 
-#define _IDX2SIZE(idx) idx + 1
-
 // 字符串解析成数字
 const int _a2i(const char *str);
 
@@ -47,6 +45,25 @@ const int parseIndex(const char name[]) {
     else {
         return -1;
     }
+}
+
+// 解析参数
+const int parseArg(char* arg) {
+	if (0 == strcmp(arg, "EN") ||
+		0 == strcmp(arg, "H") ||
+		0 == strcmp(arg, "DO") ||
+		0 == strcmp(arg, "PD")) {
+		return 1; 
+	}
+	else if (0 == strcmp(arg, "DIS") ||
+		0 == strcmp(arg, "L") ||
+		0 == strcmp(arg, "DI") ||
+		0 == strcmp(arg, "PU")) {
+		return 0; 
+	}
+	else {
+		return -1;
+	}
 }
 
 // AT指令是否存在参数
@@ -85,6 +102,13 @@ const unsigned int checkAT(P_DATA at) {
     }
 }
 
+
+#define _IDX2SIZE(N)	N + 1
+#define _BUF_COPY(B)	strncpy(B, (command + rOffset), (tokenLen - sOffset))
+#define _TOKEN_END		(idxHead == idxEnd || 1 == sOffset)
+#define _CHECK_END		if(idxHead == idxEnd) break;
+#define _COMMA_TOKEN	sOffset = (',' == token)
+
 // 解析AT命令
 const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
     const unsigned int idxEnd = len - 1; // 符号结束位置
@@ -95,7 +119,7 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
     unsigned int tokenLen = 0; // 当前参数长度
     
     struct T_AT_REQ req;
-    req.index = -1;
+    req.index = ERR_CODE_UNSUPPORT;
     req.pin = PIN_NOP;
     req.arg0 = 0;
     req.arg1 = 0;
@@ -108,33 +132,71 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
         // TODO 检查AT指令字符：字母、数字、+、=
         // 第一阶段：解析AT指令，结束符为“=”或者字符结束。
         sOffset = ('=' == token);
-        if(! IS_BIT0_IS_1(flags) &&
-           (idxHead == idxEnd || 1 == sOffset)) {
+        if(! IS_BIT1_OF0(flags) && _TOKEN_END) {
             char cmd[AT_CMD_MAX_LEN] = {0};
-            // AT+R
             tokenLen = _IDX2SIZE(idxHead) - rOffset;
-            strncpy(cmd, command + rOffset, tokenLen - sOffset);
-            SET_BIT0_TO_1(flags);
+			_BUF_COPY(cmd);
+			MKBIT_1_OF(flags, BITM_0);
             rOffset += tokenLen;
             req.index = parseIndex(cmd);
             printf("--> AT.CMD: %s\n", cmd);
         } else
         // 第二阶段：解析参数
-        if(IS_BIT0_IS_1(flags) && !hasnoargs(req.index)){
+        if(IS_BIT1_OF0(flags) && !hasnoargs(req.index)){
             // PIN引脚编号
-            if(hasargs_pin(req.index) && !IS_BIT1_IS_1(flags)) {
-                sOffset = (',' == token);
-                if((idxHead == idxEnd || 1 == sOffset)) {
-                    char pin[3] = {0};
+            if(hasargs_pin(req.index) && !IS_BIT1_OF1(flags)) {
+				_COMMA_TOKEN;
+                if(_TOKEN_END) {
+                    char pin[AT_ARG_MAX_LEN] = {0};
                     tokenLen = _IDX2SIZE(idxHead) - rOffset;
-                    strncpy(pin, (command + rOffset), (tokenLen - sOffset));
-                    SET_BIT1_TO_1(flags);
+					_BUF_COPY(pin);
+                    BIT1_OF1(flags);
                     rOffset += tokenLen;
                     req.pin = _a2i(pin);
                     printf("## CMD.Pin: %d\n", req.pin);
                 }
-            }
-            // Arg0, Arg1, Arg2
+				_CHECK_END;
+			} else {
+				// Arg0
+				if (! IS_BIT1_OF2(flags)) {
+					_COMMA_TOKEN;
+					if (_TOKEN_END) {
+						char arg0[AT_ARG_BUF_LEN] = { 0 };
+						tokenLen = _IDX2SIZE(idxHead) - rOffset;
+						_BUF_COPY(arg0);
+						BIT1_OF2(flags);
+						rOffset += tokenLen;
+						req.arg0 = parseArg(arg0);
+						printf("## CMD.Arg0: %s\n", arg0);
+					}
+					_CHECK_END;
+				}
+				// Arg1
+				else if (!IS_BIT1_OF3(flags)) {
+					_COMMA_TOKEN;
+					if (_TOKEN_END) {
+						char arg1[AT_ARG_BUF_LEN] = { 0 };
+						tokenLen = _IDX2SIZE(idxHead) - rOffset;
+						_BUF_COPY(arg1);
+						IS_BIT1_OF3(flags);
+						rOffset += tokenLen;
+						printf("## CMD.Arg1: %s\n", arg1);
+					}
+					_CHECK_END;
+				}// Arg2
+				else if (!IS_BIT1_OF4(flags)) {
+					_COMMA_TOKEN;
+					if (_TOKEN_END) {
+						char arg2[AT_ARG_BUF_LEN] = { 0 };
+						tokenLen = _IDX2SIZE(idxHead) - rOffset;
+						_BUF_COPY(arg2);
+						IS_BIT1_OF4(flags);
+						rOffset += tokenLen;
+						printf("## CMD.Arg2: %s\n", arg2);
+					}
+				}
+			}
+            
         }
     }
     return req;

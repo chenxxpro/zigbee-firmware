@@ -69,6 +69,11 @@
 #define AT_CMD_IPREFIX  3
 #define AT_CMD_MIN_LEN  4
 #define AT_CMD_MAX_LEN  9
+#define AT_ARG_MAX_LEN  3
+#define AT_ARG_BUF_LEN  AT_ARG_MAX_LEN + 1
+
+#define ERR_CODE_UNSUPPORT -1
+#define ERR_CODE_ARGUMENT -2
 
 
 // 数据类型
