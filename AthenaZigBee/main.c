@@ -61,6 +61,6 @@ int main(int argc, const char * argv[]) {
     processATRequest("AT+VER=");
     processATRequest("AT+PWM=12");
     processATRequest("AT+GPIO=45");
-    processATRequest("AT+GPIO=45,EA");
+    processATRequest("AT+INT=45,EN,DU");
     return 0;
 }

@@ -118,6 +118,7 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
         } else
         // 第二阶段：解析参数
         if(IS_BIT0_IS_1(flags) && !hasnoargs(req.index)){
+            // PIN引脚编号
             if(hasargs_pin(req.index) && !IS_BIT1_IS_1(flags)) {
                 sOffset = (',' == token);
                 if((idxHead == idxEnd || 1 == sOffset)) {
