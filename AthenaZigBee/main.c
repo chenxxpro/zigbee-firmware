@@ -38,6 +38,7 @@ void initATSystem() {
     registerAT(INDEX_AT_RPWM, onRPWMHandler);
     registerAT(INDEX_AT_ADC, onADCHandler);
     registerAT(INDEX_AT_RADC, onRADCMHandler);
+    registerAT(INDEX_AT_CNF_PWM, onConfPWMHandler);
 }
 
 // 处理AT命令
@@ -62,5 +63,6 @@ int main(int argc, const char * argv[]) {
     processATRequest("AT+PWM=12");
     processATRequest("AT+GPIO=45");
     processATRequest("AT+INT=45,EN,DU");
+    processATRequest("AT+CNF_PWM=45");
     return 0;
 }

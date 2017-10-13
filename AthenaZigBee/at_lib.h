@@ -38,6 +38,7 @@
 #define NAME_AT_RPWM    "RPWM"
 #define NAME_AT_ADC     "ADC"
 #define NAME_AT_RADC    "RADC"
+#define NAME_AT_CNF_PWM "CNF_PWM"
 
 #define INDEX_AT_R       0
 #define INDEX_AT_Z       1
@@ -61,8 +62,10 @@
 #define INDEX_AT_RPWM    19
 #define INDEX_AT_ADC     20
 #define INDEX_AT_RADC    21
+#define INDEX_AT_CNF_PWM 22
 
-#define AT_CMD_SIZE     22
+#define AT_CMD_SIZE     23
+
 #define AT_CMD_IPREFIX  3
 #define AT_CMD_MIN_LEN  4
 #define AT_CMD_MAX_LEN  9
@@ -83,10 +86,14 @@ struct T_AT_REQ {
     int index;
     
     // 目标引脚
-    int pin;
+    unsigned int pin;
     
     // 参数列表
-    int args;
+    unsigned int arg0;
+    
+    unsigned int arg1;
+    
+    unsigned int arg2;
 };
 
 // AT命令处理函数

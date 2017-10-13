@@ -223,7 +223,7 @@ __interrupt void int1Service() {
 
 **参数格式：**
 
-> =`[PIN] `, `[PERIOD_T] `, `[PWM1]`,`[PWM2]`,`[PWM3]`
+> =`[PIN] `, `[PWN] `, 
 
 ### AT+RPWN 查询/设置远程PWM
 
@@ -240,4 +240,12 @@ __interrupt void int1Service() {
 ### AT+RADC 查询/设置远程ADC
 
 > 通过点对点通讯实现
+
+
+
+### AT+CNF_PWM 设置PWM波周期
+
+**参数格式：**
+
+> =`[PWM_PERIOD] `, 
 

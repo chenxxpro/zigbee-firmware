@@ -95,3 +95,7 @@ T_DATA onADCHandler(struct T_AT_REQ req) {
 T_DATA onRADCMHandler(struct T_AT_REQ req) {
     return RET_OK(NAME_AT_RADC);
 }
+
+T_DATA onConfPWMHandler(struct T_AT_REQ req) {
+    return RET_OK(NAME_AT_CNF_PWM);
+}

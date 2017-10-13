@@ -43,6 +43,7 @@ const int parseIndex(const char name[]) {
     else if(0 == strcmp(name, NAME_AT_RPWM)){ return INDEX_AT_RPWM; }
     else if(0 == strcmp(name, NAME_AT_ADC)){ return INDEX_AT_ADC; }
     else if(0 == strcmp(name, NAME_AT_RADC)){ return INDEX_AT_RADC; }
+    else if(0 == strcmp(name, NAME_AT_CNF_PWM)){ return INDEX_AT_CNF_PWM; }
     else {
         return -1;
     }
@@ -96,7 +97,9 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
     struct T_AT_REQ req;
     req.index = -1;
     req.pin = PIN_NOP;
-    req.args = 0;
+    req.arg0 = 0;
+    req.arg1 = 0;
+    req.arg2 = 0;
     
     // AT 命令格式：AT+[CMD]=[PIN],[ARG1],[ARG2],...
     // 直接跳过前缀来读取字符串内容
@@ -131,6 +134,7 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
                     printf("## CMD.Pin: %d\n", req.pin);
                 }
             }
+            // Arg0, Arg1, Arg2
         }
     }
     return req;

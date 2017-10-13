@@ -56,4 +56,6 @@ T_DATA onADCHandler(struct T_AT_REQ req);
 
 T_DATA onRADCMHandler(struct T_AT_REQ req);
 
+T_DATA onConfPWMHandler(struct T_AT_REQ req);
+
 #endif /* at_impl_h */
