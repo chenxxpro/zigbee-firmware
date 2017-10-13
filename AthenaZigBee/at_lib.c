@@ -13,12 +13,14 @@
 
 #define _IDX2SIZE(idx) idx + 1
 
+// 字符串解析成数字
+const int _a2i(const char *str);
 
+// AT指令处理器引用数组
 AT_HANDLER _HANDLERS[AT_CMD_SIZE] = {NULL};
 
 // 将指令转换为处理函数的Index
 const int parseIndex(const char name[]) {
-    printf(">> parseIndex: %s\n", name);
     if(0 == strcmp(name, NAME_AT_R)){ return INDEX_AT_R; }
     else if(0 == strcmp(name, NAME_AT_Z)){ return INDEX_AT_Z; }
     else if(0 == strcmp(name, NAME_AT_VER)){ return INDEX_AT_VER; }
@@ -108,9 +110,7 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
             char cmd[AT_CMD_MAX_LEN] = {0};
             // AT+R
             tokenLen = _IDX2SIZE(idxHead) - rOffset;
-            strncpy(cmd,
-                    command + rOffset,
-                    tokenLen - sOffset); // 处理“AT+VER=”的等号情况
+            strncpy(cmd, command + rOffset, tokenLen - sOffset);
             SET_BIT0_TO_1(flags);
             rOffset += tokenLen;
             req.index = parseIndex(cmd);
@@ -123,11 +123,11 @@ const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command) {
                 if((idxHead == idxEnd || 1 == sOffset)) {
                     char pin[3] = {0};
                     tokenLen = _IDX2SIZE(idxHead) - rOffset;
-                    strncpy(pin,
-                            command + rOffset,
-                            tokenLen - sOffset);
-                    printf("## CMD.Pin: %s\n", pin);
+                    strncpy(pin, command + rOffset, tokenLen - sOffset);
                     SET_BIT1_TO_1(flags);
+                    rOffset += tokenLen;
+                    req.pin = _a2i(pin);
+                    printf("## CMD.Pin: %d\n", req.pin);
                 }
             }
         }
@@ -148,4 +148,38 @@ P_DATA handleAT(const struct T_AT_REQ req) {
     }else{
         return handler(req);
     }
+}
+
+//////
+
+const int _a2i(const char *str) {
+    int value = 0;
+    int flag = 1; //判断符号
+    //跳过字符串前面的空格
+    while (*str == ' ') {
+        str++;
+    }
+      //第一个字符若是‘-’，说明可能是负数
+    if (*str == '-') {
+        flag = 0;
+        str++;
+    }
+     //第一个字符若是‘+’，说明可能是正数
+    else if (*str == '+') {
+        flag = 1;
+        str++;
+    }//第一个字符若不是‘+’‘-’也不是数字字符，直接返回0
+    else if (*str >= '9' || *str <= '0') {
+        return 0;
+    }
+    //当遇到非数字字符或遇到‘/0’时，结束转化
+    while (*str != '/0' && *str <= '9' && *str >= '0') {
+        value = value * 10 + *str - '0'; //将数字字符转为对应的整形数
+        str++;
+    }
+    //负数的情况
+    if (flag == 0) {
+        value = -value;
+    }
+    return value;
 }
