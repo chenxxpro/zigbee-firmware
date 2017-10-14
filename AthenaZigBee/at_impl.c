@@ -1,11 +1,3 @@
-//
-//  at_impl.c
-//  AthenaZigBee
-//
-//  Created by YoojiaChen on 2017/10/12.
-//  Copyright © 2017年 yoojia. All rights reserved.
-//
-
 #include "at_impl.h"
 
 pchar onRebootHandler(struct atRequest req) {

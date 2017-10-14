@@ -1,11 +1,3 @@
-//
-//  at_lib.h
-//  AthenaZigBee
-//
-//  Created by YoojiaChen on 2017/10/12.
-//  Copyright © 2017年 yoojia. All rights reserved.
-//
-
 #ifndef at_lib_h
 #define at_lib_h
 
@@ -64,7 +56,7 @@
 #define KEY_AT_PWM     18
 #define KEY_AT_RPWM    19
 #define KEY_AT_ADC     20
-#define KEYAT_RADC    21
+#define KEYAT_RADC     21
 #define KEY_AT_CNF_PWM 22
 
 #define AT_CMD_SIZE     23
@@ -73,53 +65,51 @@
 #define AT_CMD_MIN_LEN  4
 #define AT_CMD_MAX_LEN  9
 
-// AT指令中，字段最大长度，如：AT+CNF_PWN=1024
 #define AT_SEG_MAX_LEN  7
 #define AT_SEG_BUF_LEN  AT_SEG_MAX_LEN + 1
 
 #define AT_ARG_MAX_LEN  3
 #define AT_ARG_BUF_LEN  AT_ARG_MAX_LEN + 1
 
-// 异常码
 #define ERR_CODE_NONE		0
 #define ERR_CODE_UNSUPPORT	1
 #define ERR_CODE_ARGUMENT	2
 
 
-// AT命令请求参数结构体
+// AT request command struct
 struct atRequest {
-	// 异常码
-	uchar err;
+	// Error code	
+    uchar err;
 
-	// AT指令Index
+	// AT command Index
 	uint index;
 
-	// 目标引脚
+	// Pin number
 	uint pin;
 
-	// 参数0，无符号整数
+	// Arg 0
 	uint arg0;
 
-	// 参数1
+	// Arg 1
 	uchar arg1;
 
-	// 参数2
+	// Arg 2
 	uchar arg2;
 };
 
-// AT命令处理函数
+// AT command handler
 typedef pchar (*atHandler)(struct atRequest req);
 
-// 检查AT指令
-const unsigned int checkAT(pchar at);
+// check if AT Command is valid
+const uint checkAT(pchar at);
 
-// 解释AT指令
+// parseAT command to request struct
 const struct atRequest parseAT(const uint len, pchar command);
 
-// 注册AT命令和回调函数
+// register AT command handler
 void registerAT(const int index, const atHandler handler);
 
-// 处理AT命令
+// handle AT request
 pchar handleAT(const struct atRequest req);
 
 #endif /* at_lib_h */

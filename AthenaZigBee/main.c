@@ -1,15 +1,8 @@
-//
-//  main.c
-//  AthenaZigBee
-//
-//  Created by YoojiaChen on 2017/10/12.
-//  Copyright © 2017年 yoojia. All rights reserved.
-//
 #include "util.h"
 #include "at_lib.h"
 #include "at_impl.h"
 
-// 注册AT处理函数
+// Init AT system, register handlers.
 void initATSystem() {
 	registerAT(KEY_AT_R, onRebootHandler);
 	registerAT(KEY_AT_Z, onResetHandler);
@@ -36,7 +29,7 @@ void initATSystem() {
 	registerAT(KEY_AT_CNF_PWM, onConfPWMHandler);
 }
 
-// 处理AT命令
+// Process AT command request
 void processATRequest(pchar at) {
 	unsigned int len = checkAT(at);
 	if (len > 0) {
