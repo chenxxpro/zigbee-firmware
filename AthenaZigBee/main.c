@@ -32,16 +32,18 @@ void initATSystem() {
 void processATRequest(pchar at) {
 	unsigned int len = checkAT(at);
 	if (len > 0) {
+		char output[AT_RESULT_BUFF] = { 0 };
 		struct atRequest req = parseAT(len, at);
-		if (ERR_CODE_NONE == req.error && req.index >= 0) {
-			printf("-> Handle REQUEST: \n\t idx: %d, group: %d, pin: %d, arg0: 0x%X, arg1: 0x%X, arg2: 0x%X \n", 
+		if (RET_CODE_SUCCESS == req.error && req.index >= 0) {
+			printf("---> REQUEST: \n\t idx: %d, group: %d, pin: %d, arg0: 0x%X, arg1: 0x%X, arg2: 0x%X \n", 
 				req.index, 
 				req.group, req.pin, 
 				req.arg0, req.arg1, req.arg2);
-			_log(handleAT(req));
+			const uint code = handleAT(&req, output);
+			printf("#### HANDLED: \n\t%s\n", output);
 		}
 		else {
-			_log((ERR_CODE_ARGUMENT == req.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
+			_log((RET_CODE_ARGUMENT == req.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
 		}
 	}
 	else {

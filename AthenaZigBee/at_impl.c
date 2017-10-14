@@ -1,5 +1,6 @@
 #include "at_impl.h"
 
+#include <string.h>
 #include "halpin.h"
 #include "bits.h"
 
@@ -23,143 +24,163 @@ int WIN32_ENV_P2 = 0;
 // Bit mask group
 const int BITMASKS[] = {BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6, BITM_7};
 
-pchar onRebootHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_R);
+const uint onRebootHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_R));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onResetHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_Z);
+const uint onResetHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_Z));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onVersionHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_VER);
+const uint onVersionHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_VER));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onRSSIHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_RSSI);
+const uint onRSSIHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_RSSI));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onMACHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_MAC);
+const uint onMACHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_MAC));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onUARTHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_UART);
+const uint onUARTHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_UART));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onNetworkAddHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_NWK);
+const uint onNetworkAddHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_NWK));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onClearHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_CLEAR);
+const uint onClearHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_CLEAR));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onTypeHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_TYPE);
+const uint onTypeHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_TYPE));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onStatusHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_STAT);
+const uint onStatusHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_STAT));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onPanIdHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_PAN);
+const uint onPanIdHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_PAN));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onChannelHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_CH);
+const uint onChannelHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_CH));
+	return RET_CODE_SUCCESS;
 }
 
 // GPIO
-pchar onGPIOHandler(struct atRequest req) {
-	if (_checkpin(req.group, req.pin)) {
-		if (_IS_ARGX_VALID(req.arg0)) { // [State] argument: Set state
-			const int MASK = BITMASKS[req.arg0];
-			if (0 == req.group) {
-				(req.arg0) ? SETBIT1_OF(P0, MASK) : SETBIT0_OF(P0, MASK);
+const uint onGPIOHandler(const struct atRequest * req, char* output) {
+	if (_checkpin((*req).group, (*req).pin)) {
+		if (_checkArgValid((*req).arg0)) { // [State] argument: Set state
+			const int MASK = BITMASKS[(*req).arg0];
+			if (0 == (*req).group) {
+				((*req).arg0) ? SETBIT1_OF(P0, MASK) : SETBIT0_OF(P0, MASK);
 			}
-			else if (1 == req.group) {
-				(req.arg0) ? SETBIT1_OF(P1, MASK) : SETBIT0_OF(P1, MASK);
+			else if (1 == (*req).group) {
+				((*req).arg0) ? SETBIT1_OF(P1, MASK) : SETBIT0_OF(P1, MASK);
 			}
 			else {
-				(req.arg0) ? SETBIT1_OF(P2, MASK) : SETBIT0_OF(P2, MASK);
+				((*req).arg0) ? SETBIT1_OF(P2, MASK) : SETBIT0_OF(P2, MASK);
 			}
-			return RET_OK(NAME_AT_GPIO);
+			strcpy(output, RET_OK(NAME_AT_GPIO));
 		}
 		else { // No argument: Query state -> +GPIO=%d:L
-			char output[] = "+GPIO=0:0:L";
-			output[6] = req.group + '0';
-			output[8] = req.pin + '0';
+			output[6] = (*req).group + '0';
+			output[8] = (*req).pin + '0';
 			char state;
-			if (0 == req.group) {
-				state = IS_BIT1_OF(P0, req.pin) ? 'H' : 'L';
+			if (0 == (*req).group) {
+				state = IS_BIT1_OF(P0, (*req).pin) ? 'H' : 'L';
 			}
-			else if (1 == req.group) {
-				state = IS_BIT1_OF(P1, req.pin) ? 'H' : 'L';
+			else if (1 == (*req).group) {
+				state = IS_BIT1_OF(P1, (*req).pin) ? 'H' : 'L';
 			}
 			else {
-				state = IS_BIT1_OF(P2, req.pin) ? 'H' : 'L';
+				state = IS_BIT1_OF(P2, (*req).pin) ? 'H' : 'L';
 			}
 			output[10] = state;
-			return output;
 		}
 	}
 	else { // Query All pins: +GPIO=1:L,2:H,3:L
-		return "+GPIO=1:1:L,2:2:H,0:3:L\n";
+		strcpy(output, "+GPIO=1:1:L,2:2:H,0:3:L\n");
 	}
+	return RET_CODE_SUCCESS;
 }
 
 // Remote GPIO
-pchar onRGPIOHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_RGPIO);
+const uint onRGPIOHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_RGPIO));
+	return RET_CODE_SUCCESS;
 }
 
 // IO DIR
-pchar onIODIRHandler(struct atRequest req) {
-    if(_checkpin(req.group, req.pin)) {
-		if (_IS_ARGX_VALID(req.arg0)) {
-			return RET_OK(NAME_AT_IODIR);
+const uint onIODIRHandler(const struct atRequest * req, char* output) {
+    if(_checkpin((*req).group, (*req).pin)) {
+		if (_checkArgValid((*req).arg0)) {
+			strcpy(output, RET_OK(NAME_AT_IODIR));
 		}
 		else {
-			return "+IODIR=1:DI\n";
+			strcpy(output, "+IODIR=1:DI\n");
 		}
 	}
 	else {
-		return "+IODIR=1:DI,2:DO,3:DI\n";
+		strcpy(output, "+IODIR=1:DI,2:DO,3:DI\n");
 	}
-
+	return RET_CODE_SUCCESS;
 }
 
 // Remote IO DIR
-pchar onRIODIRHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_RIODIR);
+const uint onRIODIRHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_RIODIR));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onINTHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_INT);
+const uint onINTHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_INT));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onRINTHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_RINT);
+const uint onRINTHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_RINT));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onPWMHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_PWM);
+const uint onPWMHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_PWM));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onRPWMHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_RPWM);
+const uint onRPWMHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_RPWM));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onADCHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_ADC);
+const uint onADCHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_ADC));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onRADCMHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_RADC);
+const uint onRADCMHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_RADC));
+	return RET_CODE_SUCCESS;
 }
 
-pchar onConfPWMHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_CNF_PWM);
+const uint onConfPWMHandler(const struct atRequest * req, char* output) {
+    strcpy(output, RET_OK(NAME_AT_CNF_PWM));
+	return RET_CODE_SUCCESS;
 }

@@ -71,14 +71,19 @@
 #define AT_ARG_MAX_LEN  3
 #define AT_ARG_BUF_LEN  AT_ARG_MAX_LEN + 1
 
-#define ERR_CODE_NONE		0
-#define ERR_CODE_UNSUPPORT	1
-#define ERR_CODE_ARGUMENT	2
+#define RET_CODE_SUCCESS	0
+#define RET_CODE_UNSUPPORT	1
+#define RET_CODE_ARGUMENT	2
 
 // Invalid argument
 #define AT_ARG_INVALID -1
 
-#define _IS_ARGX_VALID(arg)  arg != AT_ARG_INVALID
+// AT Command result buff size
+// +RGPIO=(0:0:H)x21 + (,)x20
+#define AT_RESULT_BUFF 7 + 5 * AT_CMD_SIZE + 1 * (AT_CMD_SIZE - 1)
+
+// Check argX is valid
+#define _checkArgValid(arg)  arg != AT_ARG_INVALID
 
 
 // AT request command struct
@@ -106,7 +111,7 @@ struct atRequest {
 };
 
 // AT command handler
-typedef pchar (*atHandler)(struct atRequest req);
+typedef const uint (*atHandler)(const struct atRequest * req, char* output);
 
 // check if AT Command is valid
 const uint checkAT(pchar at);
@@ -115,9 +120,9 @@ const uint checkAT(pchar at);
 const struct atRequest parseAT(const uint len, pchar command);
 
 // register AT command handler
-void registerAT(const int index, const atHandler handler);
+void registerAT(const uint index, const atHandler handler);
 
 // handle AT request
-pchar handleAT(const struct atRequest req);
+const uint handleAT(const struct atRequest * req, char* output);
 
 #endif /* at_lib_h */

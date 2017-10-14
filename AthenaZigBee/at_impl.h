@@ -4,72 +4,72 @@
 #include "at_lib.h"
 
 // Reboot
-pchar onRebootHandler(struct atRequest req);
+const uint onRebootHandler(struct atRequest * req, char* output);
 
 // Reset
-pchar onResetHandler(struct atRequest req);
+const uint onResetHandler(struct atRequest * req, char* output);
 
 // Version
-pchar onVersionHandler(struct atRequest req);
+const uint onVersionHandler(struct atRequest * req, char* output);
 
 // RSSI
-pchar onRSSIHandler(struct atRequest req);
+const uint onRSSIHandler(struct atRequest * req, char* output);
 
 // MAC
-pchar onMACHandler(struct atRequest req);
+const uint onMACHandler(struct atRequest * req, char* output);
 
 // UART
-pchar onUARTHandler(struct atRequest req);
+const uint onUARTHandler(struct atRequest * req, char* output);
 
 // Network
-pchar onNetworkAddHandler(struct atRequest req);
+const uint onNetworkAddHandler(struct atRequest * req, char* output);
 
 // Clear
-pchar onClearHandler(struct atRequest req);
+const uint onClearHandler(struct atRequest * req, char* output);
 
 // Device Type
-pchar onTypeHandler(struct atRequest req);
+const uint onTypeHandler(struct atRequest * req, char* output);
 
 // Device Status
-pchar onStatusHandler(struct atRequest req);
+const uint onStatusHandler(struct atRequest * req, char* output);
 
 // PANID
-pchar onPanIdHandler(struct atRequest req);
+const uint onPanIdHandler(struct atRequest * req, char* output);
 
 // Channel
-pchar onChannelHandler(struct atRequest req);
+const uint onChannelHandler(struct atRequest * req, char* output);
 
 // GPIO
-pchar onGPIOHandler(struct atRequest req);
+const uint onGPIOHandler(struct atRequest * req, char* output);
 
 // RGPIO
-pchar onRGPIOHandler(struct atRequest req);
+const uint onRGPIOHandler(struct atRequest * req, char* output);
 
 // IODIR
-pchar onIODIRHandler(struct atRequest req);
+const uint onIODIRHandler(struct atRequest * req, char* output);
 
 // Remote IODIR
-pchar onRIODIRHandler(struct atRequest req);
+const uint onRIODIRHandler(struct atRequest * req, char* output);
 
 // INT
-pchar onINTHandler(struct atRequest req);
+const uint onINTHandler(struct atRequest * req, char* output);
 
 // Remote INT
-pchar onRINTHandler(struct atRequest req);
+const uint onRINTHandler(struct atRequest * req, char* output);
 
 // PWM
-pchar onPWMHandler(struct atRequest req);
+const uint onPWMHandler(struct atRequest * req, char* output);
 
 // Remote PWM
-pchar onRPWMHandler(struct atRequest req);
+const uint onRPWMHandler(struct atRequest * req, char* output);
 
 // ADC
-pchar onADCHandler(struct atRequest req);
+const uint onADCHandler(struct atRequest * req, char* output);
 
 // Remote ADC
-pchar onRADCMHandler(struct atRequest req);
+const uint onRADCMHandler(struct atRequest * req, char* output);
 
 // Config PWM
-pchar onConfPWMHandler(struct atRequest req);
+const uint onConfPWMHandler(struct atRequest * req, char* output);
 
 #endif /* at_impl_h */

@@ -11,7 +11,7 @@
 atHandler _HANDLERS[AT_CMD_SIZE] = { NULL };
 
 // parse AT command name to index
-const int parseargs_idx(pchar name) {
+const int parseargs_idx(const pchar name) {
 	if (0 == strcmp(name, NAME_AT_R)) { return KEY_AT_R; }
 	else if (0 == strcmp(name, NAME_AT_Z)) { return KEY_AT_Z; }
 	else if (0 == strcmp(name, NAME_AT_VER)) { return KEY_AT_VER; }
@@ -39,7 +39,7 @@ const int parseargs_idx(pchar name) {
 }
 
 // parse args of bool/int
-const int parseargs_argx(pchar arg) {
+const int parseargs_argx(const pchar arg) {
 	if (0 == strcmp(arg, "1") ||
 		0 == strcmp(arg, "EN") ||
 		0 == strcmp(arg, "H") ||
@@ -84,7 +84,7 @@ const int hasargs_pin(const int ati) {
 
 //////////////
 
-const uint checkAT(pchar at) {
+const uint checkAT(const pchar at) {
 	const uint len = (uint)strlen(at);
 	if (len >= AT_CMD_MIN_LEN &&
 		'A' == *(at + 0) &&
@@ -98,7 +98,7 @@ const uint checkAT(pchar at) {
 }
 
 
-const struct atRequest parseAT(const uint length, pchar command) {
+const struct atRequest parseAT(const uint length, const pchar command) {
 	const uint idxEnd = length - 1; // Pointer to command end index;
 	uint flags = 0; // Flags of bits
 	uint dataHead = AT_CMD_IPREFIX; // Current data pointer
@@ -107,7 +107,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 	uint separator = 0; // Flag of separator: "=" / ","
 
 	struct atRequest req;
-	req.error = ERR_CODE_NONE;
+	req.error = RET_CODE_SUCCESS;
 	req.index = 0;
 	req.group = PIN_INVALID;
 	req.pin = PIN_INVALID;
@@ -122,7 +122,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 		separator = '=' == token || ',' == token;
 		if (separator || idxHead == idxEnd) {
 			if (dataOffset > AT_SEG_MAX_LEN) { // Check command name length			
-                req.error = ERR_CODE_ARGUMENT;
+                req.error = RET_CODE_ARGUMENT;
 				break;
 			}
 			char buf[AT_SEG_BUF_LEN] = { 0 };
@@ -145,7 +145,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 						SETBIT1_OF(flags, BITM_1);
 					}
 					else {
-						req.error = ERR_CODE_ARGUMENT;
+						req.error = RET_CODE_ARGUMENT;
 						break;
 					}
 				}
@@ -164,7 +164,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 						SETBIT1_OF(flags, BITM_4);
 					}
 					else {
-						req.error = ERR_CODE_ARGUMENT;
+						req.error = RET_CODE_ARGUMENT;
 						break;
 					}
 				}
@@ -175,16 +175,17 @@ const struct atRequest parseAT(const uint length, pchar command) {
 	return req;
 }
 
-void registerAT(const int index, const atHandler handler) {
+void registerAT(const uint index, const atHandler handler) {
 	_HANDLERS[index] = handler;
 }
 
-pchar handleAT(const struct atRequest req) {
-	const atHandler handler = (_HANDLERS[req.index]);
+const uint handleAT(const struct atRequest * req, char* output) {
+	const atHandler handler = (_HANDLERS[(*req).index]);
 	if (NULL == handler) {
-		return RET_ERR_UNSUP;
+		strcpy(output, RET_ERR_UNSUP);
+		return RET_CODE_UNSUPPORT;
 	}
 	else {
-		return handler(req);
+		return handler(req, output);
 	}
 }
