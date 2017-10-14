@@ -1,5 +1,9 @@
 #include "at_impl.h"
 
+#include "hal_pin.h"
+#include "bits.h"
+
+
 pchar onRebootHandler(struct atRequest req) {
     return RET_OK(NAME_AT_R);
 }
@@ -48,18 +52,44 @@ pchar onChannelHandler(struct atRequest req) {
     return RET_OK(NAME_AT_CH);
 }
 
+// GPIO
 pchar onGPIOHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_GPIO);
+	if (req.pin != PIN_INVALID) {
+		if (_IS_ARGX_VALID(req.arg0)) { // [State] argument: Set state
+			// TODO
+			return RET_OK(NAME_AT_GPIO);
+		}
+		else { // No argument: Query state -> +GPIO=%d:L
+			return "+GPIO=1:L";
+		}
+	}
+	else { // Query All pins: +GPIO=1:L,2:H,3:L
+		return "+GPIO=1:1:L,2:2:H,0:3:L";
+	}
 }
 
+// Remote GPIO
 pchar onRGPIOHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RGPIO);
 }
 
+// IO DIR
 pchar onIODIRHandler(struct atRequest req) {
-    return RET_OK(NAME_AT_IODIR);
+    if(req.pin != PIN_INVALID) {
+		if (_IS_ARGX_VALID(req.arg0)) {
+			return RET_OK(NAME_AT_IODIR);
+		}
+		else {
+			return "+IODIR=1:DI";
+		}
+	}
+	else {
+		return "+IODIR=1:DI,2:DO,3:DI";
+	}
+    
 }
 
+// Remote IO DIR
 pchar onRIODIRHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RIODIR);
 }

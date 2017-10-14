@@ -1,6 +1,7 @@
 #include "util.h"
-#include "at_lib.h"
 #include "at_impl.h"
+#include "hal_pin.h"
+#include "bits.h"
 
 // Init AT system, register handlers.
 void initATSystem() {
@@ -34,12 +35,15 @@ void processATRequest(pchar at) {
 	unsigned int len = checkAT(at);
 	if (len > 0) {
 		struct atRequest req = parseAT(len, at);
-		if (ERR_CODE_NONE == req.err && req.index >= 0) {
-			printf("-> Handle REQUEST: \n\t idx: %d, pin: %d, arg0: 0x%X, arg1: 0x%X, arg2: 0x%X \n", req.index, req.pin, req.arg0, req.arg1, req.arg2);
+		if (ERR_CODE_NONE == req.error && req.index >= 0) {
+			printf("-> Handle REQUEST: \n\t idx: %d, group: %d, pin: %d, arg0: 0x%X, arg1: 0x%X, arg2: 0x%X \n", 
+				req.index, 
+				req.group, req.pin, 
+				req.arg0, req.arg1, req.arg2);
 			_log(handleAT(req));
 		}
 		else {
-			_log((ERR_CODE_ARGUMENT == req.err) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
+			_log((ERR_CODE_ARGUMENT == req.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
 		}
 	}
 	else {
@@ -47,15 +51,14 @@ void processATRequest(pchar at) {
 	}
 }
 
-int main(int argc, const char * argv[]) {
+void main(void) {
 	initATSystem();
 	processATRequest("AT+R");
 	processATRequest("AT+VER=");
-	processATRequest("AT+PWM=12");
-	processATRequest("AT+GPIO=34");
-	processATRequest("AT+INT=56,EN,DU");
-	processATRequest("AT+RINT=78,DIS,DU,85");
+	processATRequest("AT+PWM=0:2");
+	processATRequest("AT+GPIO=1:4");
+	processATRequest("AT+INT=1:6,EN,DU");
+	processATRequest("AT+RINT=2:1,DIS,DU,85");
 	processATRequest("AT+CNF_PWM=90");
 	getchar();
-	return 0;
 }

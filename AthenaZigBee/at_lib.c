@@ -3,8 +3,12 @@
 #include "at_lib.h"
 #include "hal_pin.h"
 
-// parse string to int
-const int _a2i(pchar str);
+// Convert Number char to Int
+#define nctoi(NUM_CHAR) NUM_CHAR - '0' 
+
+// Check Group/Pin range
+#define checkgrp(G) ('0' <= G && G <= '2')
+#define checkpin(P) ('0' <= P && P <= '7')
 
 // Handlers
 atHandler _HANDLERS[AT_CMD_SIZE] = { NULL };
@@ -54,7 +58,7 @@ const int parseargs_argx(pchar arg) {
 		return 0;
 	}
 	else {
-		return _a2i(arg);
+		return *arg;
 	}
 }
 
@@ -106,12 +110,13 @@ const struct atRequest parseAT(const uint length, pchar command) {
 	uint separator = 0; // Flag of separator: "=" / ","
 
 	struct atRequest req;
-	req.err = ERR_CODE_NONE;
+	req.error = ERR_CODE_NONE;
 	req.index = 0;
-	req.pin = PIN_NOP;
-	req.arg0 = 0;
-	req.arg1 = 0;
-	req.arg2 = 0;
+	req.group = PIN_INVALID;
+	req.pin = PIN_INVALID;
+	req.arg0 = AT_ARG_INVALID;
+	req.arg1 = AT_ARG_INVALID;
+	req.arg2 = AT_ARG_INVALID;
 
 	// AT+[CMD]=[PIN|ARG0],[ARG1],[ARG2],...
 	while (idxHead <= idxEnd) {
@@ -120,7 +125,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 		separator = '=' == token || ',' == token;
 		if (separator || idxHead == idxEnd) {
 			if (dataOffset > AT_SEG_MAX_LEN) { // Check command name length			
-                req.err = ERR_CODE_ARGUMENT;
+                req.error = ERR_CODE_ARGUMENT;
 				break;
 			}
 			char buf[AT_SEG_BUF_LEN] = { 0 };
@@ -136,8 +141,16 @@ const struct atRequest parseAT(const uint length, pchar command) {
 			else if (! hasargs_none(req.index)) {
 				// Pin, BIT1
 				if (! IS_BIT1_OF(flags, 1) && hasargs_pin(req.index)) {
-					req.pin = _a2i(buf);
-					SETBIT1_OF(flags, BITM_1);
+					// Pin: [GROUP : NUM]
+					if (3 == strlen(buf) && ':' == buf[1] && checkgrp(buf[0]) && checkpin(buf[2])) {
+						req.group = nctoi(buf[0]);
+						req.pin = nctoi(buf[2]);
+						SETBIT1_OF(flags, BITM_1);
+					}
+					else {
+						req.error = ERR_CODE_ARGUMENT;
+						break;
+					}
 				}
 				else {
 					// Arg0, BIT2
@@ -154,7 +167,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 						SETBIT1_OF(flags, BITM_4);
 					}
 					else {
-						req.err = ERR_CODE_ARGUMENT;
+						req.error = ERR_CODE_ARGUMENT;
 						break;
 					}
 				}
@@ -177,33 +190,4 @@ pchar handleAT(const struct atRequest req) {
 	else {
 		return handler(req);
 	}
-}
-
-//////
-
-const int _a2i(pchar str) {
-	int value = 0;
-	int flag = 1;
-	while (*str == ' ') {
-		str++;
-	}
-    if (*str == '-') {
-		flag = 0;
-		str++;
-	}
-    else if (*str == '+') {
-		flag = 1;
-		str++;
-	}
-	else if (*str >= '9' || *str <= '0') {
-		return 0;
-	}
-    while (*str != '/0' && *str <= '9' && *str >= '0') {
-		value = value * 10 + *str - '0';
-        str++;
-	}
-    if (flag == 0) {
-		value = -value;
-	}
-	return value;
 }

@@ -75,17 +75,25 @@
 #define ERR_CODE_UNSUPPORT	1
 #define ERR_CODE_ARGUMENT	2
 
+// Invalid argument
+#define AT_ARG_INVALID -1
+
+#define _IS_ARGX_VALID(arg)  arg != AT_ARG_INVALID
+
 
 // AT request command struct
 struct atRequest {
 	// Error code	
-    uchar err;
+    uchar error;
 
 	// AT command Index
 	uint index;
 
+	// Pin Group
+	uchar group;
+
 	// Pin number
-	uint pin;
+	uchar pin;
 
 	// Arg 0
 	uint arg0;

@@ -19,4 +19,6 @@
 // Check if bits is 1 of index
 #define IS_BIT1_OF(N, I)       (N & 1 << I)
 
+#define GPIN0 P0
+
 #endif /* bits_h */
