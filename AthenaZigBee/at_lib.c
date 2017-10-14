@@ -1,14 +1,11 @@
 #include <string.h>
 #include "bits.h"
+#include "halpin.h"
 #include "at_lib.h"
-#include "hal_pin.h"
-
-// Convert Number char to Int
-#define nctoi(NUM_CHAR) NUM_CHAR - '0' 
 
 // Check Group/Pin range
-#define checkgrp(G) ('0' <= G && G <= '2')
-#define checkpin(P) ('0' <= P && P <= '7')
+#define _checkgrp(G) ('0' <= G && G <= '2')
+#define _checkpin(P) ('0' <= P && P <= '7')
 
 // Handlers
 atHandler _HANDLERS[AT_CMD_SIZE] = { NULL };
@@ -142,9 +139,9 @@ const struct atRequest parseAT(const uint length, pchar command) {
 				// Pin, BIT1
 				if (! IS_BIT1_OF(flags, 1) && hasargs_pin(req.index)) {
 					// Pin: [GROUP : NUM]
-					if (3 == strlen(buf) && ':' == buf[1] && checkgrp(buf[0]) && checkpin(buf[2])) {
-						req.group = nctoi(buf[0]);
-						req.pin = nctoi(buf[2]);
+					if (3 == strlen(buf) && ':' == buf[1] && _checkgrp(buf[0]) && _checkpin(buf[2])) {
+						req.group = _nctoi(buf[0]);
+						req.pin = _nctoi(buf[2]);
 						SETBIT1_OF(flags, BITM_1);
 					}
 					else {
@@ -178,7 +175,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 	return req;
 }
 
-void registerAT(int index, atHandler handler) {
+void registerAT(const int index, const atHandler handler) {
 	_HANDLERS[index] = handler;
 }
 

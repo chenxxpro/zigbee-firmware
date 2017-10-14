@@ -119,7 +119,7 @@
     <ClInclude Include="at_impl.h" />
     <ClInclude Include="at_lib.h" />
     <ClInclude Include="bits.h" />
-    <ClInclude Include="hal_pin.h" />
+    <ClInclude Include="halpin.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>

@@ -11,14 +11,12 @@
 #define BITM_7 0x80
 
 // Set bits to 1 with mask
-#define SETBIT1_OF(N, BM)      N |= BM
+#define SETBIT1_OF(N, BM)	(N |= BM)
 
 // Set bits to 0 with mask
-#define SETBIT0_OF(N, BM)      N &= ~BM
+#define SETBIT0_OF(N, BM)	(N &= ~BM)
 
 // Check if bits is 1 of index
-#define IS_BIT1_OF(N, I)       (N & 1 << I)
-
-#define GPIN0 P0
+#define IS_BIT1_OF(N, I)	(N & 1 << I)
 
 #endif /* bits_h */

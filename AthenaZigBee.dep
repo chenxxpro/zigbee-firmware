@@ -82,10 +82,6 @@
           <name>BICOMP</name>
           <file> 23</file>
         </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 10</file>
-        </tool>
       </outputs>
       <inputs>
         <tool>

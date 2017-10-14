@@ -1,7 +1,5 @@
 #include "util.h"
 #include "at_impl.h"
-#include "hal_pin.h"
-#include "bits.h"
 
 // Init AT system, register handlers.
 void initATSystem() {
@@ -57,6 +55,7 @@ void main(void) {
 	processATRequest("AT+VER=");
 	processATRequest("AT+PWM=0:2");
 	processATRequest("AT+GPIO=1:4");
+	processATRequest("AT+GPIO=1:4,H");
 	processATRequest("AT+INT=1:6,EN,DU");
 	processATRequest("AT+RINT=2:1,DIS,DU,85");
 	processATRequest("AT+CNF_PWM=90");
