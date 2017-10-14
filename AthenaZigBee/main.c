@@ -42,6 +42,7 @@ void processATRequest(pchar at) {
 	if (len > 0) {
 		struct atRequest req = parseAT(len, at);
 		if (ERR_CODE_NONE == req.err && req.index >= 0) {
+			printf("-> Handle REQUEST: \n\t idx: %d, pin: %d, arg0: 0x%X, arg1: 0x%X, arg2: 0x%X \n", req.index, req.pin, req.arg0, req.arg1, req.arg2);
 			_log(handleAT(req));
 		}
 		else {
@@ -60,7 +61,7 @@ int main(int argc, const char * argv[]) {
 	processATRequest("AT+PWM=12");
 	processATRequest("AT+GPIO=34");
 	processATRequest("AT+INT=56,EN,DU");
-	processATRequest("AT+RINT=78,DIS,DU,A1");
+	processATRequest("AT+RINT=78,DIS,DU,85");
 	processATRequest("AT+CNF_PWM=90");
 	getchar();
 	return 0;

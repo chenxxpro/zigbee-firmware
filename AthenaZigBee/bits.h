@@ -18,33 +18,13 @@
 #define BITM_6 0x40
 #define BITM_7 0x80
 
-#define MKBIT_1_OF(N, MASK)      N |= MASK
+// 将指定数值N，和BitMask，设置对应位为 1
+#define SETBIT1_OF(N, BM)      N |= BM
 
-#define BIT1_OF0(N)      N |= BITM_0
-#define BIT1_OF1(N)      N |= BITM_1
-#define BIT1_OF2(N)      N |= BITM_2
-#define BIT1_OF3(N)      N |= BITM_3
-#define BIT1_OF4(N)      N |= BITM_4
-#define BIT1_OF5(N)      N |= BITM_5
-#define BIT1_OF6(N)      N |= BITM_6
-#define BIT1_OF7(N)      N |= BITM_7
+// 将指定数值N，和BitMask，设置对应位为 0
+#define SETBIT0_OF(N, BM)      N &= ~BM
 
-#define BIT0_OF0(N)      N &= ~BITM_0
-#define BIT0_OF1(N)      N &= ~BITM_2
-#define BIT0_OF2(N)      N &= ~BITM_3
-#define BIT0_OF3(N)      N &= ~BITM_4
-#define BIT0_OF4(N)      N &= ~BITM_5
-#define BIT0_OF5(N)      N &= ~BITM_6
-#define BIT0_OF6(N)      N &= ~BITM_7
-#define BIT0_OF7(N)      N &= ~BITM_7
-
-#define IS_BIT1_OF0(N)       (N & 1 << 0)
-#define IS_BIT1_OF1(N)       (N & 1 << 1)
-#define IS_BIT1_OF2(N)       (N & 1 << 2)
-#define IS_BIT1_OF3(N)       (N & 1 << 3)
-#define IS_BIT1_OF4(N)       (N & 1 << 4)
-#define IS_BIT1_OF5(N)       (N & 1 << 5)
-#define IS_BIT1_OF6(N)       (N & 1 << 6)
-#define IS_BIT1_OF7(N)       (N & 1 << 7)
+// 指定数值N，和位序号I，返回其对应位是否为 1
+#define IS_BIT1_OF(N, I)       (N & 1 << I)
 
 #endif /* bits_h */
