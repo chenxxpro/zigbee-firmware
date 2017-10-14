@@ -35,31 +35,58 @@ void processATRequest(pchar at) {
 		char output[AT_RESULT_BUFF] = { 0 };
 		struct atRequest req = parseAT(len, at);
 		if (RET_CODE_SUCCESS == req.error && req.index >= 0) {
-			printf("---> REQUEST: \n\t idx: %d, group: %d, pin: %d, arg0: 0x%X, arg1: 0x%X, arg2: 0x%X \n", 
-				req.index, 
-				req.group, req.pin, 
-				req.arg0, req.arg1, req.arg2);
+			printf("-> AT.CMD : %s\n", at);
+			printf("-> REQUEST: idx: %d, group: %d, pin: %d, arg0: %d, arg1: %d, arg2: %d \n", 
+				req.index, req.group, req.pin, req.arg0, req.arg1, req.arg2);
 			const uint code = handleAT(&req, output);
-			printf("#### HANDLED: \n\t%s\n", output);
+			printf("#### HANDLED: \n\t%s\n\n", output);
 		}
 		else {
-			_log((RET_CODE_ARGUMENT == req.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
+			printf((RET_CODE_ARGUMENT == req.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
 		}
 	}
 	else {
-		_log(RET_ERR_UNSUP);
+		printf(RET_ERR_UNSUP);
 	}
+}
+
+void _delay_us(int ms) {
+	while (ms--);
 }
 
 void main(void) {
 	initATSystem();
-	processATRequest("AT+R");
-	processATRequest("AT+VER=");
-	processATRequest("AT+PWM=0:2");
+
+#ifdef _WIN32
+
+	processATRequest("AT+VER");
+
+	processATRequest("AT+GPIO=1:4,TL");
 	processATRequest("AT+GPIO=1:4");
-	processATRequest("AT+GPIO=1:4,H");
-	processATRequest("AT+INT=1:6,EN,DU");
-	processATRequest("AT+RINT=2:1,DIS,DU,85");
-	processATRequest("AT+CNF_PWM=90");
+	processATRequest("AT+GPIO=1:4,TH");
+	processATRequest("AT+GPIO=1:4");
+
+	processATRequest("AT+IODIR=1:4,DI");
+	processATRequest("AT+IODIR=1:4");
+	processATRequest("AT+IODIR=1:4,DO");
+	processATRequest("AT+IODIR=1:4");
 	getchar();
+
+#else
+
+	processATRequest("AT+IODIR=1:0,DO");
+	int stateOn = 0;
+	while (1) {
+		if (stateOn) {
+			processATRequest("AT+GPIO=1:0,TH");
+		}
+		else {
+			processATRequest("AT+GPIO=1:0,TL");
+		}
+		stateOn = ~stateOn;
+		_delay_us(1000 * 10000);
+	}
+
+#endif // WINDOWS
+
 }

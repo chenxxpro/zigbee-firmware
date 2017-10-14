@@ -83,15 +83,19 @@
           <name>BICOMP</name>
           <file> 23</file>
         </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 10</file>
+        </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 2 0 4 16 18 27 1</file>
+          <file> 2 0 4 16 18 27 1 7</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 2 0 4 16 18 27 1</file>
+          <file> 2 0 4 16 18 27 1 7</file>
         </tool>
       </inputs>
     </file>
@@ -134,15 +138,19 @@
           <name>BICOMP</name>
           <file> 12</file>
         </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 24</file>
+        </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 6 14 20 18 2 0 4</file>
+          <file> 6 2 0 4</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 6 14 20 18 2 0 4</file>
+          <file> 6 2 0 4</file>
         </tool>
       </inputs>
     </file>

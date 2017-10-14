@@ -1,10 +1,17 @@
 #ifndef util_h
 #define util_h
 
+#ifdef _WIN32
+
 #include <stdio.h>
 
-void _log(const char* message) {
-	printf("%s", message);
+#else
+
+int printf(const char* const message, ...) {
+	return 0;
 }
+
+
+#endif // !_WIN32
 
 #endif /* util_h */

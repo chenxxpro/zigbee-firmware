@@ -28,10 +28,9 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-966599612
+Checksum=-1763148734
 [DisAssemblyWindow]
-NumStates=_ 1
-State 1=_ 1
+NumStates=_ 0
 [InstructionProfiling]
 Enabled=_ 0
 [CodeCoverage]

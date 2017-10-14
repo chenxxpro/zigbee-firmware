@@ -11,7 +11,7 @@
 atHandler _HANDLERS[AT_CMD_SIZE] = { NULL };
 
 // parse AT command name to index
-const int parseargs_idx(const pchar name) {
+const int parseargs_idx(pchar name) {
 	if (0 == strcmp(name, NAME_AT_R)) { return KEY_AT_R; }
 	else if (0 == strcmp(name, NAME_AT_Z)) { return KEY_AT_Z; }
 	else if (0 == strcmp(name, NAME_AT_VER)) { return KEY_AT_VER; }
@@ -39,19 +39,19 @@ const int parseargs_idx(const pchar name) {
 }
 
 // parse args of bool/int
-const int parseargs_argx(const pchar arg) {
+const int parseargs_argx(pchar arg) {
 	if (0 == strcmp(arg, "1") ||
-		0 == strcmp(arg, "EN") ||
-		0 == strcmp(arg, "H") ||
-		0 == strcmp(arg, "DO") ||
-		0 == strcmp(arg, "PD")) {
+		0 == strcmp(arg, "SE") || // State Enable
+		0 == strcmp(arg, "TH") || // TTL High
+		0 == strcmp(arg, "DO") || // Dir Out
+		0 == strcmp(arg, "PD")) { // Pull Down
 		return 1;
 	}
 	else if (0 == strcmp(arg, "0") ||
-		0 == strcmp(arg, "DIS") ||
-		0 == strcmp(arg, "L") ||
-		0 == strcmp(arg, "DI") ||
-		0 == strcmp(arg, "PU")) {
+		0 == strcmp(arg, "SD") ||	// State Disable
+		0 == strcmp(arg, "TL") ||	// TTL Low
+		0 == strcmp(arg, "DI") ||	// Dir In
+		0 == strcmp(arg, "PU")) {	// Pull Up
 		return 0;
 	}
 	else {
@@ -84,7 +84,7 @@ const int hasargs_pin(const int ati) {
 
 //////////////
 
-const uint checkAT(const pchar at) {
+const uint checkAT(pchar at) {
 	const uint len = (uint)strlen(at);
 	if (len >= AT_CMD_MIN_LEN &&
 		'A' == *(at + 0) &&
@@ -98,7 +98,7 @@ const uint checkAT(const pchar at) {
 }
 
 
-const struct atRequest parseAT(const uint length, const pchar command) {
+const struct atRequest parseAT(const uint length, pchar command) {
 	const uint idxEnd = length - 1; // Pointer to command end index;
 	uint flags = 0; // Flags of bits
 	uint dataHead = AT_CMD_IPREFIX; // Current data pointer
