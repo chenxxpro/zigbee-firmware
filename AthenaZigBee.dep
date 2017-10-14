@@ -33,6 +33,7 @@
       <file>$PROJ_DIR$\Debug\Obj\main.r51</file>
       <file>$PROJ_DIR$\AthenaZigBee\main.c</file>
       <file>$TOOLKIT_DIR$\config\devices\Texas Instruments\lnk51ew_CC2530F256_banked.xcl</file>
+      <file>$PROJ_DIR$\AthenaZigBee\halpin.h</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
@@ -58,11 +59,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 16 18 1 0 4 3 7</file>
+          <file> 16 18 1 27 0 4</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 16 18 1 0 4 3 7</file>
+          <file> 16 18 1 27 0 4</file>
         </tool>
       </inputs>
     </file>
@@ -86,11 +87,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 2 0 4 3 7 1</file>
+          <file> 2 0 4 16 18 27 1</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 2 0 4 3 7 1</file>
+          <file> 2 0 4 16 18 27 1</file>
         </tool>
       </inputs>
     </file>
@@ -133,19 +134,15 @@
           <name>BICOMP</name>
           <file> 12</file>
         </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 24</file>
-        </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 6 14 20 18 2 0 4 3 7 1</file>
+          <file> 6 14 20 18 2 0 4</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 6 14 20 18 2 0 4 3 7 1</file>
+          <file> 6 14 20 18 2 0 4</file>
         </tool>
       </inputs>
     </file>

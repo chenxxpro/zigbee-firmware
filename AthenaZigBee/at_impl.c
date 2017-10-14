@@ -101,8 +101,9 @@ const uint onGPIOHandler(const struct atRequest * req, char* output) {
 			strcpy(output, RET_OK(NAME_AT_GPIO));
 		}
 		else { // No argument: Query state -> +GPIO=%d:L
-			output[6] = (*req).group + '0';
-			output[8] = (*req).pin + '0';
+			strcpy(output, "+GPIO=0:0:L");
+			output[6] = _itonc((*req).group);
+			output[8] = _itonc((*req).pin);
 			char state;
 			if (0 == (*req).group) {
 				state = IS_BIT1_OF(P0, (*req).pin) ? 'H' : 'L';
@@ -117,7 +118,7 @@ const uint onGPIOHandler(const struct atRequest * req, char* output) {
 		}
 	}
 	else { // Query All pins: +GPIO=1:L,2:H,3:L
-		strcpy(output, "+GPIO=1:1:L,2:2:H,0:3:L\n");
+		strcpy(output, "+GPIO=1:1:L,2:2:H,0:3:L");
 	}
 	return RET_CODE_SUCCESS;
 }
@@ -135,11 +136,11 @@ const uint onIODIRHandler(const struct atRequest * req, char* output) {
 			strcpy(output, RET_OK(NAME_AT_IODIR));
 		}
 		else {
-			strcpy(output, "+IODIR=1:DI\n");
+			strcpy(output, "+IODIR=1:DI");
 		}
 	}
 	else {
-		strcpy(output, "+IODIR=1:DI,2:DO,3:DI\n");
+		strcpy(output, "+IODIR=1:DI,2:DO,3:DI");
 	}
 	return RET_CODE_SUCCESS;
 }
