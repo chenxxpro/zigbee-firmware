@@ -12,50 +12,50 @@
 #include "at_lib.h"
 
 
-T_DATA onRebootHandler(struct T_AT_REQ req);
+pchar onRebootHandler(struct atRequest req);
 
-T_DATA onResetHandler(struct T_AT_REQ req);
+pchar onResetHandler(struct atRequest req);
 
-T_DATA onVersionHandler(struct T_AT_REQ req);
+pchar onVersionHandler(struct atRequest req);
 
-T_DATA onRSSIHandler(struct T_AT_REQ req);
+pchar onRSSIHandler(struct atRequest req);
 
-T_DATA onMACHandler(struct T_AT_REQ req);
+pchar onMACHandler(struct atRequest req);
 
-T_DATA onUARTHandler(struct T_AT_REQ req);
+pchar onUARTHandler(struct atRequest req);
 
-T_DATA onNetworkAddHandler(struct T_AT_REQ req);
+pchar onNetworkAddHandler(struct atRequest req);
 
-T_DATA onClearHandler(struct T_AT_REQ req);
+pchar onClearHandler(struct atRequest req);
 
-T_DATA onTypeHandler(struct T_AT_REQ req);
+pchar onTypeHandler(struct atRequest req);
 
-T_DATA onStatusHandler(struct T_AT_REQ req);
+pchar onStatusHandler(struct atRequest req);
 
-T_DATA onPanIdHandler(struct T_AT_REQ req);
+pchar onPanIdHandler(struct atRequest req);
 
-T_DATA onChannelHandler(struct T_AT_REQ req);
+pchar onChannelHandler(struct atRequest req);
 
-T_DATA onGPIOHandler(struct T_AT_REQ req);
+pchar onGPIOHandler(struct atRequest req);
 
-T_DATA onRGPIOHandler(struct T_AT_REQ req);
+pchar onRGPIOHandler(struct atRequest req);
 
-T_DATA onIODIRHandler(struct T_AT_REQ req);
+pchar onIODIRHandler(struct atRequest req);
 
-T_DATA onRIODIRHandler(struct T_AT_REQ req);
+pchar onRIODIRHandler(struct atRequest req);
 
-T_DATA onINTHandler(struct T_AT_REQ req);
+pchar onINTHandler(struct atRequest req);
 
-T_DATA onRINTHandler(struct T_AT_REQ req);
+pchar onRINTHandler(struct atRequest req);
 
-T_DATA onPWMHandler(struct T_AT_REQ req);
+pchar onPWMHandler(struct atRequest req);
 
-T_DATA onRPWMHandler(struct T_AT_REQ req);
+pchar onRPWMHandler(struct atRequest req);
 
-T_DATA onADCHandler(struct T_AT_REQ req);
+pchar onADCHandler(struct atRequest req);
 
-T_DATA onRADCMHandler(struct T_AT_REQ req);
+pchar onRADCMHandler(struct atRequest req);
 
-T_DATA onConfPWMHandler(struct T_AT_REQ req);
+pchar onConfPWMHandler(struct atRequest req);
 
 #endif /* at_impl_h */

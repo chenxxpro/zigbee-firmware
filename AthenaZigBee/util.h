@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 void _log(const char* message) {
-    printf("%s", message);
+	printf("%s", message);
 }
 
 #endif /* util_h */

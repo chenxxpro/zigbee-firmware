@@ -9,7 +9,10 @@
 #ifndef at_lib_h
 #define at_lib_h
 
+#include "types.h"
+
 #define RET_ERR_UNSUP       "+ERR=AT_UNSUPPORT\n"
+#define RET_ERR_ARGS       "+ERR=ARGUMENTS\n"
 #define RET_OK(AT)          "+"AT"=OK\n"
 #define RET_ERR_ARG(AT)     "+"AT"=ERR,ARGUMENTS\n"
 #define RET_ERR_EXE(AT)     "+"AT"=ERR,RUNTIME\n"
@@ -69,48 +72,54 @@
 #define AT_CMD_IPREFIX  3
 #define AT_CMD_MIN_LEN  4
 #define AT_CMD_MAX_LEN  9
+
+// AT指令中，字段最大长度，如：AT+CNF_PWN=1024
+#define AT_SEG_MAX_LEN  7
+#define AT_SEG_BUF_LEN  AT_SEG_MAX_LEN + 1
+
 #define AT_ARG_MAX_LEN  3
 #define AT_ARG_BUF_LEN  AT_ARG_MAX_LEN + 1
 
-#define ERR_CODE_UNSUPPORT -1
-#define ERR_CODE_ARGUMENT -2
+// 异常码
+#define ERR_CODE_NONE		0
+#define ERR_CODE_UNSUPPORT	1
+#define ERR_CODE_ARGUMENT	2
 
-
-// 数据类型
-typedef const char* T_DATA;
-typedef const char* P_DATA;
 
 // AT命令请求参数结构体
-struct T_AT_REQ {
-    
-    // AT指令Index
-    int index;
-    
-    // 目标引脚
-    unsigned int pin;
-    
-    // 参数列表
-    unsigned int arg0;
-    
-    unsigned int arg1;
-    
-    unsigned int arg2;
+struct atRequest {
+	// 异常码
+	uchar err;
+
+	// AT指令Index
+	uint index;
+
+	// 目标引脚
+	uint pin;
+
+	// 参数0，无符号整数
+	uint arg0;
+
+	// 参数1
+	uchar arg1;
+
+	// 参数2
+	uchar arg2;
 };
 
 // AT命令处理函数
-typedef P_DATA (*AT_HANDLER)(struct T_AT_REQ req);
-#define DEF_AT_HANDLER(name) T_DATA name(T_AT_REQ req)
+typedef pchar (*atHandler)(struct atRequest req);
 
 // 检查AT指令
-const unsigned int checkAT(P_DATA at);
+const unsigned int checkAT(pchar at);
 
 // 解释AT指令
-const struct T_AT_REQ parseAT(const unsigned int len, P_DATA command);
+const struct atRequest parseAT(const uint len, pchar command);
 
 // 注册AT命令和回调函数
-void registerAT(int ATIndex, const AT_HANDLER handler);
+void registerAT(const int index, const atHandler handler);
 
 // 处理AT命令
-P_DATA handleAT(const struct T_AT_REQ req);
+pchar handleAT(const struct atRequest req);
 
 #endif /* at_lib_h */

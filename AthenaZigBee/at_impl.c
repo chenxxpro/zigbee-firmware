@@ -8,94 +8,94 @@
 
 #include "at_impl.h"
 
-T_DATA onRebootHandler(struct T_AT_REQ req) {
+pchar onRebootHandler(struct atRequest req) {
     return RET_OK(NAME_AT_R);
 }
 
-T_DATA onResetHandler(struct T_AT_REQ req) {
+pchar onResetHandler(struct atRequest req) {
     return RET_OK(NAME_AT_Z);
 }
 
-T_DATA onVersionHandler(struct T_AT_REQ req) {
+pchar onVersionHandler(struct atRequest req) {
     return RET_OK(NAME_AT_VER);
 }
 
-T_DATA onRSSIHandler(struct T_AT_REQ req) {
+pchar onRSSIHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RSSI);
 }
 
-T_DATA onMACHandler(struct T_AT_REQ req) {
+pchar onMACHandler(struct atRequest req) {
     return RET_OK(NAME_AT_MAC);
 }
 
-T_DATA onUARTHandler(struct T_AT_REQ req) {
+pchar onUARTHandler(struct atRequest req) {
     return RET_OK(NAME_AT_UART);
 }
 
-T_DATA onNetworkAddHandler(struct T_AT_REQ req) {
+pchar onNetworkAddHandler(struct atRequest req) {
     return RET_OK(NAME_AT_NWK);
 }
 
-T_DATA onClearHandler(struct T_AT_REQ req) {
+pchar onClearHandler(struct atRequest req) {
     return RET_OK(NAME_AT_CLEAR);
 }
 
-T_DATA onTypeHandler(struct T_AT_REQ req) {
+pchar onTypeHandler(struct atRequest req) {
     return RET_OK(NAME_AT_TYPE);
 }
 
-T_DATA onStatusHandler(struct T_AT_REQ req) {
+pchar onStatusHandler(struct atRequest req) {
     return RET_OK(NAME_AT_STAT);
 }
 
-T_DATA onPanIdHandler(struct T_AT_REQ req) {
+pchar onPanIdHandler(struct atRequest req) {
     return RET_OK(NAME_AT_PAN);
 }
 
-T_DATA onChannelHandler(struct T_AT_REQ req) {
+pchar onChannelHandler(struct atRequest req) {
     return RET_OK(NAME_AT_CH);
 }
 
-T_DATA onGPIOHandler(struct T_AT_REQ req) {
+pchar onGPIOHandler(struct atRequest req) {
     return RET_OK(NAME_AT_GPIO);
 }
 
-T_DATA onRGPIOHandler(struct T_AT_REQ req) {
+pchar onRGPIOHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RGPIO);
 }
 
-T_DATA onIODIRHandler(struct T_AT_REQ req) {
+pchar onIODIRHandler(struct atRequest req) {
     return RET_OK(NAME_AT_IODIR);
 }
 
-T_DATA onRIODIRHandler(struct T_AT_REQ req) {
+pchar onRIODIRHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RIODIR);
 }
 
-T_DATA onINTHandler(struct T_AT_REQ req) {
+pchar onINTHandler(struct atRequest req) {
     return RET_OK(NAME_AT_INT);
 }
 
-T_DATA onRINTHandler(struct T_AT_REQ req) {
+pchar onRINTHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RINT);
 }
 
-T_DATA onPWMHandler(struct T_AT_REQ req) {
+pchar onPWMHandler(struct atRequest req) {
     return RET_OK(NAME_AT_PWM);
 }
 
-T_DATA onRPWMHandler(struct T_AT_REQ req) {
+pchar onRPWMHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RPWM);
 }
 
-T_DATA onADCHandler(struct T_AT_REQ req) {
+pchar onADCHandler(struct atRequest req) {
     return RET_OK(NAME_AT_ADC);
 }
 
-T_DATA onRADCMHandler(struct T_AT_REQ req) {
+pchar onRADCMHandler(struct atRequest req) {
     return RET_OK(NAME_AT_RADC);
 }
 
-T_DATA onConfPWMHandler(struct T_AT_REQ req) {
+pchar onConfPWMHandler(struct atRequest req) {
     return RET_OK(NAME_AT_CNF_PWM);
 }
