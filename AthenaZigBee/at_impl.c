@@ -58,7 +58,7 @@ const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6,
 // check is true
 #define _istrue(val)	1 == val
 
-//
+// Set Output with Arg0
 #define _setBitMaskWithArg0(req, T1, T2, T3) const int MASK = BITMASKS[(*req).pin];	\
 	/*req.arg0 was checked*/												\
 	if (0 == (*req).group) {												\
@@ -71,8 +71,8 @@ const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6,
 		((*req).arg0) ? SETBIT1_OF(T3, MASK) : SETBIT0_OF(T2, MASK);		\
 	}																		\
 
-//
-#define _setOutputOfState(T1, T2, T3, BASE, IDX, TRUEC, FALSEC) char state;\
+// Set Output from REGISTER state
+#define _setOutputFromState(T1, T2, T3, BASE, IDX, TRUEC, FALSEC) char state;\
 	output[IDX_GRP_OF(BASE, IDX)] = _itonc((*req).group);		\
 	output[IDX_PIN_OF(BASE, IDX)] = _itonc((*req).pin);			\
 	if (0 == (*req).group) {									\
@@ -88,61 +88,73 @@ const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6,
 
 ////////
 
+// Reboot device
 const uint onRebootHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_R));
 	return RET_CODE_SUCCESS;
 }
 
+// Reset device settings
 const uint onResetHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_Z));
 	return RET_CODE_SUCCESS;
 }
 
+// Kernal version
 const uint onVersionHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_REPLY(NAME_AT_VER, "v2017.10M"));
 	return RET_CODE_SUCCESS;
 }
 
+// RSSI
 const uint onRSSIHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_RSSI));
 	return RET_CODE_SUCCESS;
 }
 
+// MAC address
 const uint onMACHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_MAC));
 	return RET_CODE_SUCCESS;
 }
 
+// UART configs
 const uint onUARTHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_UART));
 	return RET_CODE_SUCCESS;
 }
 
+// Network
 const uint onNetworkAddHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_NWK));
 	return RET_CODE_SUCCESS;
 }
 
+// Clear network config
 const uint onClearHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_CLEAR));
 	return RET_CODE_SUCCESS;
 }
 
-const uint onTypeHandler(const struct atRequest * req, char* output) {
+// Device Type
+const uint onDeviceTypeHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_TYPE));
 	return RET_CODE_SUCCESS;
 }
 
-const uint onStatusHandler(const struct atRequest * req, char* output) {
+// Device State
+const uint onDeviceStateHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_STAT));
 	return RET_CODE_SUCCESS;
 }
 
+// PanId
 const uint onPanIdHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_PAN));
 	return RET_CODE_SUCCESS;
 }
 
+// Channel
 const uint onChannelHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_CH));
 	return RET_CODE_SUCCESS;
@@ -159,7 +171,7 @@ const uint onGPIOHandler(const struct atRequest * req, char* output) {
 			strcpy(output, "+GPIO=0:0:TL");
 			// 6: sizeof("+GPIO=")
 			// 0: index of value segment: "0:0:TL"
-			_setOutputOfState(P0, P1, P2, 6, 0, 'H', 'L');
+			_setOutputFromState(P0, P1, P2, 6, 0, 'H', 'L');
 		}
 	}
 	else { // Query All pins: +GPIO=1:L,2:TH,3:TL
@@ -183,7 +195,7 @@ const uint onIODIRHandler(const struct atRequest * req, char* output) {
 		}
 		else {
 			strcpy(output, "+IODIR=0:0:DI");
-			_setOutputOfState(P0DIR, P1DIR, P2DIR,
+			_setOutputFromState(P0DIR, P1DIR, P2DIR,
 				7,  // 7: sizeof("+IODIR=")
 				0,  // 0: index of value segment: "0:0:DI"
 				'O', 'I');
