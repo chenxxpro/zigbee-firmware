@@ -7,29 +7,35 @@
 // WIN32 DEBUG
 #ifdef _WIN32
 
-extern int WIN32_ENV_P0 = 0;
-extern int WIN32_ENV_P1 = 0;
-extern int WIN32_ENV_P2 = 0;
-extern int WIN32_ENV_P0DIR = 0;
-extern int WIN32_ENV_P1DIR = 0;
-extern int WIN32_ENV_P2DIR = 0;
+extern int WIN32_P0 = 0;
+extern int WIN32_P1 = 0;
+extern int WIN32_P2 = 0;
 
-#define P0 WIN32_ENV_P0
-#define P1 WIN32_ENV_P1
-#define P2 WIN32_ENV_P2
+extern int WIN32_P0DIR = 0;
+extern int WIN32_P1DIR = 0;
+extern int WIN32_P2DIR = 0;
 
-#define P0DIR WIN32_ENV_P0DIR
-#define P1DIR WIN32_ENV_P1DIR
-#define P2DIR WIN32_ENV_P2DIR
+extern int WIN32_P0INP = 0;
+extern int WIN32_P1INP = 0;
+extern int WIN32_P2INP = 0;
+
+#define P0 WIN32_P0
+#define P1 WIN32_P1
+#define P2 WIN32_P2
+
+#define P0DIR WIN32_P0DIR
+#define P1DIR WIN32_P1DIR
+#define P2DIR WIN32_P2DIR
+
+#define P0INP WIN32_P0INP
+#define P1INP WIN32_P1INP
+#define P2INP WIN32_P2INP
 
 #else
 
 #include <ioCC2530.h>
 
-#endif // !__IAR_SYSTEMS_ICC__
-
-// Check Pin Group is valid
-#define _checkpin(grp, pin) (grp != PIN_INVALID && pin != PIN_INVALID)
+#endif // !_WIN32
 
 #define IDX_GRP_OF(b, n)	(b+0 + b * n)
 #define IDX_PIN_OF(b, n)	(b+2 + b * n)
@@ -43,9 +49,18 @@ extern int WIN32_ENV_P2DIR = 0;
 #define IDX_IODIR_PIN(n)	IDX_PIN_OF(7, n)
 #define IDX_IODIR_STA(n)	IDX_STA_OF(7, n)
 
+// Bit mask group
+const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6, BITM_7 };
 
-///// Check Pin Group, Set state with bitmask
-#define _setbitmask(T1, T2, T3) const int MASK = BITMASKS[(*req).pin];		\
+// Check Pin Group is valid
+#define _checkPinValid(grp, pin) (grp != PIN_INVALID && pin != PIN_INVALID)
+
+// check is true
+#define _istrue(val)	1 == val
+
+//
+#define _setBitMaskWithArg0(req, T1, T2, T3) const int MASK = BITMASKS[(*req).pin];	\
+	/*req.arg0 was checked*/												\
 	if (0 == (*req).group) {												\
 		((*req).arg0) ? SETBIT1_OF(T1, MASK) : SETBIT0_OF(T1, MASK);		\
 	}																		\
@@ -56,8 +71,8 @@ extern int WIN32_ENV_P2DIR = 0;
 		((*req).arg0) ? SETBIT1_OF(T3, MASK) : SETBIT0_OF(T2, MASK);		\
 	}																		\
 
-/////
-#define _setoutput(T1, T2, T3, BASE, IDX, TRUEC, FALSEC) char state;\
+//
+#define _setOutputOfState(T1, T2, T3, BASE, IDX, TRUEC, FALSEC) char state;\
 	output[IDX_GRP_OF(BASE, IDX)] = _itonc((*req).group);		\
 	output[IDX_PIN_OF(BASE, IDX)] = _itonc((*req).pin);			\
 	if (0 == (*req).group) {									\
@@ -71,8 +86,7 @@ extern int WIN32_ENV_P2DIR = 0;
 	}															\
 	output[IDX_STA_OF(BASE, IDX)] = state;							\
 
-// Bit mask group
-const int BITMASKS[] = {BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6, BITM_7};
+////////
 
 const uint onRebootHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_R));
@@ -136,19 +150,19 @@ const uint onChannelHandler(const struct atRequest * req, char* output) {
 
 // GPIO
 const uint onGPIOHandler(const struct atRequest * req, char* output) {
-	if (_checkpin((*req).group, (*req).pin)) {
+	if (_checkPinValid((*req).group, (*req).pin)) {
 		if (_checkArgValid((*req).arg0)) { // [State] argument: Set state
-			_setbitmask(P0, P1, P2);
+			_setBitMaskWithArg0(req, P0, P1, P2);
 			strcpy(output, RET_OK(NAME_AT_GPIO));
 		}
-		else { // No argument: Query state -> +GPIO=%d:L
+		else { // No argument: Query state
 			strcpy(output, "+GPIO=0:0:TL");
 			// 6: sizeof("+GPIO=")
-			// 0: index of value segment: "0:0:L"
-			_setoutput(P0, P1, P2, 6, 0, 'H', 'L');
+			// 0: index of value segment: "0:0:TL"
+			_setOutputOfState(P0, P1, P2, 6, 0, 'H', 'L');
 		}
 	}
-	else { // Query All pins: +GPIO=1:L,2:H,3:L
+	else { // Query All pins: +GPIO=1:L,2:TH,3:TL
 		strcpy(output, "+GPIO=ALL_STATE_NOT_SUPPORTED");
 	}
 	return RET_CODE_SUCCESS;
@@ -162,16 +176,16 @@ const uint onRGPIOHandler(const struct atRequest * req, char* output) {
 
 // IO DIR
 const uint onIODIRHandler(const struct atRequest * req, char* output) {
-    if(_checkpin((*req).group, (*req).pin)) {
+    if(_checkPinValid((*req).group, (*req).pin)) {
 		if (_checkArgValid((*req).arg0)) {
-			_setbitmask(P0DIR, P1DIR, P2DIR);
+			_setBitMaskWithArg0(req, P0DIR, P1DIR, P2DIR);
 			strcpy(output, RET_OK(NAME_AT_IODIR));
 		}
 		else {
 			strcpy(output, "+IODIR=0:0:DI");
-			_setoutput(P0DIR, P1DIR, P2DIR,
+			_setOutputOfState(P0DIR, P1DIR, P2DIR,
 				7,  // 7: sizeof("+IODIR=")
-				0,  // 0: index of value segment: "0:0:L"
+				0,  // 0: index of value segment: "0:0:DI"
 				'O', 'I');
 		}
 	}
@@ -187,6 +201,7 @@ const uint onRIODIRHandler(const struct atRequest * req, char* output) {
 	return RET_CODE_SUCCESS;
 }
 
+// INT service
 const uint onINTHandler(const struct atRequest * req, char* output) {
     strcpy(output, RET_OK(NAME_AT_INT));
 	return RET_CODE_SUCCESS;

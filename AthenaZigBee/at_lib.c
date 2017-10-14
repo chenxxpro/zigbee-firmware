@@ -3,10 +3,6 @@
 #include "halpin.h"
 #include "at_lib.h"
 
-// Check Group/Pin range
-#define _checkgrp(G) ('0' <= G && G <= '2')
-#define _checkpin(P) ('0' <= P && P <= '7')
-
 // Handlers
 atHandler _HANDLERS[AT_CMD_SIZE] = { NULL };
 
@@ -139,7 +135,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 				// Pin, BIT1
 				if (! IS_BIT1_OF(flags, 1) && hasargs_pin(req.index)) {
 					// Pin: [GROUP : NUM]
-					if (3 == strlen(buf) && ':' == buf[1] && _checkgrp(buf[0]) && _checkpin(buf[2])) {
+					if (3 == strlen(buf) && ':' == buf[1] && _checkGroupValid(buf[0]) && _checkPinValid(buf[2])) {
 						req.group = _nctoi(buf[0]);
 						req.pin = _nctoi(buf[2]);
 						SETBIT1_OF(flags, BITM_1);

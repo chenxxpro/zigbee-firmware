@@ -7,7 +7,7 @@
 
 #else
 
-int printf(const char* const message, ...) {
+const int printf(const char* const message, ...) {
 	return 0;
 }
 

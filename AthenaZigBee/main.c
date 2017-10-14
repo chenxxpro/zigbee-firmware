@@ -36,7 +36,7 @@ void processATRequest(pchar at) {
 		struct atRequest req = parseAT(len, at);
 		if (RET_CODE_SUCCESS == req.error && req.index >= 0) {
 			printf("-> AT.CMD : %s\n", at);
-			printf("-> REQUEST: idx: %d, group: %d, pin: %d, arg0: %d, arg1: %d, arg2: %d \n", 
+			printf("-> REQUEST: idx: %d, group: %d, pin: %d, arg0: %d, arg1: %d, arg2: %d \n",
 				req.index, req.group, req.pin, req.arg0, req.arg1, req.arg2);
 			const uint code = handleAT(&req, output);
 			printf("#### HANDLED: \n\t%s\n\n", output);
@@ -84,7 +84,7 @@ void main(void) {
 			processATRequest("AT+GPIO=1:0,TL");
 		}
 		stateOn = ~stateOn;
-		_delay_us(1000 * 10000);
+		_delay_us(3000 * 10000);
 	}
 
 #endif // WINDOWS

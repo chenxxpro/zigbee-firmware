@@ -35,29 +35,29 @@
 #define NAME_AT_RADC    "RADC"
 #define NAME_AT_CNF_PWM "CNF_PWM"
 
-#define KEY_AT_R       0
-#define KEY_AT_Z       1
-#define KEY_AT_VER     2
-#define KEY_AT_RSSI    3
-#define KEY_AT_MAC     4
-#define KEY_AT_UART    5
-#define KEY_AT_TYPE    6
-#define KEY_AT_NWK     7
-#define KEY_AT_CLEAR   8
-#define KEY_AT_STAT    9
-#define KEY_AT_PAN     10
-#define KEY_AT_CH      11
-#define KEY_AT_GPIO    12
-#define KEY_AT_RGPIO   13
-#define KEY_AT_IODIR   14
-#define KEY_AT_RIODIR  15
-#define KEY_AT_INT     16
-#define KEY_AT_RINT    17
-#define KEY_AT_PWM     18
-#define KEY_AT_RPWM    19
-#define KEY_AT_ADC     20
-#define KEYAT_RADC     21
-#define KEY_AT_CNF_PWM 22
+#define KEY_AT_R		0
+#define KEY_AT_Z		1
+#define KEY_AT_VER		2
+#define KEY_AT_RSSI		3
+#define KEY_AT_MAC		4
+#define KEY_AT_UART		5
+#define KEY_AT_TYPE		6
+#define KEY_AT_NWK		7
+#define KEY_AT_CLEAR	8
+#define KEY_AT_STAT		9
+#define KEY_AT_PAN		10
+#define KEY_AT_CH		11
+#define KEY_AT_GPIO		12
+#define KEY_AT_RGPIO	13
+#define KEY_AT_IODIR	14
+#define KEY_AT_RIODIR	15
+#define KEY_AT_INT		16
+#define KEY_AT_RINT		17
+#define KEY_AT_PWM		18
+#define KEY_AT_RPWM		19
+#define KEY_AT_ADC		20
+#define KEYAT_RADC		21
+#define KEY_AT_CNF_PWM	22
 
 #define AT_CMD_SIZE     23
 
@@ -79,12 +79,12 @@
 #define AT_ARG_INVALID -1
 
 // AT Command result buff size
-// +RGPIO=(0:0:H)x21 + (,)x20
-#define AT_RESULT_BUFF 7 + 5 * AT_CMD_SIZE + 1 * (AT_CMD_SIZE - 1)
+// +RGPIO=(0:0:AB)x21 + (,)x20
+#define AT_RESULT_BUFF 7 + 6 * AT_CMD_SIZE + 1 * (AT_CMD_SIZE - 1)
 
-// Check argX is valid
-#define _checkArgValid(arg)  arg != AT_ARG_INVALID
-
+#define _checkGroupValid(G)	('0' <= G && G <= '2')
+#define _checkPinValid(P)	('0' <= P && P <= '7')
+#define _checkArgValid(A)	(A != AT_ARG_INVALID)
 
 // AT request command struct
 struct atRequest {
