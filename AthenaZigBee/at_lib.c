@@ -75,22 +75,6 @@ const int hasargs_none(const int ati) {
 		ati == KEY_AT_RSSI);
 }
 
-// check if AT index should has a PIN arg.
-const int hasargs_pin(const int ati) {
-	return (ati == KEY_AT_GPIO ||
-		ati == KEY_AT_RGPIO ||
-		ati == KEY_AT_ADC ||
-		ati == KEYAT_RADC ||
-		ati == KEY_AT_PWM ||
-		ati == KEY_AT_RPWM ||
-		ati == KEY_AT_IOPULL ||
-		ati == KEY_AT_IODIR ||
-		ati == KEY_AT_RIODIR ||
-		ati == KEY_AT_INTTRI ||
-		ati == KEY_AT_INT ||
-		ati == KEY_AT_RINT);
-}
-
 //////////////
 
 const uint checkAT(pchar at) {
@@ -146,7 +130,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 			// Arguments
 			else if (! hasargs_none(req.index)) {
 				// Pin, BIT1
-				if (! IS_BIT1_OF(flags, 1) && hasargs_pin(req.index)) {
+				if (! IS_BIT1_OF(flags, 1)) {
 					SETBIT1_OF(flags, BITM_1);
 					// Only Group
 					const uint bl = strlen(buf);
