@@ -59,7 +59,7 @@ void _delay_us(int ms) {
 // BASE=01234567890123456789
 // +GPIO=A:B:_C:_D,A:B:_C:_D,
 // (startIdx + N): Start position of the segment value
-// (segSize * N):  
+// (segSize * N):
 // ()
 #define aIDX_GRP_OF(startIdx, segSize, n)		((startIdx + 0) + (segSize * n) + (n ? n : 0))
 #define aIDX_PIN_OF(startIdx, segSize, n)		((startIdx + 2) + (segSize * n) + (n ? n : 0))
@@ -115,7 +115,7 @@ void main(void) {
 
 	processATRequest("AT+IODIR=1:0,DO,PD");
 	int stateOn = 0;
-	while (0) {
+	while (1) {
 		if (stateOn) {
 			processATRequest("AT+GPIO=1:0,TH");
 		}

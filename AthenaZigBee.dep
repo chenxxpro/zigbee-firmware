@@ -6,114 +6,39 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\AthenaZigBee\at_lib.h</file>
-      <file>$PROJ_DIR$\AthenaZigBee\bits.h</file>
-      <file>$PROJ_DIR$\AthenaZigBee\at_impl.h</file>
-      <file>$PROJ_DIR$\AthenaZigBee\hal_pin.h</file>
-      <file>$PROJ_DIR$\AthenaZigBee\types.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\at_lib.pbi</file>
-      <file>$PROJ_DIR$\AthenaZigBee\util.h</file>
-      <file>$TOOLKIT_DIR$\inc\ioCC2530.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\main-leds.r51</file>
-      <file>$PROJ_DIR$\AthenaZigBee\at_lib.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\at_impl.r51</file>
-      <file>$PROJ_DIR$\Debug\Obj\AthenaZigBee.pbd</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\clib\cl-pli-blxd-1e16x01.r51</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdio.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\at_lib.r51</file>
-      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
-      <file>$PROJ_DIR$\AthenaZigBee\at_impl.c</file>
       <file>$TOOLKIT_DIR$\inc\clib\sysmac.h</file>
-      <file>$PROJ_DIR$\Debug\Exe\AthenaZigBee.d51</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdarg.h</file>
       <file>$PROJ_DIR$\main-leds.c</file>
       <file>$PROJ_DIR$\Debug\Obj\main-leds.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\at_impl.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\main.r51</file>
-      <file>$PROJ_DIR$\AthenaZigBee\main.c</file>
-      <file>$TOOLKIT_DIR$\config\devices\Texas Instruments\lnk51ew_CC2530F256_banked.xcl</file>
+      <file>$PROJ_DIR$\Debug\Obj\at_lib.r51</file>
+      <file>$PROJ_DIR$\Debug\Obj\AthenaZigBee.pbd</file>
       <file>$PROJ_DIR$\AthenaZigBee\halpin.h</file>
+      <file>$TOOLKIT_DIR$\lib\clib\cl-pli-blxd-1e16x01.r51</file>
+      <file>$PROJ_DIR$\Debug\Obj\main-leds.r51</file>
+      <file>$TOOLKIT_DIR$\config\devices\Texas Instruments\lnk51ew_CC2530F256_banked.xcl</file>
+      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\AthenaZigBee.d51</file>
+      <file>$PROJ_DIR$\Debug\Obj\at_impl.r51</file>
+      <file>$TOOLKIT_DIR$\inc\ioCC2530.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\at_impl.pbi</file>
+      <file>$PROJ_DIR$\AthenaZigBee\bits.h</file>
+      <file>$PROJ_DIR$\AthenaZigBee\types.h</file>
+      <file>$PROJ_DIR$\AthenaZigBee\at_impl.c</file>
+      <file>$PROJ_DIR$\AthenaZigBee\at_impl.h</file>
+      <file>$PROJ_DIR$\AthenaZigBee\at_lib.c</file>
+      <file>$PROJ_DIR$\AthenaZigBee\at_lib.h</file>
+      <file>$PROJ_DIR$\AthenaZigBee\util.h</file>
+      <file>$PROJ_DIR$\AthenaZigBee\main.c</file>
+      <file>$PROJ_DIR$\AthenaZigBee\hal_pin.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\at_lib.pbi</file>
     </outputs>
-    <file>
-      <name>[ROOT_NODE]</name>
-      <outputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 19</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\AthenaZigBee\at_lib.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 5</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 15</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 16 18 1 27 0 4</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 16 18 1 27 0 4</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Obj\AthenaZigBee.pbd</name>
-      <inputs>
-        <tool>
-          <name>BILINK</name>
-          <file> 23 5 12</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\AthenaZigBee\at_impl.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 23</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 10</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 2 0 4 16 18 27 1 7</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 2 0 4 16 18 27 1 7</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Exe\AthenaZigBee.d51</name>
-      <inputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 26 10 15 24 13</file>
-        </tool>
-      </inputs>
-    </file>
     <file>
       <name>$PROJ_DIR$\main-leds.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 22</file>
+          <file> 2</file>
         </tool>
         <tool>
           <name>ICC8051</name>
@@ -123,11 +48,75 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 7</file>
+          <file> 13</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 7</file>
+          <file> 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\AthenaZigBee.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 15 25 14</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\AthenaZigBee.d51</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 9 12 4 3 7</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AthenaZigBee\at_impl.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 12</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 21 17 10 0 6 16 13</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 19 21 17 10 0 6 16 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AthenaZigBee\at_lib.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 25</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 4</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 10 0 16 6 21 17</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 10 0 16 6 21 17</file>
         </tool>
       </inputs>
     </file>
@@ -136,23 +125,32 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 12</file>
+          <file> 14</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 24</file>
+          <file> 3</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 6 2 0 4</file>
+          <file> 22 19 21 17</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 6 2 0 4</file>
+          <file> 22 19 21 17</file>
         </tool>
       </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 11</file>
+        </tool>
+      </outputs>
     </file>
   </configuration>
   <configuration>
