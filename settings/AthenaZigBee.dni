@@ -28,19 +28,14 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=507754280
+Checksum=-91137379
 [DisAssemblyWindow]
-NumStates=_ 0
+NumStates=_ 1
+State 1=_ 1
 [InstructionProfiling]
 Enabled=_ 0
 [CodeCoverage]
 Enabled=_ 0
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\AthenaZigBee\main.c}.105.13@1" 1 0 0 0 "" 0 ""
-Count=1
-[ChipconEmu]
-Stop timers on halt=1
-Leave target running=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -48,6 +43,11 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Breakpoints]
+Count=0
+[ChipconEmu]
+Stop timers on halt=1
+Leave target running=0
 [Aliases]
 Count=0
 SuppressDialog=0

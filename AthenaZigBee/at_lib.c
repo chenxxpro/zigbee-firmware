@@ -91,8 +91,8 @@ uint checkAT(pchar at) {
 	}
 }
 
-
-struct atRequest parseAT(const uint length, pchar command) {
+// Parset AT Command to AT Request
+void parseAT(struct atRequest * req, const uint length, pchar command) {
 	const uint idxEnd = length - 1; // Pointer to command end index;
 	uint flags = 0; // Flags of bits
 	uint dataHead = AT_CMD_IPREFIX; // Current data pointer
@@ -100,14 +100,13 @@ struct atRequest parseAT(const uint length, pchar command) {
 	uint idxHead = AT_CMD_IPREFIX; // Current read pointer
 	uint separator = 0; // Flag of separator: "=" / ","
 
-	struct atRequest req;
-	req.error = RET_CODE_SUCCESS;
-	req.index = 0;
-	req.group = AT_INVALID_PIN;
-	req.pin = AT_INVALID_PIN;
-	req.arg0 = AT_INVALID_ARG;
-	req.arg1 = AT_INVALID_ARG;
-	req.arg2 = AT_INVALID_ARG;
+	req->error = RET_CODE_SUCCESS;
+	req->index = 0;
+	req->group = AT_INVALID_PIN;
+	req->pin = AT_INVALID_PIN;
+	req->arg0 = AT_INVALID_ARG;
+	req->arg1 = AT_INVALID_ARG;
+	req->arg2 = AT_INVALID_ARG;
 
 	// AT+[CMD]=[PIN|ARG0],[ARG1],[ARG2],...
 	while (idxHead <= idxEnd) {
@@ -116,7 +115,7 @@ struct atRequest parseAT(const uint length, pchar command) {
 		separator = '=' == token || ',' == token;
 		if (separator || idxHead == idxEnd) {
 			if (dataOffset > AT_CMD_FIELD_MAX_LEN) { // Check command name length			
-                req.error = RET_CODE_ARGUMENT;
+                req->error = RET_CODE_ARGUMENT;
 				break;
 			}
 			char buf[AT_CMD_FIELD_BUF_SIZE] = { 0 };
@@ -126,27 +125,27 @@ struct atRequest parseAT(const uint length, pchar command) {
 			// Command Index, BIT0
 			if (! IS_BIT1_OF(flags, 0)) {
 				SETBIT1_OF(flags, BITM_0);
-				req.index = parseargs_idx(buf);
+				req->index = parseargs_idx(buf);
 			}
 			// Arguments
-			else if (! hasargs_none(req.index)) {
+			else if (! hasargs_none(req->index)) {
 				// Pin, BIT1
 				if (! IS_BIT1_OF(flags, 1)) {
 					SETBIT1_OF(flags, BITM_1);
 					// Only Group
 					const uint bl = strlen(buf);
 					if (1 == bl && _checkGroupRange(buf[0])) {
-						req.group = _nctoi(buf[0]);
+						req->group = _nctoi(buf[0]);
 					}
 					// GroupPin: [GROUP : NUM]
 					else if (3 == bl && ':' == buf[1]
 							&& _checkGroupRange(buf[0])
 							&& _checkPinRange(buf[2])
 							&& _checkGrpPinRange(buf[0], buf[2])) {
-						req.group = _nctoi(buf[0]);
-						req.pin = _nctoi(buf[2]);
+						req->group = _nctoi(buf[0]);
+						req->pin = _nctoi(buf[2]);
 					}else {
-						req.error = RET_CODE_ARGUMENT;
+						req->error = RET_CODE_ARGUMENT;
 						break;
 					}
 				}
@@ -154,18 +153,18 @@ struct atRequest parseAT(const uint length, pchar command) {
 					// Arg0, BIT2
 					if (!IS_BIT1_OF(flags, 2)) {
 						SETBIT1_OF(flags, BITM_2);
-						req.arg0 = parseargs_argx(buf);
+						req->arg0 = parseargs_argx(buf);
 					}// Arg1, BIT3
 					else if (!IS_BIT1_OF(flags, 3)) {
 						SETBIT1_OF(flags, BITM_4);
-						req.arg1 = parseargs_argx(buf);
+						req->arg1 = parseargs_argx(buf);
 					}// Arg2, BIT4
 					else if (!IS_BIT1_OF(flags, 4)) {
 						SETBIT1_OF(flags, BITM_4);
-						req.arg2 = parseargs_argx(buf);
+						req->arg2 = parseargs_argx(buf);
 					}
 					else {
-						req.error = RET_CODE_ARGUMENT;
+						req->error = RET_CODE_ARGUMENT;
 						break;
 					}
 				}
@@ -173,7 +172,6 @@ struct atRequest parseAT(const uint length, pchar command) {
 		}
 		idxHead++;
 	}
-	return req;
 }
 
 void registerAT(const uint index, const atHandler handler) {

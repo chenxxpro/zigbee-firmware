@@ -146,7 +146,7 @@ typedef uint (*atHandler)(const struct atRequest * req, char* output);
 uint checkAT(pchar at);
 
 // parseAT command to request struct
-struct atRequest parseAT(const uint len, pchar command);
+void parseAT(struct atRequest * req, const uint len, pchar command);
 
 // register AT command handler
 void registerAT(const uint index, const atHandler handler);

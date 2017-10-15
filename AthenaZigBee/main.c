@@ -1,7 +1,10 @@
 
+#include <string.h>
 #include "util.h"
 #include "uart.h"
 #include "at_impl.h"
+
+char BUFF_OUTPUT[AT_OUTPUT_BUFF_SIZE] = { 0 };
 
 // Init AT system, register handlers.
 void initATSystem() {
@@ -39,25 +42,29 @@ void initATSystem() {
 }
 
 // Process AT command request
-void processATRequest(pchar at) {
-	unsigned int len = checkAT(at);
-	if (len > 0) {
-		char output[AT_OUTPUT_BUFF_SIZE] = { 0 };
-		struct atRequest req = parseAT(len, at);
-		if (RET_CODE_SUCCESS == req.error && req.index >= 0) {
-			printf("-> AT.CMD : %s\n", at);
-			printf("-> REQUEST: idx: %d, group: %d, pin: %d, arg0: %d, arg1: %d, arg2: %d \n",
-				req.index, req.group, req.pin, req.arg0, req.arg1, req.arg2);
-			const uint code = handleAT(&req, output);
+void processATRequest(pchar command) {
+	unsigned int atlen = checkAT(command);
+	if (atlen > 0) {
+		struct atRequest request;
+		parseAT(&request, atlen, command);
+		if (RET_CODE_SUCCESS == request.error && request.index >= 0) {
 #ifdef _WIN32
-            printf("#### HANDLED(%d): \n\t%s\n\n", code, output);
-#else
-            uartSend(output, sizeof(output));
+			printf("-> AT.CMD : %s\n", command);
+			printf("-> REQUEST: idx: %d, group: %d, pin: %d, arg0: %d, arg1: %d, arg2: %d \n",
+				request.index, request.group, request.pin, request.arg0, request.arg1, request.arg2);
 #endif
-			
+			// Process AT Request and get output
+			const uint code = handleAT(&request, BUFF_OUTPUT);
+#ifdef _WIN32
+            printf("#### HANDLED(%d): \n\t%s\n\n", code, BUFF_OUTPUT);
+#else
+            uartSend("ABC", 3);
+#endif
+			// Reset buffer
+			memset(BUFF_OUTPUT, 0, AT_OUTPUT_BUFF_SIZE);
 		}
 		else {
-			printf((RET_CODE_ARGUMENT == req.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
+			printf((RET_CODE_ARGUMENT == request.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
 		}
 	}
 	else {
@@ -65,12 +72,9 @@ void processATRequest(pchar at) {
 	}
 }
 
-void _delay_us(int ms) {
-	while (ms--);
-}
-
 void main(void) {
 	initATSystem();
+	uartInit();
 
 #ifdef _WIN32
 
@@ -80,12 +84,11 @@ void main(void) {
 	processATRequest("AT+INT=1:4");
 	processATRequest("AT+INT=1:4,SD");
 	processATRequest("AT+INT=1:4");
-/*
+
 	processATRequest("AT+IODIR=1:4,DI,MP");
 	processATRequest("AT+IODIR=1:4");
 	processATRequest("AT+IODIR=1:4,DO,MN");
 	processATRequest("AT+IODIR=1:4");
-	*/
 
 	processATRequest("AT+INTTRI=1");
 	processATRequest("AT+INTTRI=1,PD");
@@ -99,28 +102,18 @@ void main(void) {
 
 	char atRequestBuf[AT_REQUEST_BUFF_SIZE] = { 0 };
 	processATRequest("AT+IODIR=1:0,DO,PD");
-    uint networkLED = 1;
-    while(1) {
-        if(networkLED) {
-            processATRequest("AT+GPIO=1:0,TL");
-        }else{
-            processATRequest("AT+GPIO=1:0,TH");
-        }
-        networkLED = ~networkLED;
-        _delay_us(1000 * 10000);
-    }
-	/*
-	while (1) {
-		// Received from UART
-        processATRequest("AT+VER");
-		if (uartReceive(atRequestBuf)) {
-			processATRequest("AT+GPIO=1:0,TH");
-			processATRequest(atRequestBuf);
+	int networkLED = 0;
+	while (1)
+	{
+		if (networkLED) {
 			processATRequest("AT+GPIO=1:0,TL");
 		}
+		else {
+			processATRequest("AT+GPIO=1:0,TH");
+		}
+		networkLED = ~networkLED;
+        delay_ms(2000);
 	}
-    */
 
 #endif // WINDOWS
-
 }

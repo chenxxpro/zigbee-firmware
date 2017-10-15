@@ -98,11 +98,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 4 2 1 0 11</file>
+          <file> 27 29 4 2 1 0 11</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 4 2 1 0 11</file>
+          <file> 27 29 4 2 1 0 11</file>
         </tool>
       </inputs>
     </file>
