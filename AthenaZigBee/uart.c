@@ -43,7 +43,7 @@ __interrupt void UART0_ISR(void)
 {
 	// 清中断标志
 	URX0IF = 0;
-	_ReceivedTemp = U0DBUF;
+	_receivedBuff = U0DBUF;
 }
 
 #endif // !_WIN32

@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2550314450</fileChecksum>
+  <fileChecksum>2380797339</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
@@ -31,8 +31,12 @@
       <file>$PROJ_DIR$\AthenaZigBee\bits.h</file>
       <file>$PROJ_DIR$\Debug\Obj\at_impl.pbi</file>
       <file>$PROJ_DIR$\AthenaZigBee\cc2530.h</file>
+      <file>$PROJ_DIR$\AthenaZigBee\uart.h</file>
+      <file>$PROJ_DIR$\AthenaZigBee\uart.c</file>
       <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
       <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.r51</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\Debug\Exe\AthenaZigBee.d51</name>
@@ -81,11 +85,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 26 14 22 12 18 20</file>
+          <file> 28 14 22 12 18 20</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 26 14 22 12 18 20</file>
+          <file> 28 14 22 12 18 20</file>
         </tool>
       </inputs>
     </file>
@@ -94,7 +98,7 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 23 16 25</file>
+          <file> 23 16 27 30</file>
         </tool>
       </inputs>
     </file>
@@ -103,7 +107,7 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 25</file>
+          <file> 27</file>
         </tool>
         <tool>
           <name>ICC8051</name>
@@ -113,11 +117,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 19 3 18 20</file>
+          <file> 19 25 20 3 18</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 19 3 18 20</file>
+          <file> 19 25 20 3 18</file>
         </tool>
       </inputs>
     </file>
@@ -136,11 +140,30 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 26 14 22 24 7 3 18 20</file>
+          <file> 28 14 22 24 7 3 18 20</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 26 14 22 24 7 3 18 20</file>
+          <file> 28 14 22 24 7 3 18 20</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AthenaZigBee\uart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 30</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 24 7 25 20</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 24 7 25 20</file>
         </tool>
       </inputs>
     </file>
@@ -153,6 +176,10 @@
         </tool>
       </outputs>
     </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
   </configuration>
   <configuration>
     <name>Release</name>

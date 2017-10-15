@@ -2076,10 +2076,13 @@
       <name>$PROJ_DIR$\AthenaZigBee\bits.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\AthenaZigBee\hal_pin.h</name>
+      <name>$PROJ_DIR$\AthenaZigBee\cc2530.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\AthenaZigBee\types.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AthenaZigBee\uart.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\AthenaZigBee\util.h</name>
@@ -2092,6 +2095,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\AthenaZigBee\at_lib.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AthenaZigBee\uart.c</name>
     </file>
   </group>
   <file>

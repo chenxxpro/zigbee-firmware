@@ -1,4 +1,5 @@
 #include "util.h"
+#include "uart.h"
 #include "at_impl.h"
 
 // Init AT system, register handlers.
@@ -90,17 +91,15 @@ void main(void) {
 
 #else
 
+	char atRequestBuf[AT_REQUEST_BUFF_SIZE] = { 0 };
 	processATRequest("AT+IODIR=1:0,DO,PD");
-	int stateOn = 0;
 	while (1) {
-		if (stateOn) {
+		// Received from UART
+		if (uartReceive(atRequestBuf)) {
 			processATRequest("AT+GPIO=1:0,TH");
-		}
-		else {
+			processATRequest(atRequestBuf);
 			processATRequest("AT+GPIO=1:0,TL");
 		}
-		stateOn = ~stateOn;
-		_delay_us(3000 * 10000);
 	}
 
 #endif // WINDOWS
