@@ -64,8 +64,8 @@ extern int WIN32_PICTL = 0;
 const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6, BITM_7 };
 
 // Check Group&PinNumber is setted
-#define _isSetPin(pin) (pin != PIN_INVALID)
-#define _isSetGrpPin(grp, pin) (grp != PIN_INVALID && pin != PIN_INVALID)
+#define _isSetPin(pin) (pin != AT_INVALID_PIN)
+#define _isSetGrpPin(grp, pin) (grp != AT_INVALID_PIN && pin != AT_INVALID_PIN)
 
 // Set Output with Arg0
 #define _setBitMaskWithFlag(FLAG, T1, T2, T3) const int MASK = BITMASKS[(*req).pin];	\

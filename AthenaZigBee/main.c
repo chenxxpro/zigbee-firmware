@@ -33,14 +33,14 @@ void initATSystem() {
 	registerAT(KEY_AT_RPWM, onRPWMHandler);
 
 	registerAT(KEY_AT_ADC, onADCHandler);
-	registerAT(KEYAT_RADC, onRADCMHandler);
+	registerAT(KEY_AT_RADC, onRADCMHandler);
 }
 
 // Process AT command request
 void processATRequest(pchar at) {
 	unsigned int len = checkAT(at);
 	if (len > 0) {
-		char output[AT_RESULT_BUFF] = { 0 };
+		char output[AT_OUTPUT_BUFF_SIZE] = { 0 };
 		struct atRequest req = parseAT(len, at);
 		if (RET_CODE_SUCCESS == req.error && req.index >= 0) {
 			printf("-> AT.CMD : %s\n", at);

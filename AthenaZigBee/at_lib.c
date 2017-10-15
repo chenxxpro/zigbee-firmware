@@ -11,7 +11,7 @@
 #define _checkGrpPinRange(G, P) ( '2' == G ? ('0' <= P && P <= '4') : 1)
 
 // Handlers
-atHandler _HANDLERS[AT_CMD_SIZE] = { NULL };
+atHandler _HANDLERS[AT_CMD_COUNT] = { NULL };
 
 // parse AT command name to index
 const int parseargs_idx(pchar name) {
@@ -39,7 +39,7 @@ const int parseargs_idx(pchar name) {
 	else if (0 == strcmp(name, NAME_AT_PWM)) { return KEY_AT_PWM; }
 	else if (0 == strcmp(name, NAME_AT_RPWM)) { return KEY_AT_RPWM; }
 	else if (0 == strcmp(name, NAME_AT_ADC)) { return KEY_AT_ADC; }
-	else if (0 == strcmp(name, NAME_AT_RADC)) { return KEYAT_RADC; }
+	else if (0 == strcmp(name, NAME_AT_RADC)) { return KEY_AT_RADC; }
 	else { return -1; }
 }
 
@@ -102,11 +102,11 @@ const struct atRequest parseAT(const uint length, pchar command) {
 	struct atRequest req;
 	req.error = RET_CODE_SUCCESS;
 	req.index = 0;
-	req.group = PIN_INVALID;
-	req.pin = PIN_INVALID;
-	req.arg0 = AT_ARG_INVALID;
-	req.arg1 = AT_ARG_INVALID;
-	req.arg2 = AT_ARG_INVALID;
+	req.group = AT_INVALID_PIN;
+	req.pin = AT_INVALID_PIN;
+	req.arg0 = AT_INVALID_ARG;
+	req.arg1 = AT_INVALID_ARG;
+	req.arg2 = AT_INVALID_ARG;
 
 	// AT+[CMD]=[PIN|ARG0],[ARG1],[ARG2],...
 	while (idxHead <= idxEnd) {
@@ -114,11 +114,11 @@ const struct atRequest parseAT(const uint length, pchar command) {
 		dataOffset++;
 		separator = '=' == token || ',' == token;
 		if (separator || idxHead == idxEnd) {
-			if (dataOffset > AT_SEG_MAX_LEN) { // Check command name length			
+			if (dataOffset > AT_CMD_FIELD_MAX_LEN) { // Check command name length			
                 req.error = RET_CODE_ARGUMENT;
 				break;
 			}
-			char buf[AT_SEG_BUF_LEN] = { 0 };
+			char buf[AT_CMD_FIELD_BUF_SIZE] = { 0 };
 			strncpy(buf, (command + dataHead), (dataOffset - separator));
 			dataHead += dataOffset;
 			dataOffset = 0;

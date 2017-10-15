@@ -31,7 +31,7 @@
 #define NAME_AT_IODIR   "IODIR"
 #define NAME_AT_RIODIR  "RIODIR"
 
-#define NAME_AT_INTTRI "INTTRI"
+#define NAME_AT_INTTRI	"INTTRI"
 #define NAME_AT_INT     "INT"
 #define NAME_AT_RINT    "RINT"
 
@@ -63,35 +63,44 @@
 #define KEY_AT_PWM		18
 #define KEY_AT_RPWM		19
 #define KEY_AT_ADC		20
-#define KEYAT_RADC		21
+#define KEY_AT_RADC		21
 #define KEY_AT_CNF_PWM	22
 #define KEY_AT_INTTRI	23
 #define KEY_AT_IOPULL	24
 
-#define AT_CMD_SIZE     25
+// Count Of AT Commands
+#define AT_CMD_COUNT    25
 
+// AT+
 #define AT_CMD_IPREFIX  3
+// e.g: AT+R
 #define AT_CMD_MIN_LEN  4
-#define AT_CMD_MAX_LEN  9
 
-#define AT_SEG_MAX_LEN  7
-#define AT_SEG_BUF_LEN  AT_SEG_MAX_LEN + 1
+// AT+[LOOOOOOONGCMD]=
+// MAX: AT+RINTTRI
+// MAX: AT_CNF_PWM
+#define AT_CMD_FIELD_MAX_LEN	7
+#define AT_CMD_FIELD_BUF_SIZE	AT_CMD_FIELD_MAX_LEN + 1
 
-#define AT_ARG_MAX_LEN  3
-#define AT_ARG_BUF_LEN  AT_ARG_MAX_LEN + 1
-
+// Result Codes
 #define RET_CODE_SUCCESS	0
 #define RET_CODE_UNSUPPORT	1
 #define RET_CODE_ARGUMENT	2
 
 // Invalid argument
-#define AT_ARG_INVALID -1
+#define AT_INVALID_ARG		-1
+#define AT_INVALID_PIN		255
 
 // AT Command result buff size
 // +RGPIO=(0:0:AB)x21 + (,)x20
-#define AT_RESULT_BUFF 7 + 6 * AT_CMD_SIZE + 1 * (AT_CMD_SIZE - 1)
+#define AT_OUTPUT_BUFF_SIZE		7 + 6 * AT_CMD_COUNT + 1 * (AT_CMD_COUNT - 1)
 
-#define _isSetArg(A)	(A != AT_ARG_INVALID)
+// All AT request char size.
+// AT+RINTTRI=1:2,EN,PD,FC:AA:14:E1:E2:CB
+#define AT_REQUEST_MAX_LEN		sizeof("AT+RINTTRI=1:2,EN,PD,FC:AA:14:E1:E2:CB")
+#define AT_REQUEST_BUFF_SIZE	AT_REQUEST_MAX_LEN + 1
+
+#define _isSetArg(A)	(A != AT_INVALID_ARG)
 
 // AT request command struct
 struct atRequest {
