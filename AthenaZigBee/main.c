@@ -62,46 +62,8 @@ void _delay_us(int ms) {
 	while (ms--);
 }
 
-
-/////////////////10
-// BASE=01234567890123456789
-// +GPIO=A:B:_C:_D,A:B:_C:_D,
-// (startIdx + N): Start position of the segment value
-// (segSize * N):
-// ()
-#define aIDX_GRP_OF(startIdx, segSize, n)		((startIdx + 0) + (segSize * n) + (n ? n : 0))
-#define aIDX_PIN_OF(startIdx, segSize, n)		((startIdx + 2) + (segSize * n) + (n ? n : 0))
-#define aIDX_STA0_OF(startIdx, segSize, n)		((startIdx + 5) + (segSize * n) + (n ? n : 0))
-#define aIDX_STA1_OF(startIdx, segSize, n)		((startIdx + 8) + (segSize * n) + (n ? n : 0))
-
-
 void main(void) {
 	initATSystem();
-
-	//char output[] = "+IODIR=0:0:_0";
-	//char output[] = "+GPIO=0:0:_0:_0,1:1:_1:_1,2:2:_2:_2,3:3:_3:_3";
-	//output[aIDX_GRP_OF(7, 6, 0)] = 'A';
-	//output[aIDX_PIN_OF(7, 6, 0)] = 'A';
-	//output[aIDX_STA0_OF(7, 6, 0)] = 'A';
-	// output[aIDX_STA1_OF(6, 9, 0)] = 'A';
-	/*
-	output[aIDX_GRP_OF(6, 9, 1)] = 'B';
-	output[aIDX_PIN_OF(6, 9, 1)] = 'B';
-	output[aIDX_STA0_OF(6, 9, 1)] = 'B';
-	output[aIDX_STA1_OF(6, 9, 1)] = 'B';
-
-	output[aIDX_GRP_OF(6, 9, 2)] = 'C';
-	output[aIDX_PIN_OF(6, 9, 2)] = 'C';
-	output[aIDX_STA0_OF(6, 9, 2)] = 'C';
-	output[aIDX_STA1_OF(6, 9, 2)] = 'C';
-
-	output[aIDX_GRP_OF(6, 9, 3)] = 'D';
-	output[aIDX_PIN_OF(6, 9, 3)] = 'D';
-	output[aIDX_STA0_OF(6, 9, 3)] = 'D';
-	output[aIDX_STA1_OF(6, 9, 3)] = 'D';
-	*/
-	//printf("--> %s\n", output);
-
 
 #ifdef _WIN32
 
