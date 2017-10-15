@@ -5,7 +5,7 @@
 
 void uartInit();
 
-void uartSend(pchar data, const uint len);
+void uartSend(char* data, const uint len);
 
 uint uartReceive(char* buff);
 

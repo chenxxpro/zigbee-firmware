@@ -101,14 +101,13 @@ void main(void) {
 	processATRequest("AT+IODIR=1:0,DO,PD");
     uint networkLED = 1;
     while(1) {
-
         if(networkLED) {
             processATRequest("AT+GPIO=1:0,TL");
         }else{
             processATRequest("AT+GPIO=1:0,TH");
         }
         networkLED = ~networkLED;
-        //_delay_us(1000 * 10000);
+        _delay_us(1000 * 10000);
     }
 	/*
 	while (1) {
