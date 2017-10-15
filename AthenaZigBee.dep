@@ -2,10 +2,11 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2380797339</fileChecksum>
+  <fileChecksum>2835160436</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
+      <file>$TOOLKIT_DIR$\lib\clib\cl-pli-blpd-1e16x01.r51</file>
       <file>$PROJ_DIR$\AthenaZigBee\at_impl.h</file>
       <file>$PROJ_DIR$\AthenaZigBee\types.h</file>
       <file>$PROJ_DIR$\AthenaZigBee\at_lib.c</file>
@@ -18,7 +19,6 @@
       <file>$PROJ_DIR$\AthenaZigBee\util.h</file>
       <file>$PROJ_DIR$\AthenaZigBee\main.c</file>
       <file>$PROJ_DIR$\main-leds.c</file>
-      <file>$TOOLKIT_DIR$\lib\clib\cl-pli-blxd-1e16x01.r51</file>
       <file>$PROJ_DIR$\Debug\Exe\AthenaZigBee.d51</file>
       <file>$PROJ_DIR$\AthenaZigBee\uart.h</file>
       <file>$PROJ_DIR$\AthenaZigBee\bits.h</file>
@@ -61,11 +61,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 24 19 15 18 4 1</file>
+          <file> 24 19 15 18 5 2</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 24 19 15 18 4 1</file>
+          <file> 24 19 15 18 5 2</file>
         </tool>
       </inputs>
     </file>
@@ -84,11 +84,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 24 19 15 7 16 0 4 1</file>
+          <file> 24 19 15 8 16 1 5 2</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 24 19 15 7 16 0 4 1</file>
+          <file> 24 19 15 8 16 1 5 2</file>
         </tool>
       </inputs>
     </file>
@@ -107,11 +107,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 7 16 14 1</file>
+          <file> 8 16 14 2</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 7 16 14 1</file>
+          <file> 8 16 14 2</file>
         </tool>
       </inputs>
     </file>
@@ -124,17 +124,17 @@
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 8</file>
+          <file> 9</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 9 14 1 0 4</file>
+          <file> 10 14 2 1 5</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 9 14 1 0 4</file>
+          <file> 10 14 2 1 5</file>
         </tool>
       </inputs>
     </file>
@@ -143,7 +143,7 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 6</file>
+          <file> 7</file>
         </tool>
         <tool>
           <name>ICC8051</name>
@@ -166,7 +166,7 @@
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 25 20 29 8 23 12</file>
+          <file> 25 20 29 9 23 0</file>
         </tool>
       </inputs>
     </file>
