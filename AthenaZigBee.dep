@@ -18,9 +18,6 @@
       <file>$PROJ_DIR$\AthenaZigBee\cc2530.h</file>
       <file>$PROJ_DIR$\AthenaZigBee\at_impl.c</file>
       <file>$PROJ_DIR$\AthenaZigBee\at_impl.h</file>
-      <file>$PROJ_DIR$\AthenaZigBee\env.h</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdio.h</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdarg.h</file>
       <file>$PROJ_DIR$\main-leds.c</file>
       <file>$PROJ_DIR$\Debug\Obj\main-leds.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\main.r51</file>
@@ -45,21 +42,17 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 18</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 25</file>
+          <file> 15</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 28 21 0 26 3 5</file>
+          <file> 25 18 0 23 3 5</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 28 21 0 26 3 5</file>
+          <file> 25 18 0 23 3 5</file>
         </tool>
       </inputs>
     </file>
@@ -68,76 +61,7 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 22</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 23</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 9 24 1 5</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 9 12 1 5</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\AthenaZigBee\main.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
           <file> 19</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 17</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 28 21 6 1 5 11 3</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 28 21 6 12 13 14 1 5 11 3</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\AthenaZigBee\at_impl.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 31</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 30</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 28 21 0 9 24 11 3 5</file>
-        </tool>
-        <tool>
-          <name>ICC8051</name>
-          <file> 28 21 0 9 12 11 3 5</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\main-leds.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 16</file>
         </tool>
         <tool>
           <name>ICC8051</name>
@@ -147,11 +71,80 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 24</file>
+          <file> 9 21 1 5</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 24</file>
+          <file> 9 21 1 5</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AthenaZigBee\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 14</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 25 18 6 1 5 11 3</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 25 18 6 1 5 11 3</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AthenaZigBee\at_impl.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 28</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 27</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 25 18 0 9 21 11 3 5</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 25 18 0 9 21 11 3 5</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main-leds.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 17</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 21</file>
+        </tool>
+        <tool>
+          <name>ICC8051</name>
+          <file> 21</file>
         </tool>
       </inputs>
     </file>
@@ -160,7 +153,7 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 31 18 19 22</file>
+          <file> 28 15 16 19</file>
         </tool>
       </inputs>
     </file>
@@ -169,7 +162,7 @@
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 32 30 25 17 23 8</file>
+          <file> 29 27 22 14 20 8</file>
         </tool>
       </inputs>
     </file>
@@ -178,7 +171,7 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 29</file>
+          <file> 26</file>
         </tool>
       </outputs>
     </file>

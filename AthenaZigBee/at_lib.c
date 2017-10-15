@@ -178,13 +178,12 @@ void registerAT(const uint index, const atHandler handler) {
 	_HANDLERS[index] = handler;
 }
 
-uint handleAT(const struct atRequest * req, char* output) {
+void handleAT(const struct atRequest * req, char* output) {
 	const atHandler handler = (_HANDLERS[(*req).index]);
 	if (NULL == handler) {
 		strcpy(output, RET_ERR_UNSUP);
-		return RET_CODE_UNSUPPORT;
 	}
 	else {
-		return handler(req, output);
+		handler(req, output);
 	}
 }

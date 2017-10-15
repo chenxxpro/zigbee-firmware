@@ -42,6 +42,8 @@ void registerATKernal() {
 
 // Process AT command request
 void processATRequest(pchar command) {
+	// Reset buffer
+	memset(BUFF_OUTPUT, 0, AT_OUTPUT_BUFF_SIZE);
 	unsigned int atlen = checkAT(command);
 	if (atlen > 0) {
 		struct atRequest request;
@@ -52,23 +54,21 @@ void processATRequest(pchar command) {
 			printf("-> REQUEST: idx: %d, group: %d, pin: %d, arg0: %d, arg1: %d, arg2: %d \n",
 				request.index, request.group, request.pin, request.arg0, request.arg1, request.arg2);
 #endif
-			// Process AT Request and get output
-			const uint code = handleAT(&request, BUFF_OUTPUT);
-#ifdef _WIN32
-            printf("#### HANDLED(%d): \n\t%s\n\n", code, BUFF_OUTPUT);
-#else
-            uartSend(BUFF_OUTPUT, strlen(BUFF_OUTPUT));
-#endif
-			// Reset buffer
-			memset(BUFF_OUTPUT, 0, AT_OUTPUT_BUFF_SIZE);
+			// Process AT Request and get output			
+			handleAT(&request, BUFF_OUTPUT);
 		}
 		else {
-			printf((RET_CODE_ARGUMENT == request.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
+			strcpy(BUFF_OUTPUT, (RET_CODE_ARGUMENT == request.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
 		}
 	}
 	else {
-		printf(RET_ERR_UNSUP);
+		strcpy(BUFF_OUTPUT, RET_ERR_UNSUP);
 	}
+#ifdef _WIN32
+	printf("--> HANDLED: \n\t%s\n\n", BUFF_OUTPUT);
+#else
+	uartSend(BUFF_OUTPUT, strlen(BUFF_OUTPUT));
+#endif
 }
 
 void main(void) {
