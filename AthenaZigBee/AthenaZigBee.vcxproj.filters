@@ -41,5 +41,11 @@
     <ClInclude Include="types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="uart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cc2530.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

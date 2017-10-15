@@ -92,7 +92,7 @@ void main(void) {
 
 	processATRequest("AT+IODIR=1:0,DO,PD");
 	int stateOn = 0;
-	while (0) {
+	while (1) {
 		if (stateOn) {
 			processATRequest("AT+GPIO=1:0,TH");
 		}
