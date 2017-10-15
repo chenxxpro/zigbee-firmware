@@ -13,6 +13,7 @@ uint requestReadIndex = 0;
 #define _resetRequestBuf		memset(buffRequest, '\0', AT_BUFF_REQUEST_SIZE); \
 								requestReadIndex = 0;
 
+
 // Init AT system, register handlers.
 void registerATKernal() {
 	registerAT(KEY_AT_R, onRebootHandler);
@@ -82,8 +83,8 @@ void processATRequest(pchar command) {
 #endif
 }
 
-// Receive
-void uartReqestListener(char received) {
+// Receive UART request
+void onUARTReqestListener(char received) {
 	if ((requestReadIndex >= AT_REQUEST_MAX_LEN || _isReceivedATCommandEnd(received))
 		&& requestReadIndex > 0) {
 		// ECHO
@@ -115,7 +116,7 @@ void main(void) {
 	// UART
 	uartInit();
 	// UART Listener
-	uartListener(uartReqestListener);
+	uartListener(onUARTReqestListener);
 	// Test
 	processATRequest("AT+VER");
 #ifdef _WIN32
