@@ -11,8 +11,8 @@ void initATSystem() {
 	registerAT(KEY_AT_UART, onUARTHandler);
 	registerAT(KEY_AT_NWK, onNetworkAddHandler);
 	registerAT(KEY_AT_CLEAR, onClearHandler);
-	registerAT(KEY_AT_TYPE, onTypeHandler);
-	registerAT(KEY_AT_STAT, onStatusHandler);
+	registerAT(KEY_AT_TYPE, onDeviceTypeHandler);
+	registerAT(KEY_AT_STAT, onDeviceStateHandler);
 	registerAT(KEY_AT_PAN, onPanIdHandler);
 	registerAT(KEY_AT_CH, onChannelHandler);
 	registerAT(KEY_AT_GPIO, onGPIOHandler);
@@ -54,8 +54,46 @@ void _delay_us(int ms) {
 	while (ms--);
 }
 
+
+/////////////////10
+// BASE=01234567890123456789
+// +GPIO=A:B:_C:_D,A:B:_C:_D,
+// (startIdx + N): Start position of the segment value
+// (segSize * N):  
+// ()
+#define aIDX_GRP_OF(startIdx, segSize, n)		((startIdx + 0) + (segSize * n) + (n ? n : 0))
+#define aIDX_PIN_OF(startIdx, segSize, n)		((startIdx + 2) + (segSize * n) + (n ? n : 0))
+#define aIDX_STA0_OF(startIdx, segSize, n)		((startIdx + 5) + (segSize * n) + (n ? n : 0))
+#define aIDX_STA1_OF(startIdx, segSize, n)		((startIdx + 8) + (segSize * n) + (n ? n : 0))
+
+
 void main(void) {
 	initATSystem();
+
+	//char output[] = "+IODIR=0:0:_0";
+	//char output[] = "+GPIO=0:0:_0:_0,1:1:_1:_1,2:2:_2:_2,3:3:_3:_3";
+	//output[aIDX_GRP_OF(7, 6, 0)] = 'A';
+	//output[aIDX_PIN_OF(7, 6, 0)] = 'A';
+	//output[aIDX_STA0_OF(7, 6, 0)] = 'A';
+	// output[aIDX_STA1_OF(6, 9, 0)] = 'A';
+	/*
+	output[aIDX_GRP_OF(6, 9, 1)] = 'B';
+	output[aIDX_PIN_OF(6, 9, 1)] = 'B';
+	output[aIDX_STA0_OF(6, 9, 1)] = 'B';
+	output[aIDX_STA1_OF(6, 9, 1)] = 'B';
+
+	output[aIDX_GRP_OF(6, 9, 2)] = 'C';
+	output[aIDX_PIN_OF(6, 9, 2)] = 'C';
+	output[aIDX_STA0_OF(6, 9, 2)] = 'C';
+	output[aIDX_STA1_OF(6, 9, 2)] = 'C';
+
+	output[aIDX_GRP_OF(6, 9, 3)] = 'D';
+	output[aIDX_PIN_OF(6, 9, 3)] = 'D';
+	output[aIDX_STA0_OF(6, 9, 3)] = 'D';
+	output[aIDX_STA1_OF(6, 9, 3)] = 'D';
+	*/
+	//printf("--> %s\n", output);
+
 
 #ifdef _WIN32
 
@@ -66,17 +104,18 @@ void main(void) {
 	processATRequest("AT+GPIO=1:4,TH");
 	processATRequest("AT+GPIO=1:4");
 
-	processATRequest("AT+IODIR=1:4,DI");
+	processATRequest("AT+IODIR=1:4,DI,PD");
 	processATRequest("AT+IODIR=1:4");
-	processATRequest("AT+IODIR=1:4,DO");
+	processATRequest("AT+IODIR=1:4,DO,PU");
 	processATRequest("AT+IODIR=1:4");
+
 	getchar();
 
 #else
 
-	processATRequest("AT+IODIR=1:0,DO");
+	processATRequest("AT+IODIR=1:0,DO,PD");
 	int stateOn = 0;
-	while (1) {
+	while (0) {
 		if (stateOn) {
 			processATRequest("AT+GPIO=1:0,TH");
 		}

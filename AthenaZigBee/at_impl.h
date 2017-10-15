@@ -28,10 +28,10 @@ const uint onNetworkAddHandler(const struct atRequest * req, char* output);
 const uint onClearHandler(const struct atRequest * req, char* output);
 
 // Device Type
-const uint onTypeHandler(const struct atRequest * req, char* output);
+const uint onDeviceTypeHandler(const struct atRequest * req, char* output);
 
 // Device Status
-const uint onStatusHandler(const struct atRequest * req, char* output);
+const uint onDeviceStateHandler(const struct atRequest * req, char* output);
 
 // PANID
 const uint onPanIdHandler(const struct atRequest * req, char* output);

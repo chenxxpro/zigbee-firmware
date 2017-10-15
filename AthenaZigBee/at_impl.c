@@ -37,17 +37,12 @@ extern int WIN32_P2INP = 0;
 
 #endif // !_WIN32
 
-#define IDX_GRP_OF(b, n)	(b+0 + b * n)
-#define IDX_PIN_OF(b, n)	(b+2 + b * n)
-#define IDX_STA_OF(b, n)	(b+5 + b * n)
+/////////////////10
+// BASE=01234567890123456789
+#define _idxGRPOf(startIdx, segSize, n)			((startIdx + 0) + (segSize * n) + (n ? n : 0))
+#define _idxPINOf(startIdx, segSize, n)			((startIdx + 2) + (segSize * n) + (n ? n : 0))
+#define _idxSTAOfN(startIdx, segSize, n, aN)	((startIdx + 5 + aN*3) + (segSize * n) + (n ? n : 0))
 
-#define IDX_GPIO_GRP(n)		IDX_GRP_OF(6, n)
-#define IDX_GPIO_PIN(n)		IDX_PIN_OF(6, n)
-#define IDX_GPIO_STA(n)		IDX_STA_OF(6, n)
-
-#define IDX_IODIR_GRP(n)	IDX_GRP_OF(7, n)
-#define IDX_IODIR_PIN(n)	IDX_PIN_OF(7, n)
-#define IDX_IODIR_STA(n)	IDX_STA_OF(7, n)
 
 // Bit mask group
 const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6, BITM_7 };
@@ -59,32 +54,34 @@ const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6,
 #define _istrue(val)	1 == val
 
 // Set Output with Arg0
-#define _setBitMaskWithArg0(req, T1, T2, T3) const int MASK = BITMASKS[(*req).pin];	\
+#define _setBitMaskWithFlag(FLAG, T1, T2, T3) const int MASK = BITMASKS[(*req).pin];	\
 	/*req.arg0 was checked*/												\
 	if (0 == (*req).group) {												\
-		((*req).arg0) ? SETBIT1_OF(T1, MASK) : SETBIT0_OF(T1, MASK);		\
+		(FLAG) ? SETBIT1_OF(T1, MASK) : SETBIT0_OF(T1, MASK);				\
 	}																		\
 	else if (1 == (*req).group) {											\
-		((*req).arg0) ? SETBIT1_OF(T2, MASK) : SETBIT0_OF(T2, MASK);		\
+		(FLAG) ? SETBIT1_OF(T2, MASK) : SETBIT0_OF(T2, MASK);				\
 	}																		\
 	else {																	\
-		((*req).arg0) ? SETBIT1_OF(T3, MASK) : SETBIT0_OF(T2, MASK);		\
+		(FLAG) ? SETBIT1_OF(T3, MASK) : SETBIT0_OF(T2, MASK);				\
 	}																		\
 
-// Set Output from REGISTER state
-#define _setOutputFromState(T1, T2, T3, BASE, IDX, TRUEC, FALSEC) char state;\
-	output[IDX_GRP_OF(BASE, IDX)] = _itonc((*req).group);		\
-	output[IDX_PIN_OF(BASE, IDX)] = _itonc((*req).pin);			\
-	if (0 == (*req).group) {									\
-		state = IS_BIT1_OF(T1, (*req).pin) ? TRUEC : FALSEC;	\
-	}															\
-	else if (1 == (*req).group) {								\
-		state = IS_BIT1_OF(T2, (*req).pin) ? TRUEC : FALSEC;	\
-	}															\
-	else {														\
-		state = IS_BIT1_OF(T3, (*req).pin) ? TRUEC : FALSEC;	\
-	}															\
-	output[IDX_STA_OF(BASE, IDX)] = state;							\
+// Set Output from REGISTER state, 
+#define _setOutputFromState(T1, T2, T3, SIDX, SEGLEN, IDX, ARGN, TRUEC, FALSEC)		;	\
+	if(0 == ARGN) output[_idxGRPOf(SIDX, SEGLEN, IDX)] = _itonc((*req).group);			\
+	if(0 == ARGN) output[_idxPINOf(SIDX, SEGLEN, IDX)] = _itonc((*req).pin);			\
+	if (0 == (*req).group) {															\
+		output[_idxSTAOfN(SIDX, SEGLEN, IDX, ARGN)] =									\
+				IS_BIT1_OF(T1, (*req).pin) ? TRUEC : FALSEC;							\
+	}																					\
+	else if (1 == (*req).group) {														\
+		output[_idxSTAOfN(SIDX, SEGLEN, IDX, ARGN)] =									\
+				IS_BIT1_OF(T2, (*req).pin) ? TRUEC : FALSEC;							\
+	}																					\
+	else {																				\
+		output[_idxSTAOfN(SIDX, SEGLEN, IDX, ARGN)] =									\
+				IS_BIT1_OF(T3, (*req).pin) ? TRUEC : FALSEC;							\
+	}																					\
 
 ////////
 
@@ -160,18 +157,21 @@ const uint onChannelHandler(const struct atRequest * req, char* output) {
 	return RET_CODE_SUCCESS;
 }
 
-// GPIO
+// GPIO: AT+GPIO=[G:P],[TL,TH]
 const uint onGPIOHandler(const struct atRequest * req, char* output) {
 	if (_checkPinValid((*req).group, (*req).pin)) {
 		if (_checkArgValid((*req).arg0)) { // [State] argument: Set state
-			_setBitMaskWithArg0(req, P0, P1, P2);
+			_setBitMaskWithFlag((*req).arg0, P0, P1, P2);
 			strcpy(output, RET_OK(NAME_AT_GPIO));
 		}
 		else { // No argument: Query state
-			strcpy(output, "+GPIO=0:0:TL");
-			// 6: sizeof("+GPIO=")
-			// 0: index of value segment: "0:0:TL"
-			_setOutputFromState(P0, P1, P2, 6, 0, 'H', 'L');
+			strcpy(output, "+GPIO=_:_:T_");
+			_setOutputFromState(P0, P1, P2, 
+				6,  // 6: Start Index Of "+GPIO="
+				6,	// 6: Length of "0:0:TL"
+				0,  // 0: Group Index of values array: "0:0:TL"
+				0,	// 0: ArgumentIndex: "TL"
+				PIN_SC_TTL1, PIN_SC_TTL0);
 		}
 	}
 	else { // Query All pins: +GPIO=1:L,2:TH,3:TL
@@ -186,19 +186,34 @@ const uint onRGPIOHandler(const struct atRequest * req, char* output) {
 	return RET_CODE_SUCCESS;
 }
 
-// IO DIR
+// IO DIR: AT+IODIR=[G:P],[DI,DO],[PU,PD]
 const uint onIODIRHandler(const struct atRequest * req, char* output) {
     if(_checkPinValid((*req).group, (*req).pin)) {
 		if (_checkArgValid((*req).arg0)) {
-			_setBitMaskWithArg0(req, P0DIR, P1DIR, P2DIR);
+			// IO DIR£º [DI, DO]
+			_setBitMaskWithFlag((*req).arg0, P0DIR, P1DIR, P2DIR);
+			// IO PULL: [PU, PD]
+			if (_checkArgValid((*req).arg1)) {
+				_setBitMaskWithFlag((*req).arg1, P0INP, P1INP, P2INP);
+			}
 			strcpy(output, RET_OK(NAME_AT_IODIR));
 		}
 		else {
-			strcpy(output, "+IODIR=0:0:DI");
+			strcpy(output, "+IODIR=_:_:D_:P_");
+			// Direction
 			_setOutputFromState(P0DIR, P1DIR, P2DIR,
-				7,  // 7: sizeof("+IODIR=")
-				0,  // 0: index of value segment: "0:0:DI"
-				'O', 'I');
+				7,  // 7: Start Index Of "+IODIR="
+				9,  // 9: Length of "0:0:DI:PD"
+				0,  // 0: Group Index of values array: "0:0:DI:PD"
+				0,	// 0: Argument Index of "DI"
+				PIN_SC_DIR1, PIN_SC_DIR0);
+			// Pull State
+			_setOutputFromState(P0INP, P1INP, P2INP,
+				7,  // 7: Start Index Of "+IODIR="
+				9,  // 9: Length of "0:0:DI:PD"
+				0,  // 0: Group Index of values array: "0:0:DI:PD"
+				1,	// 1: Argument Index of "PD"
+				PIN_SC_PULL1, PIN_SC_PULL0);
 		}
 	}
 	else {
