@@ -76,6 +76,9 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/D "_CRT_SECURE_NO_DEPRECATE" %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <Link>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -114,6 +117,7 @@
     <ClCompile Include="at_impl.c" />
     <ClCompile Include="at_lib.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="uart.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="at_impl.h" />

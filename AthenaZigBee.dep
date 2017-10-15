@@ -140,7 +140,7 @@
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 26 14 22 3 18 20 7</file>
+          <file> 26 14 22 24 7 3 18 20</file>
         </tool>
       </inputs>
     </file>
