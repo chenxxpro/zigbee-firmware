@@ -29,6 +29,7 @@ const int parseargs_idx(pchar name) {
 	else if (0 == strcmp(name, NAME_AT_CH)) { return KEY_AT_CH; }
 	else if (0 == strcmp(name, NAME_AT_GPIO)) { return KEY_AT_GPIO; }
 	else if (0 == strcmp(name, NAME_AT_RGPIO)) { return KEY_AT_RGPIO; }
+	else if (0 == strcmp(name, NAME_AT_IOPULL)) { return KEY_AT_IOPULL; }
 	else if (0 == strcmp(name, NAME_AT_IODIR)) { return KEY_AT_IODIR; }
 	else if (0 == strcmp(name, NAME_AT_RIODIR)) { return KEY_AT_RIODIR; }
 	else if (0 == strcmp(name, NAME_AT_CNF_INT)) { return KEY_AT_CNF_INT; }
@@ -82,6 +83,7 @@ const int hasargs_pin(const int ati) {
 		ati == KEYAT_RADC ||
 		ati == KEY_AT_PWM ||
 		ati == KEY_AT_RPWM ||
+		ati == KEY_AT_IOPULL ||
 		ati == KEY_AT_IODIR ||
 		ati == KEY_AT_RIODIR ||
 		ati == KEY_AT_INT ||

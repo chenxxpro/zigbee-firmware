@@ -27,7 +27,7 @@
 #define NAME_AT_GPIO    "GPIO"
 #define NAME_AT_RGPIO   "RGPIO"
 
-#define NAME_AT_CNF_INM "CNF_INM"
+#define NAME_AT_IOPULL	"IOPULL"
 #define NAME_AT_IODIR   "IODIR"
 #define NAME_AT_RIODIR  "RIODIR"
 
@@ -66,7 +66,7 @@
 #define KEYAT_RADC		21
 #define KEY_AT_CNF_PWM	22
 #define KEY_AT_CNF_INT	23
-#define KEY_AT_CNF_INM	24
+#define KEY_AT_IOPULL	24
 
 #define AT_CMD_SIZE     25
 

@@ -199,15 +199,44 @@ const uint onRGPIOHandler(const struct atRequest * req, char* output) {
 	return RET_CODE_SUCCESS;
 }
 
-// Config In Mode
-const uint onConfInModeHandler(const struct atRequest * req, char* output) {
-	// AT+CNF_INM=[G],[MP,M]
+// Config IO PUll
+const uint onIOPullHandler(const struct atRequest * req, char* output) {
+	// AT+IOPULL=[G],[PU, PD]
 	if (_isSetArg((*req).group)) {
-
-		strcpy(output, RET_OK(NAME_AT_CNF_INM));
+		if (_isSetArg((*req).arg0)) {
+			switch ((*req).group) {
+			case 0:
+				((*req).arg0) ? SETBIT1_OF(P2INP, BITM_5) : SETBIT0_OF(P2INP, BITM_5);
+				break;
+			case 1:
+				((*req).arg0) ? SETBIT1_OF(P2INP, BITM_6) : SETBIT0_OF(P2INP, BITM_6);
+				break;
+			default:
+				((*req).arg0) ? SETBIT1_OF(P2INP, BITM_7) : SETBIT0_OF(P2INP, BITM_7);
+				break;
+			}
+			strcpy(output, RET_OK(NAME_AT_IOPULL));
+		}// Query
+		else {
+			strcpy(output, "+IOPULL=_:P_");
+			output[8] = _itonc((*req).group);
+			char pc;
+			switch ((*req).group) {
+			case 0:
+				pc = (IS_BIT1_OF(P2INP, 5) ? ARG_C_PULL1 : ARG_C_PULL0);
+				break;
+			case 1:
+				pc = (IS_BIT1_OF(P2INP, 6) ? ARG_C_PULL1 : ARG_C_PULL0);
+				break;
+			default:
+				pc = (IS_BIT1_OF(P2INP, 7) ? ARG_C_PULL1 : ARG_C_PULL0);
+				break;
+			}
+			output[11] = pc;
+		}
 	}
 	else {
-		strcpy(output, "+CNF_INM=ALL_INMODE_NOT_SUPPORTED");
+		strcpy(output, "+IOPULL=ALL_IOPULL_NOT_SUPPORTED");
 	}
 	return RET_CODE_SUCCESS;
 }

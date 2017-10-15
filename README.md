@@ -116,15 +116,34 @@
 ### AT+RGPIO 查询/设置远程GPIO
 
 
-### AT+INPULL 查询/设置本地端口的输入模式
+### AT+IOPULL 查询/设置本地端口的输入模式
 
 **参数格式：**
 
 > = `[GROUP]`, `[PULL]`
 
 - `PULL` 输入模式，值范围：[PU, PD]：
-  1. `PU` PullUp，上拉下模式；
-  2. `PD` PullDown，三态模式；
+  1. `PU` PullUp，上拉；
+  2. `PD` PullDown，下拉；
+
+查询：
+
+> AT+IOPULL=[GRUOP]
+> e.g: AT+IOPULL=0,PU
+
+返回：
+
+> +IOPULL=[GROUP]:[PULL]
+> e.g: +IOPULL=0:PU
+
+设置：
+
+> AT+IOPULL=[GRUOP],[PULL]
+> e.g: AT+IOPULL=0,PD
+
+返回：
+
+> +IOPULL=OK
 
 ### AT+IODIR 查询/设置本地端口输入输出
 

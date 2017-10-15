@@ -45,8 +45,8 @@ const uint onGPIOHandler(const struct atRequest * req, char* output);
 // RGPIO
 const uint onRGPIOHandler(const struct atRequest * req, char* output);
 
-// Config In Mode
-const uint onConfInModeHandler(const struct atRequest * req, char* output);
+// IO Pull
+const uint onIOPullHandler(const struct atRequest * req, char* output);
 
 // IODIR
 const uint onIODIRHandler(const struct atRequest * req, char* output);
