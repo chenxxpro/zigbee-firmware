@@ -9,6 +9,10 @@ uint requestReadIndex = 0;
 
 #define _isReceivedATCommandEnd(c)		('/0' == c || '\r' == c || '\n' == c)
 
+// reset buff
+#define _resetRequestBuf		memset(buffRequest, '\0', AT_BUFF_REQUEST_SIZE); \
+								requestReadIndex = 0;
+
 // Init AT system, register handlers.
 void registerATKernal() {
 	registerAT(KEY_AT_R, onRebootHandler);
@@ -85,12 +89,19 @@ void uartReqestListener(char received) {
 		// ECHO
 		// uartSend(buffRequest, strlen(buffRequest));
 		processATRequest(buffRequest);
-		memset(buffRequest, '\0', strlen(buffRequest));
-		requestReadIndex = 0;
+		_resetRequestBuf;
 	}
 	else {
-		// 单个字符必须是以 A 开头才开始接收
+		// Must be prefix: AT+
 		if (requestReadIndex == 0 && 'A' != received) {
+			return;
+		}
+		else if (requestReadIndex == 1 && 'T' != received) {
+			_resetRequestBuf;
+			return;
+		}
+		else if (requestReadIndex == 2 && '+' != received) {
+			_resetRequestBuf;
 			return;
 		}
 		buffRequest[requestReadIndex] = received;
