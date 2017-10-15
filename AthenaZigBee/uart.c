@@ -40,6 +40,13 @@ uint _resetReceived() {
 
 // Init UART
 void uartInit() {
+    // Wait System Clock Stable
+#ifndef _WIN32
+	CLKCONCMD &= ~0x40;
+	while (CLKCONSTA & 0x40);
+	CLKCONCMD &= ~0x47;
+#endif // !_WIN32
+
     PERCFG = 0x00;       // 位置1 P0口
     P0SEL = 0x3c;        // P0_2,P0_3,P0_4,P0_5用作串口,第二功能
     P2DIR &= ~0XC0;      // P0 优先作为UART0 ，优先级

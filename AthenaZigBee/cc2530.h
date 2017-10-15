@@ -59,6 +59,10 @@ extern unsigned char WIN32_UTX0IF = 0;
 extern unsigned char WIN32_U0DBUF = 0;
 #define U0DBUF WIN32_U0DBUF
 
+extern unsigned char WIN32_CLKCONCMD = 0;
+#define CLKCONCMD WIN32_CLKCONCMD
+extern unsigned char WIN32_CLKCONSTA = 0;
+#define CLKCONSTA WIN32_CLKCONSTA
 #else
 
 #include <ioCC2530.h>

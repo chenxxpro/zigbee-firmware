@@ -1,4 +1,3 @@
-
 #include <string.h>
 #include "util.h"
 #include "uart.h"
@@ -7,7 +6,7 @@
 char BUFF_OUTPUT[AT_OUTPUT_BUFF_SIZE] = { 0 };
 
 // Init AT system, register handlers.
-void initATSystem() {
+void registerATKernal() {
 	registerAT(KEY_AT_R, onRebootHandler);
 	registerAT(KEY_AT_Z, onResetHandler);
 	registerAT(KEY_AT_VER, onVersionHandler);
@@ -58,7 +57,7 @@ void processATRequest(pchar command) {
 #ifdef _WIN32
             printf("#### HANDLED(%d): \n\t%s\n\n", code, BUFF_OUTPUT);
 #else
-            uartSend("ABC", 3);
+            uartSend(BUFF_OUTPUT, strlen(BUFF_OUTPUT));
 #endif
 			// Reset buffer
 			memset(BUFF_OUTPUT, 0, AT_OUTPUT_BUFF_SIZE);
@@ -73,7 +72,9 @@ void processATRequest(pchar command) {
 }
 
 void main(void) {
-	initATSystem();
+	// Register AT Handler
+	registerATKernal();
+	// UART
 	uartInit();
 
 #ifdef _WIN32
