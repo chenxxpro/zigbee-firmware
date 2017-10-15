@@ -3,10 +3,15 @@
 
 #include "types.h"
 
+typedef void(*UartListener)(char received);
+
+// Init UART
 void uartInit();
 
+// Send String to UART
 void uartSend(char* data, const uint len);
 
-uint uartReceive(char* buff);
+// 
+void uartListener(UartListener listener);
 
 #endif /* uart_h */

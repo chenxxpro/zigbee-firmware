@@ -1,46 +1,10 @@
 #include "cc2530.h"
 #include "uart.h"
 
-char _receivedBuff = 0;
-uint _receivedIndex = 0;
-
-// Check Command is AT
-uint _isATCommand() {
-	if (_receivedIndex == 0 && 'A' == _receivedBuff) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
-
-	if (_receivedIndex == 1 && 'T' == _receivedBuff) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
-
-	if (_receivedIndex == 2 && '+' == _receivedBuff) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
-
-	return 1;
-}
-
-// Reset AT
-uint _resetReceived() {
-	_receivedBuff = 0;
-	_receivedIndex = 0;
-	return 0;
-}
-
+UartListener _receivedListener;
 
 // Init UART
 void uartInit() {
-    
 #ifndef _WIN32
 	// Wait System Clock Stable
 	CLKCONCMD &= ~0x40;
@@ -75,22 +39,9 @@ void uartSend(char* data, const uint dataSize) {
     U0CSR |= 0x40;
 }
 
-// Receive data
-uint uartReceive(char* buff) {
-	// Check: AT+
-	if (_isATCommand()) {
-		if ('#' != _receivedBuff) {
-			buff[_receivedIndex++] = _receivedBuff;
-		}
-		else {
-			const uint len = _receivedIndex;
-			_resetReceived();
-			return len;
-		}
-	}
-	else {
-		return _resetReceived();
-	}
+// Listener for received chars
+void uartListener(UartListener listener) {
+	_receivedListener = listener;
 }
 
 #ifndef _WIN32
@@ -98,9 +49,10 @@ uint uartReceive(char* buff) {
 #pragma vector = URX0_VECTOR
 __interrupt void UART0_ISR(void)
 {
-	// 清中断标志
+	// Reset Flag
 	URX0IF = 0;
-	_receivedBuff = U0DBUF;
+	//_receivedBuff = U0DBUF;
+	_receivedListener(U0DBUF);
 }
 
 #endif // !_WIN32

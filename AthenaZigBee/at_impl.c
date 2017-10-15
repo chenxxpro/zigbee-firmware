@@ -30,7 +30,7 @@ const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6,
 		(FLAG) ? SETBIT1_OF(T3, MASK) : SETBIT0_OF(T2, MASK);				\
 	}																		\
 
-// Set Output from REGISTER state, 
+// Set Output from REGISTER state,
 // ARGN: If 0, Set group, pin to output.
 #define _setOutputFromState(T1, T2, T3, SIDX, SEGLEN, IDX, ARGN, TRUEC, FALSEC)		;	\
 	if(0 == ARGN) output[_idxGRPOf(SIDX, SEGLEN, IDX)] = _itonc(req->group);			\
@@ -52,62 +52,62 @@ const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6,
 
 // Reboot device
 void onRebootHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_R));
+    strcpy(output, RET_NAMED_OK(NAME_AT_R));
 }
 
 // Reset device settings
 void onResetHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_Z));
+    strcpy(output, RET_NAMED_OK(NAME_AT_Z));
 }
 
 // Kernal version
 void onVersionHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_REPLY(NAME_AT_VER, "v2017.10M"));
+    strcpy(output, RET_NAMED_REPLY(NAME_AT_VER, "v2017.10M"));
 }
 
 // RSSI
 void onRSSIHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_RSSI));
+    strcpy(output, RET_NAMED_OK(NAME_AT_RSSI));
 }
 
 // MAC address
 void onMACHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_MAC));
+    strcpy(output, RET_NAMED_OK(NAME_AT_MAC));
 }
 
 // UART configs
 void onUARTHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_UART));
+    strcpy(output, RET_NAMED_OK(NAME_AT_UART));
 }
 
 // Network
 void onNetworkAddHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_NWK));
+    strcpy(output, RET_NAMED_OK(NAME_AT_NWK));
 }
 
 // Clear network config
 void onClearHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_CLEAR));
+    strcpy(output, RET_NAMED_OK(NAME_AT_CLEAR));
 }
 
 // Device Type
 void onDeviceTypeHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_TYPE));
+    strcpy(output, RET_NAMED_OK(NAME_AT_TYPE));
 }
 
 // Device State
 void onDeviceStateHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_STAT));
+    strcpy(output, RET_NAMED_OK(NAME_AT_STAT));
 }
 
 // PanId
 void onPanIdHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_PAN));
+    strcpy(output, RET_NAMED_OK(NAME_AT_PAN));
 }
 
 // Channel
 void onChannelHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_CH));
+    strcpy(output, RET_NAMED_OK(NAME_AT_CH));
 }
 
 // GPIO: AT+GPIO=[G:P],[TL,TH]
@@ -115,11 +115,11 @@ void onGPIOHandler(const struct atRequest * req, char* output) {
 	if (_isSetGrpPin(req->group, req->pin)) {
 		if (_isSetArg(req->arg0)) { // [State] argument: Set state
 			_setBitMaskWithFlag(req->arg0, P0, P1, P2);
-			strcpy(output, RET_OK(NAME_AT_GPIO));
+			strcpy(output, RET_NAMED_OK(NAME_AT_GPIO));
 		}
 		else { // No argument: Query state
 			strcpy(output, "+GPIO=_:_:T_");
-			_setOutputFromState(P0, P1, P2, 
+			_setOutputFromState(P0, P1, P2,
 				6,  // 6: Start Index Of "+GPIO="
 				6,	// 6: Length of "0:0:TL"
 				0,  // 0: Group Index of values array: "0:0:TL"
@@ -134,7 +134,7 @@ void onGPIOHandler(const struct atRequest * req, char* output) {
 
 // Remote GPIO
 void onRGPIOHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_RGPIO));
+    strcpy(output, RET_NAMED_OK(NAME_AT_RGPIO));
 }
 
 // Config IO PUll
@@ -153,7 +153,7 @@ void onIOPullHandler(const struct atRequest * req, char* output) {
 				(req->arg0) ? SETBIT1_OF(P2INP, BITM_7) : SETBIT0_OF(P2INP, BITM_7);
 				break;
 			}
-			strcpy(output, RET_OK(NAME_AT_IOPULL));
+			strcpy(output, RET_NAMED_OK(NAME_AT_IOPULL));
 		}// Query
 		else {
 			strcpy(output, "+IOPULL=_:P_");
@@ -178,7 +178,7 @@ void onIOPullHandler(const struct atRequest * req, char* output) {
 	}
 }
 
-// IO DIR: 
+// IO DIR:
 void onIODIRHandler(const struct atRequest * req, char* output) {
 	// AT+IODIR = [G:P], [DI, DO], [MP, MN]
     if(_isSetGrpPin(req->group, req->pin)) {
@@ -189,7 +189,7 @@ void onIODIRHandler(const struct atRequest * req, char* output) {
 			if (ARG_N_DIRIN == req->arg0 && _isSetArg(req->arg1)) {
 				_setBitMaskWithFlag(req->arg1, P0INP, P1INP, P2INP);
 			}
-			strcpy(output, RET_OK(NAME_AT_IODIR));
+			strcpy(output, RET_NAMED_OK(NAME_AT_IODIR));
 		}
 		else {// Query
 			strcpy(output, "+IODIR=_:_:D_:M_");
@@ -216,7 +216,7 @@ void onIODIRHandler(const struct atRequest * req, char* output) {
 
 // Remote IO DIR
 void onRIODIRHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_RIODIR));
+    strcpy(output, RET_NAMED_OK(NAME_AT_RIODIR));
 }
 
 // Interruptor trigger cofig
@@ -236,7 +236,7 @@ void onINTTriggerHandler(const struct atRequest * req, char* output) {
 				(req->arg0) ? SETBIT1_OF(PICTL, BITM_3) : SETBIT0_OF(PICTL, BITM_3);
 				break;
 			}
-			strcpy(output, RET_OK(NAME_AT_INTTRI));
+			strcpy(output, RET_NAMED_OK(NAME_AT_INTTRI));
 		}
 		else {
 			strcpy(output, "+INTTRI=_:P_");
@@ -268,7 +268,7 @@ void onINTHandler(const struct atRequest * req, char* output) {
 		if (_isSetArg(req->arg0)) {
 			// INT State£º [SE, SD]
 			_setBitMaskWithFlag(req->arg0, P0IEN, P1IEN, P2IEN);
-			strcpy(output, RET_OK(NAME_AT_INT));
+			strcpy(output, RET_NAMED_OK(NAME_AT_INT));
 		}
 		else {// Query
 			strcpy(output, "+INT=_:_:S_");
@@ -287,26 +287,26 @@ void onINTHandler(const struct atRequest * req, char* output) {
 }
 
 void onRINTHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_RINT));
+    strcpy(output, RET_NAMED_OK(NAME_AT_RINT));
 }
 
 // PWM Config
 void onConfPWMHandler(const struct atRequest * req, char* output) {
-	strcpy(output, RET_OK(NAME_AT_INTTRI));
+	strcpy(output, RET_NAMED_OK(NAME_AT_INTTRI));
 }
 
 void onPWMHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_PWM));
+    strcpy(output, RET_NAMED_OK(NAME_AT_PWM));
 }
 
 void onRPWMHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_RPWM));
+    strcpy(output, RET_NAMED_OK(NAME_AT_RPWM));
 }
 
 void onADCHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_ADC));
+    strcpy(output, RET_NAMED_OK(NAME_AT_ADC));
 }
 
 void onRADCMHandler(const struct atRequest * req, char* output) {
-    strcpy(output, RET_OK(NAME_AT_RADC));
+    strcpy(output, RET_NAMED_OK(NAME_AT_RADC));
 }

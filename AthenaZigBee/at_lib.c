@@ -100,7 +100,7 @@ void parseAT(struct atRequest * req, const uint length, pchar command) {
 	uint idxHead = AT_CMD_IPREFIX; // Current read pointer
 	uint separator = 0; // Flag of separator: "=" / ","
 
-	req->error = RET_CODE_SUCCESS;
+	req->status = RET_CODE_SUCCESS;
 	req->index = 0;
 	req->group = AT_INVALID_PIN;
 	req->pin = AT_INVALID_PIN;
@@ -115,7 +115,7 @@ void parseAT(struct atRequest * req, const uint length, pchar command) {
 		separator = '=' == token || ',' == token;
 		if (separator || idxHead == idxEnd) {
 			if (dataOffset > AT_CMD_FIELD_MAX_LEN) { // Check command name length			
-                req->error = RET_CODE_ARGUMENT;
+                req->status = RET_CODE_ARGUMENT;
 				break;
 			}
 			char buf[AT_CMD_FIELD_BUF_SIZE] = { 0 };
@@ -145,7 +145,7 @@ void parseAT(struct atRequest * req, const uint length, pchar command) {
 						req->group = _nctoi(buf[0]);
 						req->pin = _nctoi(buf[2]);
 					}else {
-						req->error = RET_CODE_ARGUMENT;
+						req->status = RET_CODE_ARGUMENT;
 						break;
 					}
 				}
@@ -164,7 +164,7 @@ void parseAT(struct atRequest * req, const uint length, pchar command) {
 						req->arg2 = parseargs_argx(buf);
 					}
 					else {
-						req->error = RET_CODE_ARGUMENT;
+						req->status = RET_CODE_ARGUMENT;
 						break;
 					}
 				}
@@ -181,7 +181,7 @@ void registerAT(const uint index, const atHandler handler) {
 void handleAT(const struct atRequest * req, char* output) {
 	const atHandler handler = (_HANDLERS[(*req).index]);
 	if (NULL == handler) {
-		strcpy(output, RET_ERR_UNSUP);
+		strcpy(output, RET_ERRMSG_UNSUP);
 	}
 	else {
 		handler(req, output);

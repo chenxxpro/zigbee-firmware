@@ -3,13 +3,14 @@
 
 #include "types.h"
 
-#define RET_ERR_UNSUP       "+ERR=AT_UNSUPPORT\n"
-#define RET_ERR_ARGS		"+ERR=ARGUMENTS\n"
-#define RET_OK(AT)          "+"AT"=OK\n"
-#define RET_ERR_ARG(AT)     "+"AT"=ERR,ARGUMENTS\n"
-#define RET_ERR_EXE(AT)     "+"AT"=ERR,RUNTIME\n"
 
-#define RET_REPLY(AT,RET)   "+"AT"="RET"\n"
+#define RET_ERRMSG_UNSUP		"+ERR=AT_UNSUPPORT\n"
+#define RET_ERRMSG_ARGS			"+ERR=ARGUMENTS\n"
+#define RET_NAMED_UNSUP(X)		"+ERR=AT_UNSUPPORT,"X"\n"
+#define RET_NAMED_OK(AT)		"+"AT"=OK\n"
+#define RET_NAMED_ARG(AT)		"+"AT"=ERR,ARGUMENTS\n"
+#define RET_NAMED_RTIME(AT)		"+"AT"=ERR,RUNTIME\n"
+#define RET_NAMED_REPLY(AT,RET)	"+"AT"="RET"\n"
 
 #define NAME_AT_R       "R"
 #define NAME_AT_Z       "Z"
@@ -93,12 +94,12 @@
 
 // AT Command result buff size
 // +RGPIO=(0:0:AB)x21 + (,)x20
-#define AT_OUTPUT_BUFF_SIZE		7 + 6 * AT_CMD_COUNT + 1 * (AT_CMD_COUNT - 1)
+#define AT_BUFF_RESPONSE_SIZE		7 + 6 * AT_CMD_COUNT + 1 * (AT_CMD_COUNT - 1)
 
 // All AT request char size.
 // AT+RINTTRI=1:2,EN,PD,FC:AA:14:E1:E2:CB
 #define AT_REQUEST_MAX_LEN		sizeof("AT+RINTTRI=1:2,EN,PD,FC:AA:14:E1:E2:CB")
-#define AT_REQUEST_BUFF_SIZE	AT_REQUEST_MAX_LEN + 1
+#define AT_BUFF_REQUEST_SIZE	AT_REQUEST_MAX_LEN + 1
 
 #define ARG_C_STATE1	'E' // State Disabled
 #define ARG_C_STATE0	'D' // State Enabled
@@ -118,7 +119,7 @@
 // AT request command struct
 struct atRequest {
 	// Error code	
-    uchar error;
+    uchar status;
 
 	// AT command Index
 	uint index;
