@@ -8,6 +8,7 @@ void initATSystem() {
 	registerAT(KEY_AT_VER, onVersionHandler);
 	registerAT(KEY_AT_RSSI, onRSSIHandler);
 	registerAT(KEY_AT_MAC, onMACHandler);
+
 	registerAT(KEY_AT_UART, onUARTHandler);
 	registerAT(KEY_AT_NWK, onNetworkAddHandler);
 	registerAT(KEY_AT_CLEAR, onClearHandler);
@@ -15,17 +16,24 @@ void initATSystem() {
 	registerAT(KEY_AT_STAT, onDeviceStateHandler);
 	registerAT(KEY_AT_PAN, onPanIdHandler);
 	registerAT(KEY_AT_CH, onChannelHandler);
+
 	registerAT(KEY_AT_GPIO, onGPIOHandler);
 	registerAT(KEY_AT_RGPIO, onRGPIOHandler);
+
+	registerAT(KEY_AT_CNF_INM, onConfInModeHandler);
 	registerAT(KEY_AT_IODIR, onIODIRHandler);
 	registerAT(KEY_AT_RIODIR, onRIODIRHandler);
+
+	registerAT(KEY_AT_CNF_INT, onConfINTHandler);
 	registerAT(KEY_AT_INT, onINTHandler);
 	registerAT(KEY_AT_RINT, onRINTHandler);
+
+	registerAT(KEY_AT_CNF_PWM, onConfPWMHandler);
 	registerAT(KEY_AT_PWM, onPWMHandler);
 	registerAT(KEY_AT_RPWM, onRPWMHandler);
+
 	registerAT(KEY_AT_ADC, onADCHandler);
 	registerAT(KEYAT_RADC, onRADCMHandler);
-	registerAT(KEY_AT_CNF_PWM, onConfPWMHandler);
 }
 
 // Process AT command request
@@ -98,15 +106,15 @@ void main(void) {
 #ifdef _WIN32
 
 	processATRequest("AT+VER");
-
+/*
 	processATRequest("AT+GPIO=1:4,TL");
 	processATRequest("AT+GPIO=1:4");
 	processATRequest("AT+GPIO=1:4,TH");
 	processATRequest("AT+GPIO=1:4");
-
-	processATRequest("AT+IODIR=1:4,DI,PD");
+*/
+	processATRequest("AT+IODIR=1:4,DI,MP");
 	processATRequest("AT+IODIR=1:4");
-	processATRequest("AT+IODIR=1:4,DO,PU");
+	processATRequest("AT+IODIR=1:4,DO,MN");
 	processATRequest("AT+IODIR=1:4");
 
 	getchar();
@@ -115,7 +123,7 @@ void main(void) {
 
 	processATRequest("AT+IODIR=1:0,DO,PD");
 	int stateOn = 0;
-	while (1) {
+	while (0) {
 		if (stateOn) {
 			processATRequest("AT+GPIO=1:0,TH");
 		}

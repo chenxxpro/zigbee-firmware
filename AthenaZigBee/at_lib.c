@@ -3,6 +3,13 @@
 #include "halpin.h"
 #include "at_lib.h"
 
+// Check Pin Group range
+#define _checkGroupRange(G)	('0' <= G && G <= '2')
+// Check Pin Range
+#define _checkPinRange(P)	('0' <= P && P <= '7')
+// Check Pin & Group: PinGroup2: Pin0-4
+#define _checkGrpPinRange(G, P) ( '2' == G ? ('0' <= P && P <= '4') : 1)
+
 // Handlers
 atHandler _HANDLERS[AT_CMD_SIZE] = { NULL };
 
@@ -24,13 +31,14 @@ const int parseargs_idx(pchar name) {
 	else if (0 == strcmp(name, NAME_AT_RGPIO)) { return KEY_AT_RGPIO; }
 	else if (0 == strcmp(name, NAME_AT_IODIR)) { return KEY_AT_IODIR; }
 	else if (0 == strcmp(name, NAME_AT_RIODIR)) { return KEY_AT_RIODIR; }
+	else if (0 == strcmp(name, NAME_AT_CNF_INT)) { return KEY_AT_CNF_INT; }
 	else if (0 == strcmp(name, NAME_AT_INT)) { return KEY_AT_INT; }
 	else if (0 == strcmp(name, NAME_AT_RINT)) { return KEY_AT_RINT; }
+	else if (0 == strcmp(name, NAME_AT_CNF_PWM)) { return KEY_AT_CNF_PWM; }
 	else if (0 == strcmp(name, NAME_AT_PWM)) { return KEY_AT_PWM; }
 	else if (0 == strcmp(name, NAME_AT_RPWM)) { return KEY_AT_RPWM; }
 	else if (0 == strcmp(name, NAME_AT_ADC)) { return KEY_AT_ADC; }
 	else if (0 == strcmp(name, NAME_AT_RADC)) { return KEYAT_RADC; }
-	else if (0 == strcmp(name, NAME_AT_CNF_PWM)) { return KEY_AT_CNF_PWM; }
 	else { return -1; }
 }
 
@@ -40,14 +48,16 @@ const int parseargs_argx(pchar arg) {
 		0 == strcmp(arg, "SE") || // State Enable
 		0 == strcmp(arg, "TH") || // TTL High
 		0 == strcmp(arg, "DO") || // Dir Out
-		0 == strcmp(arg, "PD")) { // Pull Down
+		0 == strcmp(arg, "PD") || // Pull Down
+		0 == strcmp(arg, "MN")) { // Mode None
 		return 1;
 	}
 	else if (0 == strcmp(arg, "0") ||
 		0 == strcmp(arg, "SD") ||	// State Disable
 		0 == strcmp(arg, "TL") ||	// TTL Low
 		0 == strcmp(arg, "DI") ||	// Dir In
-		0 == strcmp(arg, "PU")) {	// Pull Up
+		0 == strcmp(arg, "PU") ||	// Pull Up
+		0 == strcmp(arg, "MP")) {	// Mode Pull
 		return 0;
 	}
 	else {
@@ -127,20 +137,27 @@ const struct atRequest parseAT(const uint length, pchar command) {
 			dataOffset = 0;
 			// Command Index, BIT0
 			if (! IS_BIT1_OF(flags, 0)) {
-				req.index = parseargs_idx(buf);
 				SETBIT1_OF(flags, BITM_0);
+				req.index = parseargs_idx(buf);
 			}
 			// Arguments
 			else if (! hasargs_none(req.index)) {
 				// Pin, BIT1
 				if (! IS_BIT1_OF(flags, 1) && hasargs_pin(req.index)) {
-					// Pin: [GROUP : NUM]
-					if (3 == strlen(buf) && ':' == buf[1] && _checkGroupValid(buf[0]) && _checkPinValid(buf[2])) {
+					SETBIT1_OF(flags, BITM_1);
+					// Only Group
+					const bl = strlen(buf);
+					if (1 == bl && _checkGroupRange(buf[0])) {
+						req.group = _nctoi(buf[0]);
+					}
+					// GroupPin: [GROUP : NUM]
+					else if (3 == bl && ':' == buf[1] 
+							&& _checkGroupRange(buf[0])
+							&& _checkPinRange(buf[2])
+							&& _checkGrpPinRange(buf[0], buf[2])) {
 						req.group = _nctoi(buf[0]);
 						req.pin = _nctoi(buf[2]);
-						SETBIT1_OF(flags, BITM_1);
-					}
-					else {
+					}else {
 						req.error = RET_CODE_ARGUMENT;
 						break;
 					}
@@ -148,16 +165,16 @@ const struct atRequest parseAT(const uint length, pchar command) {
 				else {
 					// Arg0, BIT2
 					if (!IS_BIT1_OF(flags, 2)) {
-						req.arg0 = parseargs_argx(buf);
 						SETBIT1_OF(flags, BITM_2);
+						req.arg0 = parseargs_argx(buf);
 					}// Arg1, BIT3
 					else if (!IS_BIT1_OF(flags, 3)) {
-						req.arg1 = parseargs_argx(buf);
 						SETBIT1_OF(flags, BITM_4);
+						req.arg1 = parseargs_argx(buf);
 					}// Arg2, BIT4
 					else if (!IS_BIT1_OF(flags, 4)) {
-						req.arg2 = parseargs_argx(buf);
 						SETBIT1_OF(flags, BITM_4);
+						req.arg2 = parseargs_argx(buf);
 					}
 					else {
 						req.error = RET_CODE_ARGUMENT;

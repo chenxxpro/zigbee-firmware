@@ -45,17 +45,26 @@ const uint onGPIOHandler(const struct atRequest * req, char* output);
 // RGPIO
 const uint onRGPIOHandler(const struct atRequest * req, char* output);
 
+// Config In Mode
+const uint onConfInModeHandler(const struct atRequest * req, char* output);
+
 // IODIR
 const uint onIODIRHandler(const struct atRequest * req, char* output);
 
 // Remote IODIR
 const uint onRIODIRHandler(const struct atRequest * req, char* output);
 
+// Config PWM
+const uint onConfINTHandler(const struct atRequest * req, char* output);
+
 // INT
 const uint onINTHandler(const struct atRequest * req, char* output);
 
 // Remote INT
 const uint onRINTHandler(const struct atRequest * req, char* output);
+
+// Config PWM
+const uint onConfPWMHandler(const struct atRequest * req, char* output);
 
 // PWM
 const uint onPWMHandler(const struct atRequest * req, char* output);
@@ -68,8 +77,5 @@ const uint onADCHandler(const struct atRequest * req, char* output);
 
 // Remote ADC
 const uint onRADCMHandler(const struct atRequest * req, char* output);
-
-// Config PWM
-const uint onConfPWMHandler(const struct atRequest * req, char* output);
 
 #endif /* at_impl_h */

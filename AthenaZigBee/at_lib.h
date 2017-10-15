@@ -4,7 +4,7 @@
 #include "types.h"
 
 #define RET_ERR_UNSUP       "+ERR=AT_UNSUPPORT\n"
-#define RET_ERR_ARGS       "+ERR=ARGUMENTS\n"
+#define RET_ERR_ARGS		"+ERR=ARGUMENTS\n"
 #define RET_OK(AT)          "+"AT"=OK\n"
 #define RET_ERR_ARG(AT)     "+"AT"=ERR,ARGUMENTS\n"
 #define RET_ERR_EXE(AT)     "+"AT"=ERR,RUNTIME\n"
@@ -23,17 +23,24 @@
 #define NAME_AT_STAT    "STAT"
 #define NAME_AT_PAN     "PAN"
 #define NAME_AT_CH      "CH"
+
 #define NAME_AT_GPIO    "GPIO"
 #define NAME_AT_RGPIO   "RGPIO"
+
+#define NAME_AT_CNF_INM "CNF_INM"
 #define NAME_AT_IODIR   "IODIR"
 #define NAME_AT_RIODIR  "RIODIR"
+
+#define NAME_AT_CNF_INT "CNF_INT"
 #define NAME_AT_INT     "INT"
 #define NAME_AT_RINT    "RINT"
+
+#define NAME_AT_CNF_PWM "CNF_PWM"
 #define NAME_AT_PWM     "PWM"
 #define NAME_AT_RPWM    "RPWM"
+
 #define NAME_AT_ADC     "ADC"
 #define NAME_AT_RADC    "RADC"
-#define NAME_AT_CNF_PWM "CNF_PWM"
 
 #define KEY_AT_R		0
 #define KEY_AT_Z		1
@@ -58,8 +65,10 @@
 #define KEY_AT_ADC		20
 #define KEYAT_RADC		21
 #define KEY_AT_CNF_PWM	22
+#define KEY_AT_CNF_INT	23
+#define KEY_AT_CNF_INM	24
 
-#define AT_CMD_SIZE     23
+#define AT_CMD_SIZE     25
 
 #define AT_CMD_IPREFIX  3
 #define AT_CMD_MIN_LEN  4
@@ -82,9 +91,7 @@
 // +RGPIO=(0:0:AB)x21 + (,)x20
 #define AT_RESULT_BUFF 7 + 6 * AT_CMD_SIZE + 1 * (AT_CMD_SIZE - 1)
 
-#define _checkGroupValid(G)	('0' <= G && G <= '2')
-#define _checkPinValid(P)	('0' <= P && P <= '7')
-#define _checkArgValid(A)	(A != AT_ARG_INVALID)
+#define _isSetArg(A)	(A != AT_ARG_INVALID)
 
 // AT request command struct
 struct atRequest {

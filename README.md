@@ -88,63 +88,57 @@
 
 **参数格式：**
 
-> =`[PIN]` , `[STATE]`
+> =`[GROUP:PIN]` , `[TTL]`
 
-- `STATE` 状态，值范围：[L, H]，分别是低电平和高电平；
+- `STATE` 状态，值范围：[TL, TH]，分别是低电平和高电平；
 
-**查询**：
+**查询端口的电平状态**：
 
-> AT+GPIO
-
-返回：
-
-> +GPIO= [0-20] , [L, H]
-
-**设置**：
-
-> AT+GPIO=[0-20] , [L, H]
+> AT+GPIO=[GROUP:PIN]
 
 返回：
 
-> +GPIO=`OK`
+> +GPIO= [GROUP:PIN] , [TTL]
 
-核心实现代码：
+**设置端口电平状态**：
 
-```c
-// PxSEL 端口功能选择寄存器。位：[7:0]
-// 0 - 设置对应端口为通用IO；
-// 1 - 设置对应端口为外设功能；
-P0SEL &= ~0x02; // 设置P0_1为通用IO
-P0_1 = 0; // 设置 P0_1 为低电平；
-P0_1 = 1; // 设置 P0_1 为低电平；
-```
+> AT+GPIO=[GROUP:PIN], [TL, TH]
 
+示例：
+> 1: AT+GPIO=0:1,TL // 设置P0_1端口为低电平
+> 2: AT+GPIO=1:4,TH // 设置P1_4端口为高电平
 
+返回：
+
+> +GPIO=`OK` // 成功
+> +GPIO=`ERR,IODIR` // 状态错误：GPIO端口非输出模式
 
 ### AT+RGPIO 查询/设置远程GPIO
 
 
+### AT+INPULL 查询/设置本地端口的输入模式
+
+**参数格式：**
+
+> = `[GROUP]`, `[PULL]`
+
+- `PULL` 输入模式，值范围：[PU, PD]：
+  1. `PU` PullUp，上拉下模式；
+  2. `PD` PullDown，三态模式；
 
 ### AT+IODIR 查询/设置本地端口输入输出
 
 **参数格式：**
 
-> = `[PIN] `, `[IO]` ,` [STATE]`
->
-> - PIN 引脚编号；
-> - IO IO方向，值范围：[DI, DO]，分别是输入端和输出端；
-> - STATE 引脚状态，值范围：[PU, PD]，分别是上拉UP和下拉DOWN，默认为上拉模式；
+> = `[GROUP:PIN]`, `[DIR]`, `[INMODE]`
 
-核心实现代码：
+- `DIR` IO方向，值范围：[DI, DO]：
+  1. `DI` DirInput 输入方向
+  2. `DO` DirOutput 输出方向
 
-```c
-// PxDIR 端口方向寄存器，位：[7:0]
-// 0 - 输入；
-// 1 - 输出；
-P1DIR &= ~0x04; // 设置P1.2端口为输入；
-```
-
-
+- `INMODE` 在IO方向不输入时生效，表示端口输入模式，范围: [MP, MN]
+  1. `MP` ModePull 上拉下拉模式。需要在 AT+INPULL 指令中配置；
+  2. `NM` ModeNone 三态（高阻）模式。
 
 ### AT+RIODIR 查询/设置远程端口输入输出
 
