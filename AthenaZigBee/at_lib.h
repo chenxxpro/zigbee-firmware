@@ -140,18 +140,18 @@ struct atRequest {
 };
 
 // AT command handler
-typedef const uint (*atHandler)(const struct atRequest * req, char* output);
+typedef uint (*atHandler)(const struct atRequest * req, char* output);
 
 // check if AT Command is valid
-const uint checkAT(pchar at);
+uint checkAT(pchar at);
 
 // parseAT command to request struct
-const struct atRequest parseAT(const uint len, pchar command);
+struct atRequest parseAT(const uint len, pchar command);
 
 // register AT command handler
 void registerAT(const uint index, const atHandler handler);
 
 // handle AT request
-const uint handleAT(const struct atRequest * req, char* output);
+uint handleAT(const struct atRequest * req, char* output);
 
 #endif /* at_lib_h */

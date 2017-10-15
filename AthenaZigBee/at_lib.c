@@ -1,3 +1,4 @@
+
 #include <string.h>
 #include "bits.h"
 #include "halpin.h"
@@ -14,7 +15,7 @@
 atHandler _HANDLERS[AT_CMD_COUNT] = { NULL };
 
 // parse AT command name to index
-const int parseargs_idx(pchar name) {
+int parseargs_idx(pchar name) {
 	if (0 == strcmp(name, NAME_AT_R)) { return KEY_AT_R; }
 	else if (0 == strcmp(name, NAME_AT_Z)) { return KEY_AT_Z; }
 	else if (0 == strcmp(name, NAME_AT_VER)) { return KEY_AT_VER; }
@@ -44,7 +45,7 @@ const int parseargs_idx(pchar name) {
 }
 
 // parse args of bool/int
-const int parseargs_argx(pchar arg) {
+int parseargs_argx(pchar arg) {
 	if (0 == strcmp(arg, "1") ||
 		0 == strcmp(arg, "SE") || // State Enable
 		0 == strcmp(arg, "TH") || // TTL High
@@ -67,7 +68,7 @@ const int parseargs_argx(pchar arg) {
 }
 
 // check if AT index without args.
-const int hasargs_none(const int ati) {
+int hasargs_none(const int ati) {
 	return (ati == KEY_AT_R ||
 		ati == KEY_AT_Z ||
 		ati == KEY_AT_VER ||
@@ -77,7 +78,7 @@ const int hasargs_none(const int ati) {
 
 //////////////
 
-const uint checkAT(pchar at) {
+uint checkAT(pchar at) {
 	const uint len = (uint)strlen(at);
 	if (len >= AT_CMD_MIN_LEN &&
 		'A' == *(at + 0) &&
@@ -91,7 +92,7 @@ const uint checkAT(pchar at) {
 }
 
 
-const struct atRequest parseAT(const uint length, pchar command) {
+struct atRequest parseAT(const uint length, pchar command) {
 	const uint idxEnd = length - 1; // Pointer to command end index;
 	uint flags = 0; // Flags of bits
 	uint dataHead = AT_CMD_IPREFIX; // Current data pointer
@@ -138,7 +139,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 						req.group = _nctoi(buf[0]);
 					}
 					// GroupPin: [GROUP : NUM]
-					else if (3 == bl && ':' == buf[1] 
+					else if (3 == bl && ':' == buf[1]
 							&& _checkGroupRange(buf[0])
 							&& _checkPinRange(buf[2])
 							&& _checkGrpPinRange(buf[0], buf[2])) {
@@ -179,7 +180,7 @@ void registerAT(const uint index, const atHandler handler) {
 	_HANDLERS[index] = handler;
 }
 
-const uint handleAT(const struct atRequest * req, char* output) {
+uint handleAT(const struct atRequest * req, char* output) {
 	const atHandler handler = (_HANDLERS[(*req).index]);
 	if (NULL == handler) {
 		strcpy(output, RET_ERR_UNSUP);

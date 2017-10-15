@@ -1,3 +1,4 @@
+
 #include "util.h"
 #include "uart.h"
 #include "at_impl.h"
@@ -48,7 +49,12 @@ void processATRequest(pchar at) {
 			printf("-> REQUEST: idx: %d, group: %d, pin: %d, arg0: %d, arg1: %d, arg2: %d \n",
 				req.index, req.group, req.pin, req.arg0, req.arg1, req.arg2);
 			const uint code = handleAT(&req, output);
-			printf("#### HANDLED: \n\t%s\n\n", output);
+#ifdef _WIN32
+            printf("#### HANDLED(%d): \n\t%s\n\n", code, output);
+#else
+            uartSend(output, sizeof(output));
+#endif
+			
 		}
 		else {
 			printf((RET_CODE_ARGUMENT == req.error) ? (RET_ERR_ARGS) : (RET_ERR_UNSUP));
@@ -93,14 +99,28 @@ void main(void) {
 
 	char atRequestBuf[AT_REQUEST_BUFF_SIZE] = { 0 };
 	processATRequest("AT+IODIR=1:0,DO,PD");
+    uint networkLED = 1;
+    while(1) {
+
+        if(networkLED) {
+            processATRequest("AT+GPIO=1:0,TL");
+        }else{
+            processATRequest("AT+GPIO=1:0,TH");
+        }
+        networkLED = ~networkLED;
+        //_delay_us(1000 * 10000);
+    }
+	/*
 	while (1) {
 		// Received from UART
+        processATRequest("AT+VER");
 		if (uartReceive(atRequestBuf)) {
 			processATRequest("AT+GPIO=1:0,TH");
 			processATRequest(atRequestBuf);
 			processATRequest("AT+GPIO=1:0,TL");
 		}
 	}
+    */
 
 #endif // WINDOWS
 
