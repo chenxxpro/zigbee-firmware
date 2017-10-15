@@ -1,7 +1,7 @@
 #ifndef hal_pin_h
 #define hal_pin_h
 
-#define PIN_INVALID 255
+#define PIN_INVALID		255
 
 #define ARG_C_STATE1	'E' // State Disabled
 #define ARG_C_STATE0	'D' // State Enabled

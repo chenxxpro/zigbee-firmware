@@ -148,7 +148,7 @@ const struct atRequest parseAT(const uint length, pchar command) {
 				if (! IS_BIT1_OF(flags, 1) && hasargs_pin(req.index)) {
 					SETBIT1_OF(flags, BITM_1);
 					// Only Group
-					const bl = strlen(buf);
+					const uint bl = strlen(buf);
 					if (1 == bl && _checkGroupRange(buf[0])) {
 						req.group = _nctoi(buf[0]);
 					}

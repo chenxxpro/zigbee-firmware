@@ -106,7 +106,7 @@ void main(void) {
 #ifdef _WIN32
 
 	processATRequest("AT+VER");
-/*
+
 	processATRequest("AT+GPIO=1:4,TL");
 	processATRequest("AT+GPIO=1:4");
 	processATRequest("AT+GPIO=1:4,TH");
@@ -116,7 +116,7 @@ void main(void) {
 	processATRequest("AT+IODIR=1:4");
 	processATRequest("AT+IODIR=1:4,DO,MN");
 	processATRequest("AT+IODIR=1:4");
-	*/
+	
 
 	processATRequest("AT+IOPULL=1");
 	processATRequest("AT+IOPULL=1,PD");

@@ -64,7 +64,8 @@ extern int WIN32_PICTL = 0;
 const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6, BITM_7 };
 
 // Check Group&PinNumber is setted
-#define _isSetPin(grp, pin) (grp != PIN_INVALID && pin != PIN_INVALID)
+#define _isSetPin(pin) (pin != PIN_INVALID)
+#define _isSetGrpPin(grp, pin) (grp != PIN_INVALID && pin != PIN_INVALID)
 
 // Set Output with Arg0
 #define _setBitMaskWithFlag(FLAG, T1, T2, T3) const int MASK = BITMASKS[(*req).pin];	\
@@ -172,7 +173,7 @@ const uint onChannelHandler(const struct atRequest * req, char* output) {
 
 // GPIO: AT+GPIO=[G:P],[TL,TH]
 const uint onGPIOHandler(const struct atRequest * req, char* output) {
-	if (_isSetPin((*req).group, (*req).pin)) {
+	if (_isSetGrpPin((*req).group, (*req).pin)) {
 		if (_isSetArg((*req).arg0)) { // [State] argument: Set state
 			_setBitMaskWithFlag((*req).arg0, P0, P1, P2);
 			strcpy(output, RET_OK(NAME_AT_GPIO));
@@ -202,7 +203,7 @@ const uint onRGPIOHandler(const struct atRequest * req, char* output) {
 // Config IO PUll
 const uint onIOPullHandler(const struct atRequest * req, char* output) {
 	// AT+IOPULL=[G],[PU, PD]
-	if (_isSetArg((*req).group)) {
+	if (_isSetPin((*req).group)) {
 		if (_isSetArg((*req).arg0)) {
 			switch ((*req).group) {
 			case 0:
@@ -244,7 +245,7 @@ const uint onIOPullHandler(const struct atRequest * req, char* output) {
 // IO DIR: 
 const uint onIODIRHandler(const struct atRequest * req, char* output) {
 	// AT+IODIR = [G:P], [DI, DO], [MP, MN]
-    if(_isSetPin((*req).group, (*req).pin)) {
+    if(_isSetGrpPin((*req).group, (*req).pin)) {
 		if (_isSetArg((*req).arg0)) {
 			// IO DIR£º [DI, DO]
 			_setBitMaskWithFlag((*req).arg0, P0DIR, P1DIR, P2DIR);
@@ -301,7 +302,7 @@ const uint onConfINTHandler(const struct atRequest * req, char* output) {
 // INT service
 const uint onINTHandler(const struct atRequest * req, char* output) {
 	// AT+INT=[G:P],[SE,SD],[PU,PD]
-	if (_isSetPin((*req).group, (*req).pin)) {
+	if (_isSetGrpPin((*req).group, (*req).pin)) {
 		if (_isSetArg((*req).arg0)) {
 			// IO INT£º [SE, SD]
 			_setBitMaskWithFlag((*req).arg0, P0IEN, P1IEN, P2IEN);
