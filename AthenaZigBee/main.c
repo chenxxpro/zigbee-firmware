@@ -7,7 +7,7 @@ char buffResponse[AT_BUFF_RESPONSE_SIZE] = { 0 };
 char buffRequest[AT_BUFF_REQUEST_SIZE] = { 0 };
 uint requestReadIndex = 0;
 
-#define _isATCommandEnd(c)		('\r' == c || '\n' == c) 
+#define _isReceivedATCommandEnd(c)		('/0' == c || '\r' == c || '\n' == c)
 
 // Init AT system, register handlers.
 void registerATKernal() {
@@ -47,7 +47,7 @@ void registerATKernal() {
 // Process AT command request
 void processATRequest(pchar command) {
 	// Reset buffer
-	memset(buffResponse, '/0', AT_BUFF_RESPONSE_SIZE);
+	memset(buffResponse, '\0', strlen(buffResponse));
 	unsigned int atLen = checkAT(command);
 	if (atLen > 0) {
 		struct atRequest request;
@@ -80,15 +80,19 @@ void processATRequest(pchar command) {
 
 // Receive
 void uartReqestListener(char received) {
-	if ((requestReadIndex >= AT_REQUEST_MAX_LEN || _isATCommandEnd(received))
+	if ((requestReadIndex >= AT_REQUEST_MAX_LEN || _isReceivedATCommandEnd(received))
 		&& requestReadIndex > 0) {
 		// ECHO
 		// uartSend(buffRequest, strlen(buffRequest));
 		processATRequest(buffRequest);
-		memset(buffRequest, '/0', AT_BUFF_REQUEST_SIZE);
+		memset(buffRequest, '\0', strlen(buffRequest));
 		requestReadIndex = 0;
 	}
 	else {
+		// 单个字符必须是以 A 开头才开始接收
+		if (requestReadIndex == 0 && 'A' != received) {
+			return;
+		}
 		buffRequest[requestReadIndex] = received;
 		requestReadIndex++;
 	}
