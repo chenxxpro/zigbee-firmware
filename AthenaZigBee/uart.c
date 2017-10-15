@@ -41,7 +41,7 @@ uint _resetReceived() {
 // Init UART
 void uartInit() {
     // Wait System Clock Stable
-#ifndef _WIN32
+#ifndef _PC_ENV
 	CLKCONCMD &= ~0x40;
 	while (CLKCONSTA & 0x40);
 	CLKCONCMD &= ~0x47;
@@ -92,7 +92,7 @@ uint uartReceive(char* buff) {
 	}
 }
 
-#ifndef _WIN32
+#ifndef _PC_ENV
 
 #pragma vector = URX0_VECTOR
 __interrupt void UART0_ISR(void)

@@ -1,7 +1,9 @@
 #ifndef util_h
 #define util_h
 
-#ifdef _WIN32
+#include "env.h"
+
+#ifdef _PC_ENV
 
 #include <stdio.h>
 
@@ -12,7 +14,7 @@ int printf(const char* const message, ...) {
 }
 
 
-#endif // !_WIN32
+#endif // !_PC_ENV
 
 
 void delay_ms(int xms) {

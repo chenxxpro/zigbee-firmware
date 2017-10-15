@@ -1,8 +1,10 @@
 #ifndef cc2530_h
 #define cc2530_h
 
+#include "env.h"
+
 // WIN32 DEBUG
-#ifdef _WIN32
+#ifdef _PC_ENV
 
 // Pin Group
 extern unsigned char WIN32_P0 = 0;
