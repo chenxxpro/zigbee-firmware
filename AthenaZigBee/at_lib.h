@@ -31,7 +31,7 @@
 #define NAME_AT_IODIR   "IODIR"
 #define NAME_AT_RIODIR  "RIODIR"
 
-#define NAME_AT_CNF_INT "CNF_INT"
+#define NAME_AT_INTTRI "INTTRI"
 #define NAME_AT_INT     "INT"
 #define NAME_AT_RINT    "RINT"
 
@@ -65,7 +65,7 @@
 #define KEY_AT_ADC		20
 #define KEYAT_RADC		21
 #define KEY_AT_CNF_PWM	22
-#define KEY_AT_CNF_INT	23
+#define KEY_AT_INTTRI	23
 #define KEY_AT_IOPULL	24
 
 #define AT_CMD_SIZE     25

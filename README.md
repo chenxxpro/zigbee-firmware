@@ -84,6 +84,8 @@
 
 > =[CHANNEL]
 
+----
+
 ### AT+GPIO 查询/设置本地GPIO
 
 **参数格式：**
@@ -103,8 +105,6 @@
 **设置端口电平状态**：
 
 > AT+GPIO=[GROUP:PIN], [TL, TH]
-
-示例：
 > 1: AT+GPIO=0:1,TL // 设置P0_1端口为低电平
 > 2: AT+GPIO=1:4,TH // 设置P1_4端口为高电平
 
@@ -113,8 +113,11 @@
 > +GPIO=`OK` // 成功
 > +GPIO=`ERR,IODIR` // 状态错误：GPIO端口非输出模式
 
+----
+
 ### AT+RGPIO 查询/设置远程GPIO
 
+----
 
 ### AT+IOPULL 查询/设置本地端口的输入模式
 
@@ -129,21 +132,25 @@
 查询：
 
 > AT+IOPULL=[GRUOP]
-> e.g: AT+IOPULL=0,PU
+> e.g: AT+IOPULL=0 // 查询P0上拉下拉状态
 
 返回：
 
 > +IOPULL=[GROUP]:[PULL]
-> e.g: +IOPULL=0:PU
+> e.g: +IOPULL=0:PU // 当前P0为上拉状态
+> e.g: +IOPULL=1:PD // 当前P1为下拉状态
 
 设置：
 
 > AT+IOPULL=[GRUOP],[PULL]
-> e.g: AT+IOPULL=0,PD
+> e.g: AT+IOPULL=0,PD // 设置P0为下拉状态
+> e.g: AT+IOPULL=1,PU // 设置P1为上拉状态
 
 返回：
 
 > +IOPULL=OK
+
+----
 
 ### AT+IODIR 查询/设置本地端口输入输出
 
@@ -159,73 +166,68 @@
   1. `MP` ModePull 上拉下拉模式。需要在 AT+INPULL 指令中配置；
   2. `NM` ModeNone 三态（高阻）模式。
 
+----
+
 ### AT+RIODIR 查询/设置远程端口输入输出
 
 > 通过点对点通讯实现
+
+----
+
+### AT+INTTRI 查询/设置中断触发方式
+
+**参数格式：**
+
+> =`[GROUP]`,`[PULL]``
+
+**查询：**
+
+> AT+INTTRI=`[GROUP]`
+> e.g: AT+INTTRI=0   // 查询P0组的中断触发方式
+
+返回：
+
+> +INTTRI=[GROUP]:[PULL]
+> e.g: +INTTRI=2:PD // 返回当前P2组的中断触发方式为PullDown下降沿触发。
+
+**设置：**
+
+> AT+INTTRI=`[GROUP]`,`[PULL]`
+> e.g: AT+INTTRI=1,PU // 设置P1组为PullUP上升沿触发方式；
+
+返回：
+
+> +INTTRI=OK
+
+----
 
 ### AT+INT 查询/设置本地端口中断
 
 **参数格式：**
 
-> =`[PIN] `, `[ENABLE] `, `[TRIGGER]`
+> =`[GROUP, PIN]`, `[STATE]`
 
-- `PIN` 引脚编号；
-
-
-- `ENABLE` 使能，值范围：[EN, DIS]，分别是禁用和启用；
-- `STATE` 触发中断的电平状态，值范围：[PU, PD]，分别是上拉UP和下拉DOWN，默认为上拉模式；
-
-**中断状态消息格式**
-
-> +INT=`[MAC]`, `[PIN]`, `[TRIGGER]`
-
-- `MAC` 触发中断设置MAC地址；
-- `PIN` 触发端口；
-- `TRIGGER` 触发状态；
-
-> +INT=A1B2C3D4E5F6A7B8, 5, PD
+- `STATE` 使能，值范围：[EN, DIS]，分别是禁用和启用；
 
 **查询：**
 
-> AT+INT=`[PIN]`
+> AT+INT=`[GROUP,PIN]`
 
 **返回示例：**
 
-> +INT=`3`, `EN`, `PD`
->
-> +INT=`3`, `DIS`
+> +INT=[GROUP:PIN],[STATE]
+> e.g: +INT=0:1:SE // 当前P0_1端口启用中断
+> e.g: +INT=1:5:SD // 当前P1_5端口禁用中断
 
 **设置：**
 
-> AT+INT=`3`, `EN`, `PU`
->
-> AT+INT=`3`, `DIS`
+> AT+INT=[GROUP:PIN],[STATE]
+> e.g: AT+INT=0:4,SE // 设置P0_4端口，启用中断
+> e.g: AT+INT=2:1,SD // 设置P2_1端口，禁用中断
 
 **返回：**
 
 > +INT=`OK`
-
-核心代码实现：
-
-```c
-// IENx 设置端口组中断使能；
-// PxIEN 设置具体引肢中断使能；
-// PICTL 中断触发方式；
-// EA 总中断使能；
-IEN1 |= 0x10; // 设置P1中断使能；
-P1IEN |= 0x04; // 设置P1_2中断使能；
-PICTL |= 0x02; // 设置P1_0 - P1_3 下降沿触发；
-EA = 1; // 总中断使能
-
-#pragma vector = P1INT_VECTOR
-__interrupt void int1Service() {
-  // TODO
-  // 必须清除中断标记位
-  P1IFG &= ~0x04; // 清除P1_2中断标记位；
-  P1IF = 0; // 清除P1端口组标记位；
-}
-```
-
 
 
 ### AT+RINT 查询/设置远程端口中断

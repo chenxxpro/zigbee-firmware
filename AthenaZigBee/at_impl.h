@@ -55,7 +55,7 @@ const uint onIODIRHandler(const struct atRequest * req, char* output);
 const uint onRIODIRHandler(const struct atRequest * req, char* output);
 
 // Config PWM
-const uint onConfINTHandler(const struct atRequest * req, char* output);
+const uint onINTTriggerHandler(const struct atRequest * req, char* output);
 
 // INT
 const uint onINTHandler(const struct atRequest * req, char* output);

@@ -81,6 +81,7 @@ const int BITMASKS[] = { BITM_0, BITM_1, BITM_2, BITM_3, BITM_4, BITM_5, BITM_6,
 	}																		\
 
 // Set Output from REGISTER state, 
+// ARGN: If 0, Set group, pin to output.
 #define _setOutputFromState(T1, T2, T3, SIDX, SEGLEN, IDX, ARGN, TRUEC, FALSEC)		;	\
 	if(0 == ARGN) output[_idxGRPOf(SIDX, SEGLEN, IDX)] = _itonc((*req).group);			\
 	if(0 == ARGN) output[_idxPINOf(SIDX, SEGLEN, IDX)] = _itonc((*req).pin);			\
@@ -285,55 +286,72 @@ const uint onRIODIRHandler(const struct atRequest * req, char* output) {
 	return RET_CODE_SUCCESS;
 }
 
-// Interruptor Config
-const uint onConfINTHandler(const struct atRequest * req, char* output) {
-	//
-	if (_isSetArg((*req).arg0)) {
-
-		strcpy(output, RET_OK(NAME_AT_CNF_INT));
+// Interruptor trigger cofig
+const uint onINTTriggerHandler(const struct atRequest * req, char* output) {
+	// AT+INTTRI=[GROUP],[PULL]
+	if (_isSetPin((*req).group)) {
+		if (_isSetArg((*req).arg0)) {
+			switch ((*req).group) {
+			case 0:
+				((*req).arg0) ? SETBIT1_OF(PICTL, BITM_0) : SETBIT0_OF(PICTL, BITM_0);
+				break;
+			case 1:
+				((*req).arg0) ? SETBIT1_OF(PICTL, BITM_1) : SETBIT0_OF(PICTL, BITM_1);
+				((*req).arg0) ? SETBIT1_OF(PICTL, BITM_2) : SETBIT0_OF(PICTL, BITM_2);
+				break;
+			default:
+				((*req).arg0) ? SETBIT1_OF(PICTL, BITM_3) : SETBIT0_OF(PICTL, BITM_3);
+				break;
+			}
+			strcpy(output, RET_OK(NAME_AT_INTTRI));
+		}
+		else {
+			strcpy(output, "+INTTRI=_:P_");
+			output[8] = _itonc((*req).group);
+			char pc;
+			switch ((*req).group) {
+			case 0:
+				pc = (IS_BIT1_OF(PICTL, 0) ? ARG_C_PULL1 : ARG_C_PULL0);
+				break;
+			case 1:
+				pc = (IS_BIT1_OF(PICTL, 1) ? ARG_C_PULL1 : ARG_C_PULL0);
+				break;
+			default:
+				pc = (IS_BIT1_OF(PICTL, 3) ? ARG_C_PULL1 : ARG_C_PULL0);
+				break;
+			}
+			output[11] = pc;
+		}
 	}
 	else {
-		// Query
-		strcpy(output, "+INT=P_");
+		strcpy(output, "+IODIR=ALL_INTTRI_NOT_SUPPORTED");
 	}
 	return RET_CODE_SUCCESS;
 }
 
 // INT service
 const uint onINTHandler(const struct atRequest * req, char* output) {
-	// AT+INT=[G:P],[SE,SD],[PU,PD]
+	// AT+INT=[G:P],[SE,SD]
 	if (_isSetGrpPin((*req).group, (*req).pin)) {
 		if (_isSetArg((*req).arg0)) {
-			// IO INT£º [SE, SD]
+			// INT State£º [SE, SD]
 			_setBitMaskWithFlag((*req).arg0, P0IEN, P1IEN, P2IEN);
-			// IO PULL: [PU, PD]
-			if (_isSetArg((*req).arg1)) {
-				_setBitMaskWithFlag((*req).arg1, P0INP, P1INP, P2INP);
-			}
-			strcpy(output, RET_OK(NAME_AT_IODIR));
+			strcpy(output, RET_OK(NAME_AT_INT));
 		}
-		else {
-			strcpy(output, "+INT=_:_:S_:P_");
-			// State
-			_setOutputFromState(P0DIR, P1DIR, P2DIR,
-				5,  // 7: Start Index Of "+INT="
-				9,  // 9: Length of "_:_:S_:P_"
-				0,  // 0: Group Index of values array: "_:_:S_:P_"
+		else {// Query
+			strcpy(output, "+INT=_:_:S_");
+			// INT State
+			_setOutputFromState(P0IEN, P1IEN, P2IEN,
+				5,  // 5: Start Index Of "+IODIR="
+				6,  // 6: Length of "_:_:D_:P_"
+				0,  // 0: Group Index of values array: "_:_:S_"
 				0,	// 0: Argument Index of "S_"
-				ARG_C_DIR1, ARG_C_DIR0);
-			// Pull State
-			_setOutputFromState(P0INP, P1INP, P2INP,
-				7,  // 7: Start Index Of "+IODIR="
-				9,  // 9: Length of "0:0:DI:PD"
-				0,  // 0: Group Index of values array: "0:0:DI:PD"
-				1,	// 1: Argument Index of "PD"
-				ARG_C_PULL1, ARG_C_PULL0);
+				ARG_C_STATE1, ARG_C_STATE0);
 		}
 	}
 	else {
-		strcpy(output, "+IODIR=ALL_IODIR_NOT_SUPPORTED");
+		strcpy(output, "+INT=ALL_INT_NOT_SUPPORTED");
 	}
-	return RET_CODE_SUCCESS;
 	return RET_CODE_SUCCESS;
 }
 
@@ -344,7 +362,7 @@ const uint onRINTHandler(const struct atRequest * req, char* output) {
 
 // PWM Config
 const uint onConfPWMHandler(const struct atRequest * req, char* output) {
-	strcpy(output, RET_OK(NAME_AT_CNF_INT));
+	strcpy(output, RET_OK(NAME_AT_INTTRI));
 	return RET_CODE_SUCCESS;
 }
 

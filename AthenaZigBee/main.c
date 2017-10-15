@@ -24,7 +24,7 @@ void initATSystem() {
 	registerAT(KEY_AT_IODIR, onIODIRHandler);
 	registerAT(KEY_AT_RIODIR, onRIODIRHandler);
 
-	registerAT(KEY_AT_CNF_INT, onConfINTHandler);
+	registerAT(KEY_AT_INTTRI, onINTTriggerHandler);
 	registerAT(KEY_AT_INT, onINTHandler);
 	registerAT(KEY_AT_RINT, onRINTHandler);
 
@@ -69,22 +69,22 @@ void main(void) {
 
 	processATRequest("AT+VER");
 
-	processATRequest("AT+GPIO=1:4,TL");
-	processATRequest("AT+GPIO=1:4");
-	processATRequest("AT+GPIO=1:4,TH");
-	processATRequest("AT+GPIO=1:4");
-
+	processATRequest("AT+INT=1:4,SE");
+	processATRequest("AT+INT=1:4");
+	processATRequest("AT+INT=1:4,SD");
+	processATRequest("AT+INT=1:4");
+/*
 	processATRequest("AT+IODIR=1:4,DI,MP");
 	processATRequest("AT+IODIR=1:4");
 	processATRequest("AT+IODIR=1:4,DO,MN");
 	processATRequest("AT+IODIR=1:4");
-	
+	*/
 
-	processATRequest("AT+IOPULL=1");
-	processATRequest("AT+IOPULL=1,PD");
-	processATRequest("AT+IOPULL=1");
-	processATRequest("AT+IOPULL=1,PU");
-	processATRequest("AT+IOPULL=1");
+	processATRequest("AT+INTTRI=1");
+	processATRequest("AT+INTTRI=1,PD");
+	processATRequest("AT+INTTRI=1");
+	processATRequest("AT+INTTRI=1,PU");
+	processATRequest("AT+INTTRI=1");
 
 	getchar();
 
