@@ -27,6 +27,9 @@
     <ClCompile Include="uart.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ioint.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="at_impl.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cc2530.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ioint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

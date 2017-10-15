@@ -116,6 +116,7 @@
   <ItemGroup>
     <ClCompile Include="at_impl.c" />
     <ClCompile Include="at_lib.c" />
+    <ClCompile Include="ioint.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="uart.c" />
   </ItemGroup>
@@ -124,6 +125,7 @@
     <ClInclude Include="at_lib.h" />
     <ClInclude Include="bits.h" />
     <ClInclude Include="cc2530.h" />
+    <ClInclude Include="ioint.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="uart.h" />
     <ClInclude Include="util.h" />
