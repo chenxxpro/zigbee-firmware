@@ -1,10 +1,8 @@
 #ifndef cc2530_h
 #define cc2530_h
 
-#include "env.h"
-
 // WIN32 DEBUG
-#ifdef _PC_ENV
+#ifdef _WIN32
 
 // Pin Group
 extern unsigned char WIN32_P0 = 0;
@@ -65,6 +63,7 @@ extern unsigned char WIN32_CLKCONCMD = 0;
 #define CLKCONCMD WIN32_CLKCONCMD
 extern unsigned char WIN32_CLKCONSTA = 0;
 #define CLKCONSTA WIN32_CLKCONSTA
+
 #else
 
 #include <ioCC2530.h>

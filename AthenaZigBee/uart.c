@@ -40,12 +40,12 @@ uint _resetReceived() {
 
 // Init UART
 void uartInit() {
-    // Wait System Clock Stable
-#ifndef _PC_ENV
+    
+#ifndef _WIN32
+	// Wait System Clock Stable
 	CLKCONCMD &= ~0x40;
 	while (CLKCONSTA & 0x40);
 	CLKCONCMD &= ~0x47;
-#endif // !_WIN32
 
     PERCFG = 0x00;       // 位置1 P0口
     P0SEL = 0x3c;        // P0_2,P0_3,P0_4,P0_5用作串口,第二功能
@@ -57,6 +57,7 @@ void uartInit() {
     UTX0IF = 0;          // UART0 TX 中断标志初始置位1  （收发时候）
     U0CSR |= 0X40;       // 允许接收
     IEN0 |= 0x84;        // 开总中断，接收中断
+#endif // !_WIN32
 }
 
 // Send Data
@@ -92,7 +93,7 @@ uint uartReceive(char* buff) {
 	}
 }
 
-#ifndef _PC_ENV
+#ifndef _WIN32
 
 #pragma vector = URX0_VECTOR
 __interrupt void UART0_ISR(void)

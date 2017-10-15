@@ -30,7 +30,8 @@ ByteLimit=50
 [DebugChecksum]
 Checksum=-246412560
 [DisAssemblyWindow]
-NumStates=_ 0
+NumStates=_ 1
+State 1=_ 1
 [InstructionProfiling]
 Enabled=_ 0
 [CodeCoverage]
